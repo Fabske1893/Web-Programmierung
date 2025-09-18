@@ -18,3 +18,12 @@ button {
     cursor: pointer;
     border-radius: 12px;
 }
+a {
+    text-decoration: none;
+    color: #4b544b;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+
+    
+}
