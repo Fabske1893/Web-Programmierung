@@ -24,6 +24,18 @@ a {
     font-weight: bold;
     font-size: 14px;
     text-align: center;
+    border: #4b544b;
+
 
     
+}
+div.recipe {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px;
+    text-align: center;
+    width: 200px;
+    display: inline-block;
+    vertical-align: top;
 }
