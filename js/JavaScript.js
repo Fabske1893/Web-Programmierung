@@ -3,19 +3,35 @@ function createRecipe(){
     const title = document.getElementById('titel').value;
     const ingredients = document.getElementById('zutaten').value;
     const instructions = document.getElementById('zubereitung').value;
+    const imageInput = document.getElementById('bild').value;
 
-    const newDiv = document.createElement('div');
-    newDiv.className = 'recipe'; 
+     // Rezeptdaten als Objekt speichern
+    const recipe = {
+        title: title,
+        ingredients: ingredients,
+        instructions: instructions,
+        image: imageInput
+    };
 
+    // Rezeptdaten im localStorage speichern
+    let recipes = JSON.parse(localStorage.getItem('recipes')) || []; // Vorhandene Rezepte abrufen oder leeres Array
+    recipes.push(recipe); // Neues Rezept hinzufügen
+    localStorage.setItem('recipes', JSON.stringify(recipes)); // Aktualisierte Rezepte speichern
 
+     const newDiv = document.createElement('div');
+    newDiv.className = 'recipe';
     newDiv.innerHTML = `
         <h3>${title}</h3>
+        <img>${imageInput}</img>
         <p>Zutaten: ${ingredients}</p> 
         <p>Zubereitung:${instructions}</p>
     `;
 
     // Button-Animation starten und beenden
-    var button = document.getElementById('create')
+    const button = document.getElementById('create')
+    // Klasse entfernen, um die Animation neu zu starten
+    button.classList.remove('createRecipe');
+
     button.classList.add('createRecipe');
     setTimeout(() => {
         button.classList.remove('createRecipe');
