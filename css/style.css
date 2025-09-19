@@ -45,7 +45,7 @@ label {
 
 }
 #zutaten, #zubereitung {
-    width: 300px;
+    width: 80%;
     height: 150px;
     padding:  20px;
     box-sizing: border-box;
