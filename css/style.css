@@ -1,3 +1,13 @@
+header{
+    background-color:rgba(196, 237, 174, 0.664);
+    width: auto;
+    height: auto;
+    border-radius: 14px;
+    text-align: initial;
+    padding-left: 3%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
 h1{
     color: black;
     text-align: center;
@@ -15,9 +25,13 @@ button {
     display: inline-block;
     font-size: 16px;
     margin: 4px 2px;
-    cursor: pointer;
     border-radius: 12px;
 }
+button:hover {
+    cursor: pointer; 
+    transform: scale(1.1); 
+    transition: transform 0.2s;
+} 
 @keyframes buttonClick {
     0% {
         transform: scale(1); /* Normale Größe */
@@ -71,10 +85,10 @@ label {
     resize: none;
 }
 .logo {
-    height: 40px; 
-    vertical-align: middle; 
-    margin-left: 20px; 
-    float: right; 
+    height: 45px; 
+    float:  inline-end;
+     
+     
     background-color: transparent;
 }
 .logo:hover {
