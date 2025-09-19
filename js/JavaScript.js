@@ -14,5 +14,16 @@ function createRecipe(){
         <p>Zubereitung:${instructions}</p>
     `;
 
-    document.getElementById('recipesContainer').appendChild(newDiv);
+    // Button-Animation starten und beenden
+    var button = document.getElementById('create')
+    button.classList.add('createRecipe');
+    setTimeout(() => {
+        button.classList.remove('createRecipe');
+    }, 200); // Dauer der Animation (200ms)
+
+    
+    setTimeout(() => {
+        alert('Das Rezept wurde erfolgreich erstellt!');
+        window.location.href = '../Homepage.html'; // Zur Homepage weiterleiten
+    }, 500); // 500ms Verzögerung, um die Animation sichtbar zu machen
 }
