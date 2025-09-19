@@ -43,3 +43,6 @@ function createRecipe(){
         window.location.href = '../Homepage.html'; // Zur Homepage weiterleiten
     }, 500); // 500ms Verzögerung, um die Animation sichtbar zu machen
 }
+function goToAccount(){
+    window.location.href = '../login/Account.html'; // Zur Account-Seite weiterleiten
+}
