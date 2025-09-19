@@ -19,14 +19,17 @@
     <h2>Füge ein neues Rezept hinzu</h2>
     <p></p>
 
-        <label for="zutaten">Titel</label> <br>
-        <input type="text" id="titel" name="titel" required ><br><br>
+        <label for="zutaten">Titel:</label> <br>
+        <textarea type="text" id="titel" name="titel" required ></textarea><br><br>
+
+        <label for="bild">Bild hochladen:</label> <br>
+        <input type="file" id="bild" name="bild" accept="image/*"><br><br>
 
         <label for="zutaten">Zutaten:</label> <br>
-        <input type="text" id="zutaten" name="zutaten" required ><br><br>
+        <textarea type="text" id="zutaten" name="zutaten" required ></textarea><br><br>
 
         <label for="zutaten">Zubereitung:</label> <br>
-        <input type="text" id="zubereitung" name="zubereitung" required ><br><br>
+        <textarea type="text" id="zubereitung" name="zubereitung" required ></textarea><br><br>
 
         <button id="create" onclick="createRecipe()">Erstellen</button>
 </body>

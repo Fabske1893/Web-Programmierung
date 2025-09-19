@@ -59,7 +59,7 @@ label {
     align-items: start;
 
 }
-#zutaten, #zubereitung {
+#zutaten, #zubereitung ,#titel {
     width: 80%;
     height: 150px;
     padding:  20px;
