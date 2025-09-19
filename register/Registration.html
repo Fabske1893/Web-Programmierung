@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-    <link rel="stylesheet" href="../css/style.css">
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="js/JavaScript.js" defer></script>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <Header>
 <nav>
@@ -15,14 +17,14 @@
 <body>
     <h1>Rezept und Einkaufslisten App</h1>
 
-    <p>Bitte folge den Anweisungen</p> <br/><br/>
+    <p>Bitte fülle alle Felder aus: </p> <br/><br/>
 
     Dein Name: <input type="text"> <br/><br/>
     Deine Email: <input type="email"> <br/><br/>
     Dein Passwort: <input type="password"> <br/><br/>
 
     <br/><br/>
-    <Button type="submit">Registieren</Button>
+    <button id="registration" onclick="registration()">Registieren</button>
     
 </body>
 </html>
