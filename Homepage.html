@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./css/style.css">
-    <script src="js/JavaScript.js" defer></script>
-    <script src="js/sortRecipes.js" defer></script>
+    
 </head>
 <Header>
     <nav>
@@ -55,8 +54,15 @@
 
     <br>
      <br/><br/>
+     <div id="recipeContainer">
+        <!-- Neue Rezepte werden hier hinzugefügt -->
 
-    <script>
+    </div>
+<br>
+
+
+
+    <script defer>
     // Rezepte aus dem localStorage abrufen
     const recipes = JSON.parse(localStorage.getItem('recipes')) || [];
 
@@ -70,24 +76,18 @@
         newDiv.innerHTML = `
             <h3>${recipe.title}</h3>
             <img src="${recipe.image}" alt="Rezeptbild">
-            <p>Zutaten: ${recipe.ingredients}</p>
-            <p>Zubereitung: ${recipe.instructions}</p>
             <p>Likes: ${recipe.likes}</p>
             <p>Datum: ${new Date(recipe.date).toLocaleDateString()}</p>
             <p>Schwierigkeitsgrad: ${recipe.difficulty}</p>
-            <button class="like-button" onclick="likeRecipe()">Like</button>
+            
         `;
         recipeContainer.appendChild(newDiv);
     });
+    
     </script>
-    
-    <div id="recipeContainer">
-        <!-- Neue Rezepte werden hier hinzugefügt -->
 
-    </div>
-<br>
-    
-    
+    <script src="js/JavaScript.js" defer></script>
+    <script src="js/sortRecipes.js" defer></script>
 </body>
 
 <Footer>

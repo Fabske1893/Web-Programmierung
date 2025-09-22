@@ -35,15 +35,12 @@ function createRecipe(){
     newDiv.innerHTML = `
         <h3>${title}</h3>
         <img src="${imageInput}"></img>
-        <p>Zutaten: ${ingredients}</p> 
-        <p>Zubereitung:${instructions}</p>
         <p>Likes: 0</p>
         <p>Datum: ${new Date().toLocaleDateString()}</p>
         <p>Schwierigkeitsgrad: ${difficulty}</p>
         <button class="like-button" onclick="likeRecipe()">Like</button>
-
     `;
-    document.getElementById('recipeContainer').appendChild(newDiv);
+    
 
     // Button-Animation starten und beenden
     const button = document.getElementById('create')
@@ -85,3 +82,10 @@ function registration(){
     }, 500); // 500ms Verzögerung, um die Animation sichtbar zu machen 
 }
 function likeRecipe(){}
+
+function deleteRecipe(){
+    localStorage.removeItem('recipes'); // Alle Rezepte löschen
+    alert('Alle Rezepte wurden gelöscht!');
+    window.location.href= '../Homepage.html'; // Zur Homepage weiterleiten
+    
+}
