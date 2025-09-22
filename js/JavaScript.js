@@ -65,7 +65,7 @@ function createRecipe(){
 
 
 function goToAccount(){
-    window.location.href = '../login/Account.html'; // Zur Account-Seite weiterleiten
+    window.location.href = './login/Account.html'; // Zur Account-Seite weiterleiten
 }
 function registration(){
 
