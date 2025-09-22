@@ -7,6 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="../css/style.css">
     <script src="js/JavaScript.js" defer></script>
+    <script src="js/sortRecipes.js" defer></script>
 </head>
 <Header>
     <nav>
@@ -53,6 +54,10 @@
             <img src="${recipe.image}" alt="Rezeptbild">
             <p>Zutaten: ${recipe.ingredients}</p>
             <p>Zubereitung: ${recipe.instructions}</p>
+            <p>Likes: ${recipe.likes}</p>
+            <p>Datum: ${new Date(recipe.date).toLocaleDateString()}</p>
+            <p>Schwierigkeitsgrad: ${recipe.difficulty}</p>
+            <button class="like-button" onclick="likeRecipe()">Like</button>
         `;
         recipeContainer.appendChild(newDiv);
     });
