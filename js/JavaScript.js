@@ -11,36 +11,7 @@ function createRecipe(){
      if (!title || !ingredients || !instructions || !imageInput || !difficulty) {
         alert('Bitte fülle alle erforderlichen Felder aus.');
         return; // Funktion beenden, wenn Daten fehlen
-     }
-
-     // Rezeptdaten als Objekt speichern
-    const recipe = {
-        title: title,
-        ingredients: ingredients,
-        instructions: instructions,
-        image: imageInput,
-        likes: 0,
-        date: new Date().toISOString(),
-        difficulty: difficulty
-
-    };
-
-    // Rezeptdaten im localStorage speichern (funktioniert noch nicht)
-    let recipes = JSON.parse(localStorage.getItem('recipes')) || []; // Vorhandene Rezepte abrufen oder leeres Array
-    recipes.push(recipe); // Neues Rezept hinzufügen
-    localStorage.setItem('recipes', JSON.stringify(recipes)); // Aktualisierte Rezepte speichern
-
-     const newDiv = document.createElement('div');
-    newDiv.className = 'recipe';
-    newDiv.innerHTML = `
-        <h3>${title}</h3>
-        <img src="${imageInput}"></img>
-        <p>Likes: 0</p>
-        <p>Datum: ${new Date().toLocaleDateString()}</p>
-        <p>Schwierigkeitsgrad: ${difficulty}</p>
-        <button class="like-button" onclick="likeRecipe()">Like</button>
-    `;
-    
+     }    
 
     // Button-Animation starten und beenden
     const button = document.getElementById('create')

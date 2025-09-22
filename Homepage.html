@@ -62,30 +62,6 @@
 
 
 
-    <script defer>
-    // Rezepte aus dem localStorage abrufen
-    const recipes = JSON.parse(localStorage.getItem('recipes')) || [];
-
-    // Container für die Rezepte
-    const recipeContainer = document.getElementById('recipeContainer');
-
-    // Rezepte dynamisch hinzufügen
-    recipes.forEach(recipe => {
-        const newDiv = document.createElement('div');
-        newDiv.className = 'recipe';
-        newDiv.innerHTML = `
-            <h3>${recipe.title}</h3>
-            <img src="${recipe.image}" alt="Rezeptbild">
-            <p>Likes: ${recipe.likes}</p>
-            <p>Datum: ${new Date(recipe.date).toLocaleDateString()}</p>
-            <p>Schwierigkeitsgrad: ${recipe.difficulty}</p>
-            
-        `;
-        recipeContainer.appendChild(newDiv);
-    });
-    
-    </script>
-
     <script src="js/JavaScript.js" defer></script>
     <script src="js/sortRecipes.js" defer></script>
 </body>
@@ -94,7 +70,8 @@
 <nav>
         
         <a href="Impressum.html">Impressum</a> &nbsp;&nbsp;
-        Version 1.1
+        <a href="Datenschutz.html">Datenschutz</a> &nbsp;&nbsp;
+        <a href="login/Account.html">Mein Account</a> &nbsp;&nbsp;
 
 
     </nav>
