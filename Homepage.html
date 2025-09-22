@@ -23,8 +23,18 @@
 
     <h1>Rezept und Einkaufslisten App</h1>
     <h2>Willkommen zur Rezept und Einkaufslisten App!</h2>
+    <p>Finden Sie neue leckere Rezepte oder stellen Sie ihre Rezepte ganz einfach anderen zur Verfügung!</p>
     <p>Hier finden Sie alle verfügbaren Rezepte:</p>
 
+    <div id="sortRecipes">
+        <label for="sort">Sortieren nach:</label> <br>
+        <select name="sort" id="sort">
+            <option value="likes" onclick="sortByLikes()">Meiste Likes</option>
+            <option value="alphabet" onclick="sortByAlphabet()">A-Z</option>
+            <option value="date" onclick="sortByDate()">Neuste zuerst</option>
+        </select>   
+    </div>
+    <br>
      <br/><br/>
 
         <script>
@@ -47,13 +57,23 @@
         recipeContainer.appendChild(newDiv);
     });
     </script>
-
+    
     <div id="recipeContainer">
         <!-- Neue Rezepte werden hier hinzugefügt -->
 
     </div>
-
+<br>
     
-
+    
 </body>
+
+<Footer>
+<nav>
+        
+        <a href="Impressum.html">Impressum</a> &nbsp;&nbsp;
+        Version 1.1
+
+
+    </nav>
+</Footer>
 </html>

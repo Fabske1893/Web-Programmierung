@@ -15,7 +15,7 @@ function createRecipe(){
         image: imageInput
     };
 
-    // Rezeptdaten im localStorage speichern
+    // Rezeptdaten im localStorage speichern (funktioniert noch nicht)
     let recipes = JSON.parse(localStorage.getItem('recipes')) || []; // Vorhandene Rezepte abrufen oder leeres Array
     recipes.push(recipe); // Neues Rezept hinzufügen
     localStorage.setItem('recipes', JSON.stringify(recipes)); // Aktualisierte Rezepte speichern
