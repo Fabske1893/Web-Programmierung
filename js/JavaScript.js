@@ -4,18 +4,28 @@ function createRecipe(){
     const ingredients = document.getElementById('zutaten').value;
     const instructions = document.getElementById('zubereitung').value;
     const imageInput = document.getElementById('bild').value;
+    const difficulty = document.getElementById('difficulty').value;
 
-    console.log(title, ingredients, instructions, imageInput);
+    console.log(title, ingredients, instructions, imageInput, difficulty);
+
+     if (!title || !ingredients || !instructions || !imageInput || !difficulty) {
+        alert('Bitte fülle alle erforderlichen Felder aus.');
+        return; // Funktion beenden, wenn Daten fehlen
+     }
 
      // Rezeptdaten als Objekt speichern
     const recipe = {
         title: title,
         ingredients: ingredients,
         instructions: instructions,
-        image: imageInput
+        image: imageInput,
+        likes: 0,
+        date: new Date().toISOString(),
+        difficulty: difficulty
+
     };
 
-    // Rezeptdaten im localStorage speichern
+    // Rezeptdaten im localStorage speichern (funktioniert noch nicht)
     let recipes = JSON.parse(localStorage.getItem('recipes')) || []; // Vorhandene Rezepte abrufen oder leeres Array
     recipes.push(recipe); // Neues Rezept hinzufügen
     localStorage.setItem('recipes', JSON.stringify(recipes)); // Aktualisierte Rezepte speichern
@@ -24,10 +34,16 @@ function createRecipe(){
     newDiv.className = 'recipe';
     newDiv.innerHTML = `
         <h3>${title}</h3>
-        <img>${imageInput}</img>
+        <img src="${imageInput}"></img>
         <p>Zutaten: ${ingredients}</p> 
         <p>Zubereitung:${instructions}</p>
+        <p>Likes: 0</p>
+        <p>Datum: ${new Date().toLocaleDateString()}</p>
+        <p>Schwierigkeitsgrad: ${difficulty}</p>
+        <button class="like-button" onclick="likeRecipe()">Like</button>
+
     `;
+    document.getElementById('recipeContainer').appendChild(newDiv);
 
     // Button-Animation starten und beenden
     const button = document.getElementById('create')
@@ -45,6 +61,9 @@ function createRecipe(){
         window.location.href = '../Homepage.html'; // Zur Homepage weiterleiten
     }, 500); // 500ms Verzögerung, um die Animation sichtbar zu machen
 }
+
+
+
 function goToAccount(){
     window.location.href = '../login/Account.html'; // Zur Account-Seite weiterleiten
 }
@@ -65,3 +84,4 @@ function registration(){
         window.location.href = '../login/Login.html'; // Zur Homepage weiterleiten
     }, 500); // 500ms Verzögerung, um die Animation sichtbar zu machen 
 }
+function likeRecipe(){}

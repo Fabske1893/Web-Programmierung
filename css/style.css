@@ -102,3 +102,9 @@ label {
 #link:hover{
     text-decoration: underline;
 }
+#sortRecipes{
+    text-align: right;
+    margin-left: 3%;
+    margin-right: 3%;
+    font-size: 14px;
+}

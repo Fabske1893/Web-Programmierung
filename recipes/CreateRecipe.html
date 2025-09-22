@@ -32,6 +32,13 @@
         <label for="zutaten">Zubereitung:</label> <br>
         <textarea type="text" id="zubereitung" name="zubereitung" required ></textarea><br><br>
 
+        <label for="difficulty">Schwierigkeitsgrad:</label>
+        <select id="difficulty" name="difficulty">
+            <option value="leicht">Leicht</option>
+            <option value="mittel">Mittel</option>
+            <option value="schwer">Schwer</option>
+        </select><br><br>  
+
         <button id="create" onclick="createRecipe()">Erstellen</button>
 </body>
 </html>
