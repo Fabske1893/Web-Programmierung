@@ -26,4 +26,31 @@
         <br> <br>
         Wenn sie noch kein Konto haben, können sie sich <a href="../register/Registration.html" id="link">hier</a> registrieren.
 </body>
+
+<script>
+    $("#loginButton").click(function(){
+        var loginUser = {
+            email : $("#userEmail").val(),
+            password : $("#userPassword").val()
+        };
+        console.log("Sending post on login to BFF with user ...");
+        console.log(loginUser);
+        $.ajax({
+            url : 'http://mysuperserver.com',
+            type : 'post',
+            dataType : 'json',
+            contentType : 'application/json',
+            success : function(data) {
+                alert('You are now logged on.');
+                localStorage.setItem('mosbachtasktoken', data.token);
+            },
+            data : JSON.stringify(loginUser),
+            processData : false,
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert('I could not log you in.');
+                localStorage.setItem('mosbachtasktoken', '123');
+            }
+        });
+    });
+</script>
 </html>

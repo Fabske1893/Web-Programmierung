@@ -19,4 +19,30 @@
     <button type="button">Abmelden</button>
 </body>
 
+<script>
+    $("#logoffButton").click(function(){
+        var logoffUser = {
+            token : localStorage.getItem("mosbachtasktoken")
+        };
+        console.log("Sending delete to logoff user ...");
+        console.log(logoffUser);
+        $.ajax({
+            url : 'http://mysuperserver.com',
+            type : 'delete',
+            dataType : 'json',
+            contentType : 'application/json',
+            success : function(data) {
+                alert('You are now logged off.');
+                localStorage.setItem('mosbachtasktoken', 'OFF');
+            },
+            data : JSON.stringify(logoffUser),
+            processData : false,
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert('I could not log you off.Try again later');
+              
+            }
+        });
+    });
+</script>
+
 </html>
