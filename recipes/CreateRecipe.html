@@ -20,8 +20,8 @@
     <h2>Füge ein neues Rezept hinzu</h2>
     <p></p>
 
-        <label for="zutaten">Titel:</label> <br>
-        <textarea type="text" id="titel" name="titel" required ></textarea><br><br>
+        <label for="zutaten" >Titel:</label> <br>
+        <textarea type="text" id="recipeTitel" name="titel" required ></textarea><br><br>
 
     
         <label for="bild">Bild hochladen:</label> <br>
@@ -41,6 +41,35 @@
             <option value="schwer">Schwer</option>
         </select><br><br>  
 
-        <button id="create" onclick="createRecipe()">Erstellen</button>
+        <button id="createRecipeButton" onclick="createRecipe()">Erstellen</button>
+
+        <!--Über das Script nochmal drüber schauen, wegen in Zeile 53 den taskPriority, eventuell muss hier auch mehr mitgegeben werden-->
+        <script>
+        $("#createRecipeButton").click(function(){
+            var createRecipe = {
+                token : localStorage.getItem("mosbachtasktoken"),
+                task : {
+                    name: $("#recipeTitel").val(),
+                    priority: parseInt($("#taskPriority").val())
+                }
+            };
+            console.log("Sending post on task of BFF with task ...");
+            console.log(createRecipe);
+            $.ajax({
+                url : 'http://mysuperserver.com',
+                type : 'post',
+                dataType : 'json',
+                contentType : 'application/json',
+                success : function(data) {
+                    alert('Dein Rezept wurde erfolgreich hinzugefügt.');
+                },
+                data : JSON.stringify(createRecipe),
+                processData : false,
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert('Wir konnten dein Rezept nicht hinzufügen.');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
