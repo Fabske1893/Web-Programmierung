@@ -19,12 +19,38 @@
 
     <p>Bitte fülle alle Felder aus: </p> <br/><br/>
 
-    Dein Name: <input type="text"> <br/><br/>
-    Deine Email: <input type="email"> <br/><br/>
-    Dein Passwort: <input type="password"> <br/><br/>
+    Dein Name: <input type="text" id="userName"> <br/><br/>
+    Deine Email: <input type="email" id="userEmail"> <br/><br/>
+    Dein Passwort: <input type="password" id="userPassword"> <br/><br/>
 
     <br/><br/>
     <button id="registration" onclick="registration()">Registieren</button>
+
+        <script>
+        $("#registration").click(function(){
+            var registerUser = {
+                name : $("#userName").val(),
+                email: $("#userEmail").val(),
+                password: $("#userPassword").val(),
+            };
+            console.log("Sending delete on login to BFF with user ...");
+            console.log(registerUser);
+            $.ajax({
+                url : 'http://mysuperserver.com',
+                type : 'post',
+                dataType : 'json',
+                contentType : 'application/json',
+                success : function(data) {
+                    alert('Du bist registriert.');
+                },
+                data : JSON.stringify(registerUser),
+                processData : false,
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert('Du konntest nicht registriert werden.');
+                }
+            });
+        });
+    </script>
     
 </body>
 </html>
