@@ -47,13 +47,17 @@
         <script>
         $("#createRecipeButton").click(function(){
             var createRecipe = {
-                token : localStorage.getItem("mosbachtasktoken"),
-                task : {
+                token : localStorage.getItem("usertoken"),
+                recipe : {
                     name: $("#recipeTitel").val(),
-                    priority: parseInt($("#taskPriority").val())
+                    picture: $("#bild").val(),
+                    description: $("#zubereitung").val(),
+                    ingredients: $("#zutaten").val(),
+                    difficultyLevel: parseInt($("#recipeDifficulty").val()),
+                    category: $("#category").val(),
                 }
             };
-            console.log("Sending post on task of BFF with task ...");
+            console.log("Sending post on recipe of BFF with recipe ...");
             console.log(createRecipe);
             $.ajax({
                 url : 'http://mysuperserver.com',
