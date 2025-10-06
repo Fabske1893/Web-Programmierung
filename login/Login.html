@@ -36,19 +36,23 @@
         console.log("Sending post on login to BFF with user ...");
         console.log(loginUser);
         $.ajax({
-            url : 'http://mysuperserver.com',
+            url : 'http://',
             type : 'post',
             dataType : 'json',
             contentType : 'application/json',
             success : function(data) {
                 alert('You are now logged on.');
-                localStorage.setItem('mosbachtasktoken', data.token);
+                localStorage.setItem('usertoken', data.token);
             },
             data : JSON.stringify(loginUser),
             processData : false,
             error: function(xhr, ajaxOptions, thrownError) {
-                alert('I could not log you in.');
-                localStorage.setItem('mosbachtasktoken', '123');
+                alert('I could not log you on. Try again later');
+                localStorage.setItem('usertoken', '0'); //brauchen wir das überhaupt?
+                console.log(xhr.status);
+                console.log(thrownError);
+                console.log(xhr.responseText);
+        
             }
         });
     });

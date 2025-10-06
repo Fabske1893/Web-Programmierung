@@ -22,18 +22,18 @@
 <script>
     $("#logoffButton").click(function(){
         var logoffUser = {
-            token : localStorage.getItem("mosbachtasktoken")
+            token : localStorage.getItem("usertoken")
         };
         console.log("Sending delete to logoff user ...");
         console.log(logoffUser);
         $.ajax({
-            url : 'http://mysuperserver.com',
+            url : 'http://',
             type : 'delete',
             dataType : 'json',
             contentType : 'application/json',
             success : function(data) {
                 alert('You are now logged off.');
-                localStorage.setItem('mosbachtasktoken', 'OFF');
+                localStorage.setItem('usertoken', 'OFF');
             },
             data : JSON.stringify(logoffUser),
             processData : false,
