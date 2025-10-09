@@ -35,23 +35,8 @@ function createRecipe(){
 function goToAccount(){
     window.location.href = './login/Account.html'; // Zur Account-Seite weiterleiten
 }
-function registration(){
 
-    // Button-Animation starten und beenden
-    const button2 = document.getElementById('registration')
-    // Klasse entfernen, um die Animation neu zu starten
-    button2.classList.remove('createRecipe');
 
-    button2.classList.add('createRecipe');
-    setTimeout(() => {
-        button2.classList.remove('createRecipe');
-    }, 200); // Dauer der Animation (200ms)
-
-   setTimeout(() => {
-        alert('Sie haben sich erfolgreich registriert!');
-        window.location.href = '../login/Login.html'; // Zur Homepage weiterleiten
-    }, 500); // 500ms Verzögerung, um die Animation sichtbar zu machen 
-}
 function likeRecipe(){}
 
 function deleteRecipe(){
