@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="js/JavaScript.js" defer></script>
+    <script type="text/javascript" src="../js/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <Header>
@@ -24,14 +24,14 @@
     Dein Passwort: <input type="password" id="userPassword"> <br/><br/>
 
     <br/><br/>
-    <button id="registration" onclick="registration()">Registieren</button>
+    <button id="registration">Registieren</button>
 
         <script>
         $("#registration").click(function(){
             var registerUser = {
                 name : $("#userName").val(),
                 email: $("#userEmail").val(),
-                password: $("#userPassword").val(),
+                password: $("#userPassword").val()
             };
             console.log("Sending delete on login to BFF with user ...");
             console.log(registerUser);
