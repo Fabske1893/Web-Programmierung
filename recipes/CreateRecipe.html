@@ -41,7 +41,14 @@
             <option value="schwer">Schwer</option>
         </select><br><br>  
 
-        <button id="createRecipeButton" onclick="createRecipe()">Erstellen</button>
+        <label for="category">Kategorie:</label>
+        <select id="category" name="category">
+            <option value="vegan">Vegan</option>
+            <option value="vegetarian">Vegetarisch</option>
+            <option value="includingMeat">Mit Fleisch</option>
+        </select><br><br>  
+
+        <button id="createRecipeButton">Erstellen</button>
 
         <!--Über das Script nochmal drüber schauen-->
         <script>
@@ -50,10 +57,10 @@
                 token : localStorage.getItem("usertoken"),
                 recipe : {
                     name: $("#recipeTitel").val(),
-                    picture: $("#bild").val(),
+                    image: $("#bild").val(),
                     description: $("#zubereitung").val(),
                     ingredients: $("#zutaten").val(),
-                    difficultyLevel: parseInt($("#recipeDifficulty").val()),
+                    difficultyLevel: ($("#recipeDifficulty").val()),
                     category: $("#category").val(),
                 }
             };
