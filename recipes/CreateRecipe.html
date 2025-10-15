@@ -5,22 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Füge ein neues Rezept hinzu</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/styleCreateRecipe.css">
     <script type="text/javascript" src="../js/jquery-3.6.0.min.js"></script>
 </head>
-<Header>
+<header>
 <nav>
     <a href="../Homepage.html">Startseite</a> &nbsp;&nbsp;
     <a href="../login/Logoff.html">Abmelden</a>
 </nav>
 <br>
-</Header>
+</header>
 <body>
-    <h1>Neues Rezept</h1> <br>
-    <h2>Füge ein neues Rezept hinzu</h2>
+    <form>
+    <h1>Teilen sie ihre eigenen Rezepte mit anderen!</h1> <br>
+    <h2>Füge ein neues Rezept hinzu:</h2>
     <p></p>
 
-        <label for="zutaten" >Titel:</label> <br>
+        <label for="recipeTitel" >Titel:</label> <br>
         <textarea type="text" id="recipeTitel" name="titel" required ></textarea><br><br>
 
     
@@ -31,7 +32,7 @@
         <label for="zutaten">Zutaten:</label> <br>
         <textarea type="text" id="zutaten" name="zutaten" required ></textarea><br><br>
 
-        <label for="zutaten">Zubereitung:</label> <br>
+        <label for="zubereitung">Zubereitung:</label> <br>
         <textarea type="text" id="zubereitung" name="zubereitung" required ></textarea><br><br>
 
         <label for="difficulty">Schwierigkeitsgrad:</label>
@@ -49,32 +50,42 @@
         </select><br><br>  
 
         <button id="createRecipeButton">Erstellen</button>
+        </form>
 
         <!--Über das Script nochmal drüber schauen-->
         <script>
         $("#createRecipeButton").click(function(){
+
+            var formData = new FormData();
+            var imageFile = $('#bild')[0].files[0];
+            if(imageFile){
+                formData.append('image', imageFile);
+            }
+
             var createRecipe = {
                 token : localStorage.getItem("usertoken"),
                 recipe : {
                     name: $("#recipeTitel").val(),
-                    image: $("#bild").val(),
                     description: $("#zubereitung").val(),
                     ingredients: $("#zutaten").val(),
                     difficultyLevel: ($("#difficulty").val()),
                     category: $("#category").val(),
                 }
             };
+
+            formData.append('recipeData', JSON.stringify(createRecipe));
+
             console.log("Sending post on recipe of BFF with recipe ...");
             console.log(createRecipe);
             $.ajax({
                 url : 'https://rezepteapp-8e73beca8a52.herokuapp.com/',
                 type : 'post',
                 dataType : 'json',
-                contentType : 'application/json',
+                data : formData,
+                contentType : false,
                 success : function(data) {
                     alert('Dein Rezept wurde erfolgreich hinzugefügt.');
                 },
-                data : JSON.stringify(createRecipe),
                 processData : false,
                 error: function(xhr, ajaxOptions, thrownError) {
                     alert('Wir konnten dein Rezept nicht hinzufügen.');
