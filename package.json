@@ -1,0 +1,13 @@
+{
+  "name": "rezept-frontend",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "react-scripts build", 
+    "start": "serve -s build"
+  },
+  "dependencies": {
+    "react": "...",
+    "react-dom": "...",
+    "serve": "^14.0.1" 
+  }
+}
