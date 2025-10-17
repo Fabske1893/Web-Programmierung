@@ -1,8 +1,8 @@
 ---
 applications:
-- name: TasksFrontend
+- name: RecipeAppFrontend
   instances: 1
-  host: TasksFrontend{random-word}
+  host: RecipeAppFrontend{random-word}
   path: .
   buildpacks:
     - php_buildpack
