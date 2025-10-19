@@ -1,0 +1,130 @@
+/* --- Grundlayout & Hintergrund --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+header{
+    
+    width: auto;
+    height: auto;
+    border-radius: 14px;
+    text-align: initial;
+    padding-left: 3%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    width: 100%;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: rgba(196, 237, 174, 0.664); /* Heller, neutraler Hintergrund */
+    color: #333;
+    display: flex; /* Zentriert den Form-Container auf der Seite */
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* --- Der Formular-Container --- */
+form {
+    display: flex;
+    flex-direction: column; /* <-- Der wichtigste Befehl: Ordnet alles untereinander an! */
+    width: 100%;
+    max-width: 600px;
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Überschriften im Formular --- */
+h1 {
+    font-size: 1.8em;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+h2 {
+    font-size: 1em;
+    font-weight: 400;
+    color: #888;
+    margin-bottom: 30px;
+}
+
+/* --- Labels & Abstände --- */
+label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #444;
+}
+
+/* Entfernen der überflüssigen <br>-Tags */
+br {
+    display: none;
+}
+/* Stattdessen nutzen wir margin für saubere Abstände */
+label, input, textarea, select {
+    margin-bottom: 15px;
+}
+
+
+/* --- Styling der Eingabefelder --- */
+textarea,
+select,
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dcdfe2;
+    border-radius: 8px;
+    font-size: 1em;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+textarea:focus,
+select:focus,
+input:focus {
+    outline: none;
+    border-color: #5c67f2; /* Blauer Fokus-Indikator */
+    box-shadow: 0 0 0 3px rgba(92, 103, 242, 0.2);
+}
+
+/* --- Button-Styling --- */
+#createRecipeButton {
+    padding: 15px;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #fff;
+    background-color: #29c56a9f; /* Moderne Akzentfarbe */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px; /* Etwas mehr Abstand nach oben */
+    transition: all 0.2s ease;
+}
+
+#createRecipeButton:hover {
+    background-color: #29c56a9f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Anpassung für den "Datei auswählen"-Button */
+input[type="file"]::file-selector-button {
+    font-weight: 600;
+    color: #5c67f2;
+    padding: 8px 12px;
+    border: 1px solid #29c56a9f;
+    border-radius: 6px;
+    background-color: #f7f8ff;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-right: 10px;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: #e8ebff;
+}

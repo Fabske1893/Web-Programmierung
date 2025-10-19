@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="stylesheet" href="../css/style.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="../js/jquery-3.6.0.min.js"></script>
+    <title>Document</title>
+    
+</head>
+<Header>
+<nav>
+    <a href="../Homepage.html">Startseite</a>
+</nav>
+<br>
+</Header>
+<body>
+    <h1>Bis bald!</h1>
+<p>Hier können Sie sich abmelden:</p> <br>
+    <button type="button" id="logoffButton">Abmelden</button>
+</body>
+
+<script>
+    $("#logoffButton").click(function(){
+        var logoffUser = {
+            token : localStorage.getItem("usertoken")
+        };
+        console.log("Sending delete to logoff user ...");
+        console.log(logoffUser);
+        $.ajax({
+            url : 'https://rezepteapp-8e73beca8a52.herokuapp.com/',
+            type : 'delete',
+            dataType : 'json',
+            contentType : 'application/json',
+            success : function(data) {
+                alert('You are now logged off.');
+                localStorage.setItem('usertoken', 'OFF');
+            },
+            data : JSON.stringify(logoffUser),
+            processData : false,
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert('I could not log you off.Try again later');
+              
+            }
+        });
+    });
+</script>
+
+</html>

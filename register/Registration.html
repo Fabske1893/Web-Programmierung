@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="de">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="../js/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<Header>
+<nav>
+    <a href="../Homepage.html">Startseite</a>
+</nav>
+<br>
+</Header>
+<body>
+    <h1>Rezept und Einkaufslisten App</h1>
+
+    <p>Bitte fülle alle Felder aus: </p> <br/><br/>
+
+    Dein Name: <input type="text" id="userName"> <br/><br/>
+    Deine Email: <input type="email" id="userEmail"> <br/><br/>
+    Dein Passwort: <input type="password" id="userPassword"> <br/><br/>
+
+    <br/><br/>
+    <button id="registration">Registieren</button>
+
+        <script>
+        $("#registration").click(function(){
+            var registerUser = {
+                name : $("#userName").val(),
+                email: $("#userEmail").val(),
+                password: $("#userPassword").val()
+            };
+            console.log("Sending delete on login to BFF with user ...");
+            console.log(registerUser);
+            $.ajax({
+                url : 'https://rezepteapp-8e73beca8a52.herokuapp.com/',
+                type : 'post',
+                dataType : 'json',
+                contentType : 'application/json',
+                success : function(data) {
+                    alert('Du bist registriert.');
+                },
+                data : JSON.stringify(registerUser),
+                processData : false,
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert('Du konntest nicht registriert werden.');
+                }
+            });
+        });
+    </script>
+    
+</body>
+</html>

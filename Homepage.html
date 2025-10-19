@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css">
+    
+</head>
+<Header>
+    <nav>
+        <a href="login/Login.html">Log in</a> &nbsp;&nbsp;
+        <a href="login/Logoff.html">Log off</a> &nbsp;&nbsp;
+        <a href="recipes/CreateRecipe.html">Rezept hinzufügen</a> &nbsp;&nbsp;
+        <img src="images/account.png" alt="Logo" class="logo" onclick="goToAccount()">
+    </nav>
+    
+</Header>
+
+<body>
+    
+
+    <h1>Rezept und Einkaufslisten Appp</h1>
+    <h2>Willkommen zur Rezept und Einkaufslisten App!</h2>
+    <p>Finden Sie neue leckere Rezepte oder stellen Sie ihre Rezepte ganz einfach anderen zur Verfügung!</p>
+    <p>Hier finden Sie alle verfügbaren Rezepte:</p>
+ <div id="filterSortContainer">
+    
+        <div>
+        <label for="filter">Filter:</label> <br>
+        <select name="filter" id="filter" onchange="filterRecipes()">
+            <option value="all">Alle</option>
+            <option value="easy">Einfach</option>
+            <option value="medium">Mittel</option>
+            <option value="hard">Schwer</option>
+        </select>
+        </div>
+        
+    
+    <div id="sortRecipes">
+        
+        <label for="sort">Sortieren nach:</label> <br>
+        <select name="sort" id="sort">
+            <option value="likes" onclick="sortByLikes()">Meiste Likes</option>
+            <option value="alphabet" onclick="sortByAlphabet()">A-Z</option>
+            <option value="date" onclick="sortByDate()">Neuste zuerst</option>
+        </select>   
+        </div>
+    </div>
+
+
+
+
+    <br>
+     <br/><br/>
+     <div id="recipeContainer">
+        <!-- Neue Rezepte werden hier hinzugefügt -->
+
+    </div>
+<br>
+
+
+
+    <script src="js/functions.js" defer></script>
+    <script src="js/sortRecipes.js" defer></script>
+</body>
+
+<Footer>
+<nav>
+        
+        <a href="Impressum.html">Impressum</a> &nbsp;&nbsp;
+        <a href="Datenschutz.html">Datenschutz</a> &nbsp;&nbsp;
+        <a href="login/Account.html">Mein Account</a> &nbsp;&nbsp;
+
+
+    </nav>
+</Footer>
+</html>

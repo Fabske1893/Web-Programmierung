@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="stylesheet" href="../css/style.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="../js/jquery-3.6.0.min.js"></script>
+    <title>Document</title>
+</head>
+<Header>
+<nav>
+    <a href="../Homepage.html">Startseite</a>
+</nav>
+<br>
+</Header>
+<body>
+    <h1>Hier können sie sich anmelden:</h1> <br>
+    <h2>Log In</h2>
+    <p></p>
+
+    
+        <label for="username">Useremail:</label>
+        <input type="email" id="userEmail" name="useremail" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="userPassword" name="password" required><br><br>
+        <button type="submit" value="Login" id="loginButton">Login</button>
+        <br> <br>
+        Wenn sie noch kein Konto haben, können sie sich <a href="../register/Registration.html" id="link">hier</a> registrieren.
+</body>
+
+<script>
+    $("#loginButton").click(function(){
+        var loginUser = {
+            email : $("#userEmail").val(),
+            password : $("#userPassword").val()
+        };
+        console.log("Sending post on login to BFF with user ...");
+        console.log(loginUser);
+        $.ajax({
+            url : 'https://rezepteapp-8e73beca8a52.herokuapp.com/',
+            type : 'post',
+            dataType : 'json',
+            contentType : 'application/json',
+            success : function(data) {
+                alert('You are now logged on.');
+                localStorage.setItem('usertoken', data.token);
+            },
+            data : JSON.stringify(loginUser),
+            processData : false,
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert('I could not log you on. Try again later');
+                localStorage.setItem('usertoken', '0'); //brauchen wir das überhaupt?
+                console.log(xhr.status);
+                console.log(thrownError);
+                console.log(xhr.responseText);
+        
+            }
+        });
+    });
+</script>
+</html>
