@@ -55,9 +55,29 @@
     <br>
      <br/><br/>
      <div id="recipeContainer">
-        <!-- Neue Rezepte werden hier hinzugefügt -->
+        
 
     </div>
+
+    <script>
+        $(document).ready(function() {
+            console.log("Sending GET on recipe of BFF with recipe ...");
+            $.ajax({
+                url : 'https://rezepteapp-8e73beca8a52.herokuapp.com/',
+                type : 'get',
+                dataType : 'json',
+                success : function(data) {
+                    alert('Rezepte erfolgreich geladen.');
+                    // es muss hier eine schleife gebaut werden, damit alle daten eines rezepts zu einem objekt zusammengefasst werden
+                    $('#recipeContainer').innerHTML = data;
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert('Rezepte konnten nicht geladen werden.');
+                }
+            });
+        });
+    </script>
+
 <br>
 
 
