@@ -22,3 +22,8 @@ function deleteRecipe(){
     window.location.href= '../Homepage.html'; // Zur Homepage weiterleiten
     
 }
+
+function showRecipes(){
+
+    
+}
