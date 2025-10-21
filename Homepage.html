@@ -65,28 +65,71 @@
 
     <br>
      <br/><br/>
-     <div id="recipeContainer">
+     <ul id="recipeList">
+         <li>
+            <div id="recipeContainer">
         
 
-    </div>
+            </div>
+        </li>
+     </ul>
+    
 
     <script>
-        $(document).ready(function() {
-            console.log("Sending GET on recipe of BFF with recipe ...");
-            $.ajax({
-                url : 'https://rezepteapp-8e73beca8a52.herokuapp.com/',
-                type : 'get',
-                dataType : 'json',
-                success : function(data) {
-                    alert('Rezepte erfolgreich geladen.');
-                    // es muss hier eine schleife gebaut werden, damit alle daten eines rezepts zu einem objekt zusammengefasst werden
-                    $('#recipeContainer').innerHTML = data;
-                },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert('Rezepte konnten nicht geladen werden.');
+            
+            const graphqlQuery = `
+                query {
+                recipe {
+                    id
+                    imageUrl
+                    title
+                    difficulty
+                    category
+                    likes   
                 }
+                }
+            `;
+
+            $(document).ready(function() {
+                console.log("Sending POST on recipe of BFF with GraphQL query ...");
+                $.ajax({
+                    url : 'https://enigmatic-plateau-04468-3ab96016f4f2.herokuapp.com/graphql',
+                    type : 'post', 
+                    contentType: 'application/json', 
+                    dataType : 'json',
+                    data: JSON.stringify({ 
+                        query: graphqlQuery
+                    }),
+                    success : function(response) {
+                        console.log('Rezepte erfolgreich geladen.');
+                        console.log(response);
+                        
+                        const recipes = response.data.recipes;
+                        
+                        // Schleife bauen 
+                        let htmlContent = '';
+                        recipes.forEach(recipe => {
+                            htmlContent += `
+                            <li>
+                                <div class="recipe-card">
+                                    <img src=${recipe.imageUrl} alt="Rezeptbild" class="recipe-image"></img>
+                                    <h3>${recipe.title}</h3>
+                                    <p>Kategorie: ${recipe.category}</p>
+                                    <p>Likes: ${recipe.likes}</p>
+                                    <p>Schwierigkeit: ${recipe.difficulty}</p>
+                                </div>
+                            </li>
+                            `;
+                        });
+
+                        $('#recipeList').html(htmlContent);
+
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert('Rezepte konnten nicht geladen werden.');
+                    }
+                });
             });
-        });
     </script>
 
 <br>
