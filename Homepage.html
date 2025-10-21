@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./css/style.css">
     
 </head>
-<Header>
+<header>
     <nav>
         <a href="login/Login.html">Log in</a> &nbsp;&nbsp;
         <a href="login/Logoff.html">Log off</a> &nbsp;&nbsp;
@@ -17,7 +17,7 @@
         <img src="images/account.png" alt="Logo" class="logo" onclick="goToAccount()">
     </nav>
     
-</Header>
+</header>
 
 <body>
     
@@ -53,6 +53,7 @@
         
         <label for="sort">Sortieren nach:</label> <br>
         <select name="sort" id="sort">
+            <!--zu onchange wechseln, un dann je nach übergebenm value die funktionen aufrufen-->
             <option value="likes" onclick="sortByLikes()">Meiste Likes</option>
             <option value="alphabet" onclick="sortByAlphabet()">A-Z</option>
             <option value="date" onclick="sortByDate()">Neuste zuerst</option>
@@ -79,7 +80,7 @@
             
             const graphqlQuery = `
                 query {
-                recipe {
+                recipes {
                     id
                     imageUrl
                     title
@@ -112,7 +113,9 @@
                             htmlContent += `
                             <li>
                                 <div class="recipe-card">
-                                    <img src=${recipe.imageUrl} alt="Rezeptbild" class="recipe-image"></img>
+                                    <a href="recipe-detail.html?id=${recipe.id}">
+                                        <img src=${recipe.imageUrl} alt="Rezeptbild" class="recipe-image">
+                                    </a>
                                     <h3>${recipe.title}</h3>
                                     <p>Kategorie: ${recipe.category}</p>
                                     <p>Likes: ${recipe.likes}</p>
@@ -140,7 +143,7 @@
     <script src="js/sortRecipes.js" defer></script>
 </body>
 
-<Footer>
+<footer>
 <nav>
         
         <a href="Impressum.html">Impressum</a> &nbsp;&nbsp;
@@ -149,5 +152,5 @@
 
 
     </nav>
-</Footer>
+</footer>
 </html>
