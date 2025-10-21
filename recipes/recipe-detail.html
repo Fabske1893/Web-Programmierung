@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rezeptdetails</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <Header>
 <nav>
@@ -13,18 +14,22 @@
 
 </Header>
 <body>
-    <h1>Rezept q</h1> <br>
-    
-    <h2>Rezeptdetails</h2>
+    <div id="recipe-content">
+        <h1 id="recipe-title">Lade Rezept...</h1>
+        <img id="recipe-image-display" src="" alt="Rezeptbild">
+        <div id="recipe-meta"></div>
+        <div id="recipe-details">
+            <div id="recipe-image"></div>
+            <div id="recipe-ingredients"></div>
+            <div id="recipe-instructions"></div>
+        </div>
+    </div>
 
-    <br> <br>
-    <button>Einkaufliste drucken</button>
-
-    <button>Like</button>
-    <button>Dislike</button>
-    <button>Share</button>
-    <button>Zubereitung von Alexa vorlesen lassen</button>
-
-       
+    <div id="recipe-actions">
+        <button onclick="printShoppingList()">Einkaufliste drucken</button>
+        <button onclick="likeRecipe()">Like</button>
+        <button onclick="dislikeRecipe()">Dislike</button>
+        <button onclick="readInstructions()">Zubereitung von Alexa vorlesen lassen</button>
+    </div>
 </body>
 </html>
