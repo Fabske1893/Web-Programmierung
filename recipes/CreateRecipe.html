@@ -54,44 +54,38 @@
 
         <!--Über das Script nochmal drüber schauen-->
         <script>
-        $("#createRecipeButton").click(function(){
+    
+    $("#createRecipeButton").click(function(event){
+        
+        event.preventDefault(); 
+       
+        var recipeData = {
+            name: $("#recipeTitel").val(),
+            pictureUrl: "default.jpg", // Platzhalter
+            ingredients: $("#zutaten").val(),
+            instructions: $("#zubereitung").val(),      
+            difficultyLevel: $("#difficulty").val(),
+            category: $("#category").val()
+        };
 
-            var formData = new FormData();
-            var imageFile = $('#bild')[0].files[0];
-            if(imageFile){
-                formData.append('image', imageFile);
+        // ist noch auf lokalen server später durch heroku ersetzten
+        $.ajax({
+            url: 'http://localhost:8080/api/recipes',   
+            type: 'POST',
+            contentType: 'application/json',          
+            data: JSON.stringify(recipeData),         
+            success: function(response) {
+                alert('Dein Rezept wurde erfolgreich hinzugefügt!');
+                window.location.href = '../Homepage.html'; 
+            },
+            error: function(xhr, status, error) {
+                alert('Fehler: Wir konnten dein Rezept nicht hinzufügen. Status: ' + xhr.status);
+                console.error("Fehlerdetails:", error);
             }
-
-            var createRecipe = {
-                token : localStorage.getItem("usertoken"),
-                recipe : {
-                    name: $("#recipeTitel").val(),
-                    description: $("#zubereitung").val(),
-                    ingredients: $("#zutaten").val(),
-                    difficultyLevel: ($("#difficulty").val()),
-                    category: $("#category").val(),
-                }
-            };
-
-            formData.append('recipeData', JSON.stringify(createRecipe));
-
-            console.log("Sending post on recipe of BFF with recipe ...");
-            console.log(createRecipe);
-            $.ajax({
-                url : 'https://rezepteapp-8e73beca8a52.herokuapp.com/',
-                type : 'post',
-                dataType : 'json',
-                data : formData,
-                contentType : false,
-                success : function(data) {
-                    alert('Dein Rezept wurde erfolgreich hinzugefügt.');
-                },
-                processData : false,
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert('Wir konnten dein Rezept nicht hinzufügen.');
-                }
-            });
         });
-    </script>
+    });
+</script>
+
+
 </body>
 </html>
