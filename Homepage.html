@@ -29,12 +29,9 @@
     
         <div>
         <label for="filter">Filter:</label> <br>
-        <select name="filter" id="filter" onchange="filterRecipes()">
-            <option value="all">Alle</option>
-            <option value="easy">Einfach</option>
-            <option value="medium">Mittel</option>
-            <option value="hard">Schwer</option>
-        </select>
+        <select name="filter" id="filter">
+        <option value="all">Alle</option>
+        <option value="leicht">Einfach</option> <option value="mittel">Mittel</option> <option value="schwer">Schwer</option>   </select>
         </div>
         
     
@@ -42,9 +39,9 @@
         
         <label for="sort">Sortieren nach:</label> <br>
         <select name="sort" id="sort">
-            <option value="likes" onclick="sortByLikes()">Meiste Likes</option>
-            <option value="alphabet" onclick="sortByAlphabet()">A-Z</option>
-            <option value="date" onclick="sortByDate()">Neuste zuerst</option>
+            <option value="likes">Meiste Likes</option>
+            <option value="alphabet">A-Z</option>
+            <option value="date">neuste Zuerst</option>
         </select>   
         </div>
     </div>

@@ -6,11 +6,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-/**
- * Holt die Rezeptdaten vom Backend und zeigt sie auf der Seite an.
- */
+
 function loadAndDisplayRecipes() {
-    // Die URL deines laufenden Backend-Servers
+   
     const backendUrl = 'http://localhost:8080/api/recipes';
 
     const container = document.getElementById('recipeContainer');
@@ -20,28 +18,35 @@ function loadAndDisplayRecipes() {
             if (!response.ok) {
                 throw new Error('Netzwerk-Antwort war nicht in Ordnung. Status: ' + response.status);
             }
-            return response.json(); // Wandelt die Antwort in JSON um
+            return response.json(); 
         })
         .then(recipes => {
-            container.innerHTML = ''; // Alten Inhalt leeren
+            container.innerHTML = ''; 
 
             if (!recipes || recipes.length === 0) {
                 container.innerHTML = '<p>Keine Rezepte gefunden.</p>';
                 return;
             }
 
-            // Für jedes Rezept-Objekt, das vom Backend kommt...
+            
             recipes.forEach(recipe => {
-                // ...erstellen wir eine HTML-Karte und fügen sie ein.
+                
                 const recipeCard = document.createElement('div');
-                recipeCard.className = 'recipe'; // Nutzt dein CSS aus style.css
+                recipeCard.className = 'recipe'; 
 
-                // Hier bauen wir das HTML für die Rezeptkarte zusammen
+
+                recipeCard.setAttribute('data-name', recipe.name.toLowerCase());
+                recipeCard.setAttribute('data-date', recipe.creationDate || '2025-01-01'); // Platzhalter-Datum
+                recipeCard.setAttribute('data-difficulty', recipe.difficultyLevel);
+                recipeCard.setAttribute('data-likes', recipe.likes || 0); // Platzhalter-Likes
+
+                                
                 recipeCard.innerHTML = `
                     <img src="images/${recipe.pictureUrl}" alt="Bild von ${recipe.name}" style="width:100%;">
                     <h3>${recipe.name}</h3>
                     <p><strong>Kategorie:</strong> ${recipe.category}</p>
                     <p><strong>Schwierigkeit:</strong> ${recipe.difficultyLevel}</p>
+                    <p><strong>Likes:</strong> ${recipe.likes || 0}</p>
                 `;
 
                 container.appendChild(recipeCard);
@@ -53,7 +58,6 @@ function loadAndDisplayRecipes() {
         });
 }
 
-// Du kannst deine anderen Funktionen hier lassen
 function goToAccount() {
     window.location.href = './login/Account.html';
 }
