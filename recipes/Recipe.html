@@ -79,27 +79,30 @@
             const urlParams = new URLSearchParams(window.location.search);
             const recipeId = urlParams.get('id');
             if (!recipeId) { alert('Fehler: Rezept-ID nicht gefunden.'); return; }
-            const recipient = prompt("Bitte gib die E-Mail-Adresse des Empfängers ein:");
-            if (!recipient) { return; }
-            const backendUrl = `http://localhost:8080/api/recipes/${recipeId}/send-email?recipientEmail=${encodeURIComponent(recipient)}`;
+
+            const userToken = localStorage.getItem('userToken'); //tokenholen
+            if (!userToken || userToken === 'OFF') {
+             alert('Fehler: Du musst eingeloggt sein, um diese Funktion zu nutzen.');
+             return;
+        }
+
+            
+            const backendUrl = `http://localhost:8080/api/recipes/${recipeId}/send-email?token=${encodeURIComponent(userToken)}`;
 
             fetch(backendUrl, { method: 'POST' })
-                .then(response => {
-                    if (response.ok) {
-                        alert('Rezept erfolgreich per E-Mail gesendet!');
-                    } else {
-                        response.json().then(data => {
-                            alert(`Fehler beim Senden der E-Mail: ${data.message || response.statusText}`);
-                        }).catch(() => {
-                            alert(`Fehler beim Senden der E-Mail. Status: ${response.status}`);
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Netzwerkfehler beim E-Mail-Versand:', error);
-                    alert('Netzwerkfehler beim Senden der E-Mail.');
-                });
-        }
+            .then(response => response.json().then(data => ({ status: response.status, body: data }))) 
+            .then(({ status, body }) => {
+                 if (status === 200) {
+                     alert(body.message || 'Rezept erfolgreich gesendet!'); 
+                 } else {
+                     alert(`Fehler: ${body.message || 'Unbekannter Fehler'}`);
+                 }
+            })
+            .catch(error => {
+                console.error('Netzwerkfehler beim E-Mail-Versand:', error);
+                alert('Netzwerkfehler beim Senden der E-Mail.');
+            });
+    }
 
         
     </script>

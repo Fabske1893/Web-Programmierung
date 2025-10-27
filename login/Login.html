@@ -44,7 +44,7 @@
             contentType : 'application/json',
             success : function(response) {
                 alert('You are now logged on.');
-                localStorage.setItem('usertoken', response.token);
+                localStorage.setItem('userToken', response.token);
                 window.location.href = '../Homepage.html';
             },
             
