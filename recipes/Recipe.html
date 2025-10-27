@@ -1,30 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
-    <link rel="stylesheet" href="../css/style.css">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Rezept Details</title>
+    <link rel="stylesheet" href="../css/style.css"> 
 </head>
-<Header>
-<nav>
-    <a href="../Homepage.html">Startseite</a>
-</nav>
-
-</Header>
 <body>
-    <h1>Rezept q</h1> <br>
-    
-    <h2>Rezeptdetails</h2>
+    <header>
+        <nav>
+            <a href="../Homepage.html">Startseite</a>
+        </nav>
+    </header>
 
-    <br> <br>
-    <button>Einkaufliste drucken</button>
+    <main id="recipeDetailsContainer">
+        <p>Lade Rezept...</p>
+    </main>
 
-    <button>Like</button>
-    <button>Dislike</button>
-    <button>Share</button>
-    <button>Zubereitung von Alexa vorlesen lassen</button>
+    <footer>
+        </footer>
 
-       
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadRecipeDetails();
+        });
+
+        function loadRecipeDetails() {
+            const container = document.getElementById('recipeDetailsContainer');
+            const urlParams = new URLSearchParams(window.location.search);
+            const recipeId = urlParams.get('id');
+
+            if (!recipeId) {
+                container.innerHTML = '<p style="color: red;">Fehler: Keine Rezept-ID in der URL gefunden.</p>';
+                return;
+            }
+            const backendUrl = `http://localhost:8080/api/recipes/${recipeId}`; 
+
+            fetch(backendUrl)
+                .then(response => {
+                    if (response.status === 404) {
+                         throw new Error('Rezept nicht gefunden (404)');
+                    }
+                    if (!response.ok) {
+                        throw new Error('Netzwerk-Antwort war nicht ok. Status: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(recipe => {
+                    container.innerHTML = `
+                        <h1>${recipe.name}</h1>
+                        <img src="../images/${recipe.pictureUrl}" alt="Bild von ${recipe.name}" style="max-width: 400px; height: auto;">
+
+                        <h2>Zutaten</h2>
+                        <pre>${recipe.ingredients}</pre> 
+
+                        <h2>Zubereitung</h2>
+                        <pre>${recipe.instructions}</pre> 
+
+                        <p><strong>Schwierigkeit:</strong> ${recipe.difficultyLevel}</p>
+                        <p><strong>Kategorie:</strong> ${recipe.category}</p>
+                        `;
+                })
+                .catch(error => {
+                    console.error('Fehler beim Laden der Rezeptdetails:', error);
+                    container.innerHTML = `<p style="color: red;">Fehler: ${error.message}.</p>`;
+                });
+        }
+    </script>
 </body>
 </html>

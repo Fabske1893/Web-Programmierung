@@ -33,13 +33,10 @@ function loadAndDisplayRecipes() {
                 
                 const recipeCard = document.createElement('div');
                 recipeCard.className = 'recipe'; 
-
-
                 recipeCard.setAttribute('data-name', recipe.name.toLowerCase());
-                recipeCard.setAttribute('data-date', recipe.creationDate || '2025-01-01'); // Platzhalter-Datum
+                recipeCard.setAttribute('data-date', recipe.creationDate || '2025-01-01');
                 recipeCard.setAttribute('data-difficulty', recipe.difficultyLevel);
-                recipeCard.setAttribute('data-likes', recipe.likes || 0); // Platzhalter-Likes
-
+                recipeCard.setAttribute('data-likes', recipe.likes || 0);
                                 
                 recipeCard.innerHTML = `
                     <img src="images/${recipe.pictureUrl}" alt="Bild von ${recipe.name}" style="width:100%;">
@@ -47,9 +44,13 @@ function loadAndDisplayRecipes() {
                     <p><strong>Kategorie:</strong> ${recipe.category}</p>
                     <p><strong>Schwierigkeit:</strong> ${recipe.difficultyLevel}</p>
                     <p><strong>Likes:</strong> ${recipe.likes || 0}</p>
-                `;
-
-                container.appendChild(recipeCard);
+                `;   
+                const link = document.createElement('a');
+                link.href = `recipes/Recipe.html?id=${recipe.id}`; 
+                link.style.textDecoration = 'none'; 
+                link.style.color = 'inherit';                   
+                link.appendChild(recipeCard);
+                container.appendChild(link); 
             });
         })
         .catch(error => {
