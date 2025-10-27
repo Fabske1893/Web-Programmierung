@@ -20,9 +20,9 @@
     <footer>
         </footer>
 
-    <script>
+        <script>
         document.addEventListener('DOMContentLoaded', function() {
-            loadRecipeDetails();
+            loadRecipeDetails(); 
         });
 
         function loadRecipeDetails() {
@@ -38,34 +38,73 @@
 
             fetch(backendUrl)
                 .then(response => {
-                    if (response.status === 404) {
-                         throw new Error('Rezept nicht gefunden (404)');
-                    }
-                    if (!response.ok) {
-                        throw new Error('Netzwerk-Antwort war nicht ok. Status: ' + response.status);
-                    }
+                    if (response.status === 404) { throw new Error('Rezept nicht gefunden (404)'); }
+                    if (!response.ok) { throw new Error('Netzwerk-Antwort war nicht ok. Status: ' + response.status); }
                     return response.json();
                 })
                 .then(recipe => {
                     container.innerHTML = `
                         <h1>${recipe.name}</h1>
                         <img src="../images/${recipe.pictureUrl}" alt="Bild von ${recipe.name}" style="max-width: 400px; height: auto;">
-
                         <h2>Zutaten</h2>
                         <pre>${recipe.ingredients}</pre> 
-
                         <h2>Zubereitung</h2>
                         <pre>${recipe.instructions}</pre> 
-
                         <p><strong>Schwierigkeit:</strong> ${recipe.difficultyLevel}</p>
                         <p><strong>Kategorie:</strong> ${recipe.category}</p>
-                        `;
+                        <button id="readWithAlexaButton">Mit Alexa vorlesen</button> 
+                        <button id="sendEmailButton">Rezept per E-Mail senden</button> 
+                        <button id="addToShoppingListButton">Einkaufsliste hinzufügen</button>
+                    `;
+
+                    const sendEmailBtn = document.getElementById('sendEmailButton');
+                    if (sendEmailBtn) { 
+                        sendEmailBtn.addEventListener('click', function() {
+                            sendRecipeViaEmail();
+                        });
+                    } else {
+                        console.error("Button mit ID 'sendEmailButton' wurde nicht im HTML erstellt!");
+                    }
+
+                   
+                        
                 })
                 .catch(error => {
                     console.error('Fehler beim Laden der Rezeptdetails:', error);
                     container.innerHTML = `<p style="color: red;">Fehler: ${error.message}.</p>`;
                 });
         }
+
+        function sendRecipeViaEmail() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const recipeId = urlParams.get('id');
+            if (!recipeId) { alert('Fehler: Rezept-ID nicht gefunden.'); return; }
+            const recipient = prompt("Bitte gib die E-Mail-Adresse des Empfängers ein:");
+            if (!recipient) { return; }
+            const backendUrl = `http://localhost:8080/api/recipes/${recipeId}/send-email?recipientEmail=${encodeURIComponent(recipient)}`;
+
+            fetch(backendUrl, { method: 'POST' })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Rezept erfolgreich per E-Mail gesendet!');
+                    } else {
+                        response.json().then(data => {
+                            alert(`Fehler beim Senden der E-Mail: ${data.message || response.statusText}`);
+                        }).catch(() => {
+                            alert(`Fehler beim Senden der E-Mail. Status: ${response.status}`);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Netzwerkfehler beim E-Mail-Versand:', error);
+                    alert('Netzwerkfehler beim Senden der E-Mail.');
+                });
+        }
+
+        
     </script>
+</body>
+</html>
+    
 </body>
 </html>
