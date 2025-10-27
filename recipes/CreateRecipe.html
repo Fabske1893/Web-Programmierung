@@ -58,11 +58,13 @@
     $("#createRecipeButton").click(function(event){
         
         event.preventDefault(); 
-       
+        const ingredientsText = $("#zutaten").val();
+        const ingredientsList = parseIngredients(ingredientsText);
+
         var recipeData = {
             name: $("#recipeTitel").val(),
-            pictureUrl: "default.jpg", // Platzhalter
-            ingredients: $("#zutaten").val(),
+            pictureUrl: "default.jpg", // platzhalter
+            ingredients: ingredientsList, 
             instructions: $("#zubereitung").val(),      
             difficultyLevel: $("#difficulty").val(),
             category: $("#category").val()
@@ -84,6 +86,33 @@
             }
         });
     });
+    
+
+    function parseIngredients(text) {
+    const lines = text.split('\n');
+    const ingredients = [];
+    lines.forEach(line => {
+        line = line.trim();
+        if (!line) return;
+        const parts = line.match(/^(\d*\.?\d*)\s*([a-zA-Z]*)\s*(.*)/);
+        let amount = 0;
+        let unit = '';
+        let name = line; 
+        if (parts && parts[3]) {
+            amount = parseFloat(parts[1]) || 0;
+            unit = parts[2] || '';
+            name = parts[3].trim();
+        } else {
+             name = line.trim(); 
+        }
+        if (name) {
+             ingredients.push({ amount: amount, unit: unit, name: name });
+        }
+        });
+    return ingredients;
+}
+
+
 </script>
 
 
