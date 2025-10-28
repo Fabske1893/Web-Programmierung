@@ -6,23 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./css/style.css">
-    <script src="js/functions.js"></script>
     
 </head>
-<header>
+<Header>
     <nav>
         <a href="login/Login.html">Log in</a> &nbsp;&nbsp;
         <a href="login/Logoff.html">Log off</a> &nbsp;&nbsp;
         <a href="recipes/CreateRecipe.html">Rezept hinzufügen</a> &nbsp;&nbsp;
-<<<<<<< HEAD
-        <a href="ShoppingList.html">Einkaufsliste</a> &nbsp;&nbsp;
-=======
-        <a href="admin/adminUI.html">Rezepte löschen</a>
->>>>>>> cb3e0209e88457c62a4651cc28682809b24ad7ef
         <img src="images/account.png" alt="Logo" class="logo" onclick="goToAccount()">
     </nav>
     
-</header>
+</Header>
 
 <body>
     
@@ -30,35 +24,16 @@
     <h1>Rezept und Einkaufslisten Appp</h1>
     <h2>Willkommen zur Rezept und Einkaufslisten App!</h2>
     <p>Finden Sie neue leckere Rezepte oder stellen Sie ihre Rezepte ganz einfach anderen zur Verfügung!</p>
-
-    <input type="search" name="searchRecipe" id="searchRecipe" placeholder="Suche Rezept..." oninput="searchRecipe()"> <br>
     <p>Hier finden Sie alle verfügbaren Rezepte:</p>
  <div id="filterSortContainer">
     
         <div>
-<<<<<<< HEAD
         <label for="filter">Filter:</label> <br>
-        <select name="filter" id="filter">
-        <option value="all">Alle</option>
-        <option value="leicht">Einfach</option> <option value="mittel">Mittel</option> <option value="schwer">Schwer</option>   </select>
-=======
-        <label for="filter">Filtern nach Schwierigkeitsgrad:</label> <br>
         <select name="filter" id="filter" onchange="filterRecipes()">
             <option value="all">Alle</option>
             <option value="easy">Einfach</option>
             <option value="medium">Mittel</option>
             <option value="hard">Schwer</option>
-        </select>
->>>>>>> cb3e0209e88457c62a4651cc28682809b24ad7ef
-        </div>
-
-        <div>
-        <label for="filterCategory">Filtern nach Kategorie:</label> <br>
-        <select name="filterCategory" id="filterCategory">
-            <option value="all">Alle</option>
-            <option value="vegan">Vegan</option>
-            <option value="vegetarian">Vegetarsich</option>
-            <option value="withMeat">Mit Fleisch</option>
         </select>
         </div>
         
@@ -67,86 +42,22 @@
         
         <label for="sort">Sortieren nach:</label> <br>
         <select name="sort" id="sort">
-<<<<<<< HEAD
-            <option value="likes">Meiste Likes</option>
-            <option value="alphabet">A-Z</option>
-            <option value="date">neuste Zuerst</option>
-=======
-            <!--zu onchange wechseln, un dann je nach übergebenm value die funktionen aufrufen-->
             <option value="likes" onclick="sortByLikes()">Meiste Likes</option>
             <option value="alphabet" onclick="sortByAlphabet()">A-Z</option>
             <option value="date" onclick="sortByDate()">Neuste zuerst</option>
->>>>>>> cb3e0209e88457c62a4651cc28682809b24ad7ef
         </select>   
         </div>
     </div>
 
+
+
+
     <br>
      <br/><br/>
-     <ul id="recipeList">
-         
-     </ul>
-    
+     <div id="recipeContainer">
+        <!-- Neue Rezepte werden hier hinzugefügt -->
 
-    <script>
-            
-            const graphqlQuery = `
-                query {
-                recipes {
-                    id
-                    imageUrl
-                    title
-                    difficulty
-                    category
-                    likes   
-                }
-                }
-            `;
-
-            $(document).ready(function() {
-                console.log("Sending POST on recipe of BFF with GraphQL query ...");
-                $.ajax({
-                    url : 'https://enigmatic-plateau-04468-3ab96016f4f2.herokuapp.com/graphql',
-                    type : 'post', 
-                    contentType: 'application/json', 
-                    dataType : 'json',
-                    data: JSON.stringify({ 
-                        query: graphqlQuery
-                    }),
-                    success : function(response) {
-                        console.log('Rezepte erfolgreich geladen.');
-                        console.log(response);
-                        
-                        const recipes = response.data.recipes;
-                        
-                        // Schleife bauen 
-                        let htmlContent = '';
-                        recipes.forEach(recipe => {
-                            htmlContent += `
-                            <li>
-                                <div class="recipe-card">
-                                    <a href="recipe-detail.html?id=${recipe.id}">
-                                        <img src=${recipe.imageUrl} alt="Rezeptbild" class="recipe-image">
-                                    </a>
-                                    <h3>${recipe.title}</h3>
-                                    <p>Kategorie: ${recipe.category}</p>
-                                    <p>Likes: ${recipe.likes}</p>
-                                    <p>Schwierigkeit: ${recipe.difficulty}</p>
-                                </div>
-                            </li>
-                            `;
-                        });
-
-                        $('#recipeList').html(htmlContent);
-
-                    },
-                    error: function(xhr, ajaxOptions, thrownError) {
-                        alert('Rezepte konnten nicht geladen werden.');
-                    }
-                });
-            });
-    </script>
-
+    </div>
 <br>
 
 
@@ -155,21 +66,14 @@
     <script src="js/sortRecipes.js" defer></script>
 </body>
 
-<footer>
+<Footer>
 <nav>
         
-<<<<<<< HEAD
         <a href="legal/Impressum.html">Impressum</a> &nbsp;&nbsp;
         <a href="legal/Datenschutz.html">Datenschutz</a> &nbsp;&nbsp;
-=======
-        <a href="./legal/Impressum.html">Impressum</a> &nbsp;&nbsp;
-        <a href="./legal/Datenschutz.html">Datenschutz</a> &nbsp;&nbsp;
->>>>>>> cb3e0209e88457c62a4651cc28682809b24ad7ef
         <a href="login/Account.html">Mein Account</a> &nbsp;&nbsp;
-         
 
 
     </nav>
-    
-</footer>
+</Footer>
 </html>
