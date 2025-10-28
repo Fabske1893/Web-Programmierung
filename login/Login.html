@@ -37,7 +37,7 @@
         console.log("Sending post on login to BFF with user ...");
         console.log(loginUser);
         $.ajax({
-            url : 'http://localhost:8080/api/login',
+            url : 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/login',
             type : 'POST',
             dataType : 'json',
             data : JSON.stringify(loginUser),

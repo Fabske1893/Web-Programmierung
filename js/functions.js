@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function loadAndDisplayRecipes() {
    
-    const backendUrl = 'http://localhost:8080/api/recipes';
+    const backendUrl = "https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes";
 
     const container = document.getElementById('recipeContainer');
 

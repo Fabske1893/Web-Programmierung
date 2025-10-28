@@ -37,7 +37,7 @@
             return;
         }
 
-        const backendUrl = `http://localhost:8080/api/recipes/${recipeId}`; 
+        const backendUrl = `https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes/${recipeId}`; 
 
         fetch(backendUrl)
             .then(response => {
@@ -115,7 +115,7 @@
         }
 
             
-            const backendUrl = `http://localhost:8080/api/recipes/${recipeId}/send-email?token=${encodeURIComponent(userToken)}`;
+            const backendUrl = `https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes/${recipeId}/send-email?token=${encodeURIComponent(userToken)}`;
 
             fetch(backendUrl, { method: 'POST' })
             .then(response => response.json().then(data => ({ status: response.status, body: data }))) 
