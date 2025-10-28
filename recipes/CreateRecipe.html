@@ -49,50 +49,44 @@
             <option value="includingMeat">Mit Fleisch</option>
         </select><br><br>  
 
-        <button id="createRecipeButton" type="button">Erstellen</button>
+        <button id="createRecipeButton" type="button" onclick="addRecipe()">Erstellen</button>
+
         </form>
 
-        <!--Über das Script nochmal drüber schauen-->
         <script>
-        // Finde das Formular
+        
     const recipeForm = document.getElementById('recipeForm');
 
-    // Fange das "submit"-Ereignis des Formulars ab
-    recipeForm.addEventListener('submit', function(event) {
-        // Verhindere das Neuladen der Seite
-        event.preventDefault(); 
-        addRecipe();
-    });
+    
+    
 
     function addRecipe() {
-        // 1. Zutaten-Textfeld auslesen
         const ingredientsText = $("#zutaten").val();
         
-        // 2. Zutaten-Text in die Objektstruktur umwandeln
+        
         const ingredientsList = parseIngredients(ingredientsText);
 
-        // 3. Das finale Rezept-Objekt erstellen
+       
         const recipeData = {
             name: $("#recipeTitel").val(),
-            pictureUrl: "default.jpg", // Platzhalter, da Bild-Upload komplexer ist
-            ingredients: ingredientsList, // Die Liste der Zutat-Objekte
-            instructions: $("#zubereitung").val(), // KORRIGIERT: 'instructions'
+            pictureUrl: "default.jpg",
+            ingredients: ingredientsList, 
+            instructions: $("#zubereitung").val(), 
             difficultyLevel: $("#difficulty").val(),
             category: $("#category").val()
         };
 
-        // 4. AJAX-Aufruf an dein LIVE Heroku Backend
+        
         $.ajax({
-            url: 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes', // KORRIGIERTE URL
+            url: 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes', 
             type: 'POST',
-            contentType: 'application/json', // Wir senden JSON
-            data: JSON.stringify(recipeData), // Das Objekt in einen JSON-Text umwandeln
+            contentType: 'application/json', 
+            data: JSON.stringify(recipeData), 
             success: function(response) {
                 alert('Dein Rezept wurde erfolgreich hinzugefügt!');
-                window.location.href = '../Homepage.html'; // Weiterleitung
+                window.location.href = '../Homepage.html';
             },
             error: function(xhr, status, error) {
-                // Zeige eine detailliertere Fehlermeldung
                 let errorMsg = 'Fehler: Wir konnten dein Rezept nicht hinzufügen.';
                 if (xhr.responseJSON && xhr.responseJSON.message) {
                     errorMsg += '\nServer sagt: ' + xhr.responseJSON.message;
@@ -107,10 +101,7 @@
         });
     }
 
-    /**
-     * Wandelt den Text aus dem Zutatenfeld in eine Objekt-Liste um.
-     * Format: "Menge Einheit Name"
-     */
+    
     function parseIngredients(text) {
         const lines = text.split('\n');
         const ingredients = [];
@@ -118,18 +109,17 @@
             line = line.trim();
             if (!line) return;
             
-            // Versucht, Menge, Einheit und Name zu trennen
             const parts = line.match(/^(\d*\.?\d*)\s*([a-zA-Z]*)\s*(.*)/);
             let amount = 0;
             let unit = '';
-            let name = line; // Fallback
+            let name = line; 
 
-            if (parts && parts[3]) { // Nur wenn alle Teile gefunden wurden
+            if (parts && parts[3]) { 
                 amount = parseFloat(parts[1]) || 0;
                 unit = parts[2] || '';
                 name = parts[3].trim();
             } else {
-                name = line.trim(); // Nur Name, wenn Format nicht passt
+                name = line.trim(); 
             }
             
             if (name) {
