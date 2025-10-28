@@ -241,4 +241,7 @@ textarea {
         width: 95%;
     }
 }
+#clearListButton{ 
+    margin-right: 10px;
+}
 
