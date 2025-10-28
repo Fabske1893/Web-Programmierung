@@ -72,7 +72,35 @@ function goToLogin(){
 }
 
 
-function likeRecipe(){}
+function likeRecipe(){
+     $("#likeButton").click(function(){
+        const recipeId = new URLSearchParams(window.location.search).get('id');
+        
+        
+        console.log("Sending put on like ...");
+        
+        $.ajax({
+            url : `https://rezeptappbackend-a9a2cded5f95.herokuapp.com/recipes/${recipeId}/like`,
+            type : 'PUT',
+            dataType : 'json',
+            contentType : 'application/json',
+            success : function(response) {
+                
+            },
+            
+            error: function(xhr, status, error) {
+                if(xhr.status === 401){
+                    alert('Fehler: Sie müssen eingeloggt sein, um ein Rezept zu liken.');
+                }
+                else {
+                    alert('Fehler beim Liken des Rezepts. Bitte versuchen Sie es erneut.');
+                }
+                
+        
+            }
+        });
+    });
+}
 
 function deleteRecipe(){
     
