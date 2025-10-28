@@ -80,7 +80,7 @@ function likeRecipe(){
         console.log("Sending put on like ...");
         
         $.ajax({
-            url : `https://rezeptappbackend-a9a2cded5f95.herokuapp.com/recipes/${recipeId}/like`,
+            url : `https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes/${recipeId}/like`,
             type : 'PUT',
             dataType : 'json',
             contentType : 'application/json',
