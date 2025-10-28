@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
     
 <head>
     <meta charset="UTF-8">
@@ -49,43 +49,18 @@
             <option value="includingMeat">Mit Fleisch</option>
         </select><br><br>  
 
-        <button type="button" id="createRecipeButton">Erstellen</button>
+        <button id="createRecipeButton">Erstellen</button>
         </form>
 
         <!--Über das Script nochmal drüber schauen-->
         <script>
-    
-    $("#createRecipeButton").click(function(event){
-        
-        event.preventDefault(); 
-        const ingredientsText = $("#zutaten").val();
-        const ingredientsList = parseIngredients(ingredientsText);
+        $("#createRecipeButton").click(function(){
 
-        var recipeData = {
-            name: $("#recipeTitel").val(),
-            pictureUrl: "default.jpg", // platzhalter
-            ingredients: ingredientsList, 
-            instructions: $("#zubereitung").val(),      
-            difficultyLevel: $("#difficulty").val(),
-            category: $("#category").val()
-        };
-
-        // ist noch auf lokalen server später durch heroku ersetzten
-        $.ajax({
-            url: 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com',   
-            type: 'POST',
-            contentType: 'application/json',          
-            data: JSON.stringify(recipeData),         
-            success: function(response) {
-                alert('Dein Rezept wurde erfolgreich hinzugefügt!');
-                window.location.href = '../Homepage.html'; 
-            },
-            error: function(xhr, status, error) {
-                alert('Fehler: Wir konnten dein Rezept nicht hinzufügen. Status: ' + xhr.status);
-                console.error("Fehlerdetails:", error);
+            var formData = new FormData();
+            var imageFile = $('#bild')[0].files[0];
+            if(imageFile){
+                formData.append('image', imageFile);
             }
-<<<<<<< HEAD
-=======
 
             var createRecipe = {
                 token : localStorage.getItem("usertoken"),
@@ -103,7 +78,7 @@
             console.log("Sending post on recipe of BFF with recipe ...");
             console.log(createRecipe);
             $.ajax({
-                url : 'https://enigmatic-plateau-04468-3ab96016f4f2.herokuapp.com/',
+                url : 'https://rezepteapp-8e73beca8a52.herokuapp.com/',
                 type : 'post',
                 dataType : 'json',
                 data : formData,
@@ -116,38 +91,7 @@
                     alert('Wir konnten dein Rezept nicht hinzufügen.');
                 }
             });
->>>>>>> cb3e0209e88457c62a4651cc28682809b24ad7ef
         });
-    });
-    
-
-    function parseIngredients(text) {
-    const lines = text.split('\n');
-    const ingredients = [];
-    lines.forEach(line => {
-        line = line.trim();
-        if (!line) return;
-        const parts = line.match(/^(\d*\.?\d*)\s*([a-zA-Z]*)\s*(.*)/);
-        let amount = 0;
-        let unit = '';
-        let name = line; 
-        if (parts && parts[3]) {
-            amount = parseFloat(parts[1]) || 0;
-            unit = parts[2] || '';
-            name = parts[3].trim();
-        } else {
-             name = line.trim(); 
-        }
-        if (name) {
-             ingredients.push({ amount: amount, unit: unit, name: name });
-        }
-        });
-    return ingredients;
-}
-
-
-</script>
-
-
+    </script>
 </body>
 </html>
