@@ -49,49 +49,95 @@
             <option value="includingMeat">Mit Fleisch</option>
         </select><br><br>  
 
-        <button id="createRecipeButton">Erstellen</button>
+        <button id="createRecipeButton" type="button">Erstellen</button>
         </form>
 
         <!--Über das Script nochmal drüber schauen-->
         <script>
-        $("#createRecipeButton").click(function(){
+        // Finde das Formular
+    const recipeForm = document.getElementById('recipeForm');
 
-            var formData = new FormData();
-            var imageFile = $('#bild')[0].files[0];
-            if(imageFile){
-                formData.append('image', imageFile);
+    // Fange das "submit"-Ereignis des Formulars ab
+    recipeForm.addEventListener('submit', function(event) {
+        // Verhindere das Neuladen der Seite
+        event.preventDefault(); 
+        addRecipe();
+    });
+
+    function addRecipe() {
+        // 1. Zutaten-Textfeld auslesen
+        const ingredientsText = $("#zutaten").val();
+        
+        // 2. Zutaten-Text in die Objektstruktur umwandeln
+        const ingredientsList = parseIngredients(ingredientsText);
+
+        // 3. Das finale Rezept-Objekt erstellen
+        const recipeData = {
+            name: $("#recipeTitel").val(),
+            pictureUrl: "default.jpg", // Platzhalter, da Bild-Upload komplexer ist
+            ingredients: ingredientsList, // Die Liste der Zutat-Objekte
+            instructions: $("#zubereitung").val(), // KORRIGIERT: 'instructions'
+            difficultyLevel: $("#difficulty").val(),
+            category: $("#category").val()
+        };
+
+        // 4. AJAX-Aufruf an dein LIVE Heroku Backend
+        $.ajax({
+            url: 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes', // KORRIGIERTE URL
+            type: 'POST',
+            contentType: 'application/json', // Wir senden JSON
+            data: JSON.stringify(recipeData), // Das Objekt in einen JSON-Text umwandeln
+            success: function(response) {
+                alert('Dein Rezept wurde erfolgreich hinzugefügt!');
+                window.location.href = '../Homepage.html'; // Weiterleitung
+            },
+            error: function(xhr, status, error) {
+                // Zeige eine detailliertere Fehlermeldung
+                let errorMsg = 'Fehler: Wir konnten dein Rezept nicht hinzufügen.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMsg += '\nServer sagt: ' + xhr.responseJSON.message;
+                } else if (xhr.status === 0) {
+                    errorMsg += '\nFehler: Netzwerkproblem oder Backend nicht erreichbar.';
+                } else {
+                    errorMsg += '\nStatus: ' + xhr.status;
+                }
+                alert(errorMsg);
+                console.error("Fehlerdetails:", error);
             }
-
-            var createRecipe = {
-                token : localStorage.getItem("usertoken"),
-                recipe : {
-                    name: $("#recipeTitel").val(),
-                    description: $("#zubereitung").val(),
-                    ingredients: $("#zutaten").val(),
-                    difficultyLevel: ($("#difficulty").val()),
-                    category: $("#category").val(),
-                }
-            };
-
-            formData.append('recipeData', JSON.stringify(createRecipe));
-
-            console.log("Sending post on recipe of BFF with recipe ...");
-            console.log(createRecipe);
-            $.ajax({
-                url : 'https://rezepteapp-8e73beca8a52.herokuapp.com/api/recipes',
-                type : 'post',
-                dataType : 'json',
-                data : formData,
-                contentType : false,
-                success : function(data) {
-                    alert('Dein Rezept wurde erfolgreich hinzugefügt.');
-                },
-                processData : false,
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert('Wir konnten dein Rezept nicht hinzufügen.');
-                }
-            });
         });
+    }
+
+    /**
+     * Wandelt den Text aus dem Zutatenfeld in eine Objekt-Liste um.
+     * Format: "Menge Einheit Name"
+     */
+    function parseIngredients(text) {
+        const lines = text.split('\n');
+        const ingredients = [];
+        lines.forEach(line => {
+            line = line.trim();
+            if (!line) return;
+            
+            // Versucht, Menge, Einheit und Name zu trennen
+            const parts = line.match(/^(\d*\.?\d*)\s*([a-zA-Z]*)\s*(.*)/);
+            let amount = 0;
+            let unit = '';
+            let name = line; // Fallback
+
+            if (parts && parts[3]) { // Nur wenn alle Teile gefunden wurden
+                amount = parseFloat(parts[1]) || 0;
+                unit = parts[2] || '';
+                name = parts[3].trim();
+            } else {
+                name = line.trim(); // Nur Name, wenn Format nicht passt
+            }
+            
+            if (name) {
+                 ingredients.push({ amount: amount, unit: unit, name: name });
+            }
+        });
+        return ingredients;
+    }
     </script>
 </body>
 </html>
