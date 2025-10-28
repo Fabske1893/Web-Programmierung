@@ -29,14 +29,14 @@
         <script>
         $("#registration").click(function(){
             var registerUser = {
-                name : $("#userName").val(),
+                username : $("#userName").val(),
                 email: $("#userEmail").val(),
                 password: $("#userPassword").val()
             };
             console.log("Sending delete on login to BFF with user ...");
             console.log(registerUser);
             $.ajax({
-                url : 'https://rezepteapp-8e73beca8a52.herokuapp.com/',
+                url : 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/register',
                 type : 'post',
                 dataType : 'json',
                 contentType : 'application/json',

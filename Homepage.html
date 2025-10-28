@@ -14,7 +14,11 @@
         <a href="login/Login.html">Log in</a> &nbsp;&nbsp;
         <a href="login/Logoff.html">Log off</a> &nbsp;&nbsp;
         <a href="recipes/CreateRecipe.html">Rezept hinzufügen</a> &nbsp;&nbsp;
+<<<<<<< HEAD
+        <a href="ShoppingList.html">Einkaufsliste</a> &nbsp;&nbsp;
+=======
         <a href="admin/adminUI.html">Rezepte löschen</a>
+>>>>>>> cb3e0209e88457c62a4651cc28682809b24ad7ef
         <img src="images/account.png" alt="Logo" class="logo" onclick="goToAccount()">
     </nav>
     
@@ -32,6 +36,12 @@
  <div id="filterSortContainer">
     
         <div>
+<<<<<<< HEAD
+        <label for="filter">Filter:</label> <br>
+        <select name="filter" id="filter">
+        <option value="all">Alle</option>
+        <option value="leicht">Einfach</option> <option value="mittel">Mittel</option> <option value="schwer">Schwer</option>   </select>
+=======
         <label for="filter">Filtern nach Schwierigkeitsgrad:</label> <br>
         <select name="filter" id="filter" onchange="filterRecipes()">
             <option value="all">Alle</option>
@@ -39,6 +49,7 @@
             <option value="medium">Mittel</option>
             <option value="hard">Schwer</option>
         </select>
+>>>>>>> cb3e0209e88457c62a4651cc28682809b24ad7ef
         </div>
 
         <div>
@@ -56,10 +67,16 @@
         
         <label for="sort">Sortieren nach:</label> <br>
         <select name="sort" id="sort">
+<<<<<<< HEAD
+            <option value="likes">Meiste Likes</option>
+            <option value="alphabet">A-Z</option>
+            <option value="date">neuste Zuerst</option>
+=======
             <!--zu onchange wechseln, un dann je nach übergebenm value die funktionen aufrufen-->
             <option value="likes" onclick="sortByLikes()">Meiste Likes</option>
             <option value="alphabet" onclick="sortByAlphabet()">A-Z</option>
             <option value="date" onclick="sortByDate()">Neuste zuerst</option>
+>>>>>>> cb3e0209e88457c62a4651cc28682809b24ad7ef
         </select>   
         </div>
     </div>
@@ -141,9 +158,15 @@
 <footer>
 <nav>
         
+<<<<<<< HEAD
+        <a href="legal/Impressum.html">Impressum</a> &nbsp;&nbsp;
+        <a href="legal/Datenschutz.html">Datenschutz</a> &nbsp;&nbsp;
+=======
         <a href="./legal/Impressum.html">Impressum</a> &nbsp;&nbsp;
         <a href="./legal/Datenschutz.html">Datenschutz</a> &nbsp;&nbsp;
+>>>>>>> cb3e0209e88457c62a4651cc28682809b24ad7ef
         <a href="login/Account.html">Mein Account</a> &nbsp;&nbsp;
+         
 
 
     </nav>

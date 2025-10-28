@@ -37,22 +37,31 @@
         console.log("Sending post on login to BFF with user ...");
         console.log(loginUser);
         $.ajax({
+<<<<<<< HEAD
+            url : 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/login',
+            type : 'POST',
+=======
             url : 'https://enigmatic-plateau-04468-3ab96016f4f2.herokuapp.com/',
             type : 'post',
+>>>>>>> cb3e0209e88457c62a4651cc28682809b24ad7ef
             dataType : 'json',
-            contentType : 'application/json',
-            success : function(data) {
-                alert('You are now logged on.');
-                localStorage.setItem('usertoken', data.token);
-            },
             data : JSON.stringify(loginUser),
-            processData : false,
-            error: function(xhr, ajaxOptions, thrownError) {
-                alert('I could not log you on. Try again later');
-                localStorage.setItem('usertoken', '0'); //brauchen wir das überhaupt?
-                console.log(xhr.status);
-                console.log(thrownError);
-                console.log(xhr.responseText);
+            contentType : 'application/json',
+            success : function(response) {
+                alert('You are now logged on.');
+                localStorage.setItem('userToken', response.token);
+                window.location.href = '../Homepage.html';
+            },
+            
+            error: function(xhr, status, error) {
+                if(xhr.status === 401){
+                    alert('Anmeldung fehlgeschlagen: Falsche E-Mail oder Passwort.');
+                }
+                else {
+                    alert('Anmeldung fehlgeschlagen. Server Fehler: ' + xhr.status);
+                }
+                localStorage.removeItem('userToken'); // Altes Token löschen
+                console.error("Login-Fehler:", error);
         
             }
         });

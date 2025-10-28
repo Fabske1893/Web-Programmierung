@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Einkaufsliste</title>
+    <link rel="stylesheet" href="css/style.css"> </head>
+<body>
+    <header>
+        <nav><a href="Homepage.html">Startseite</a></nav>
+    </header>
+    <main>
+        <h1>Meine Einkaufsliste</h1>
+        <ul id="shoppingListContainer">
+            <li>Lade Liste...</li>
+        </ul>
+        <button id="clearListButton" style="margin-right: 10px;">Liste leeren</button>
+        <button id="sendListButton">Liste per E-Mail senden</button>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            displayShoppingList();
+
+            
+            const sendBtn = document.getElementById('sendListButton');
+            if (sendBtn) {
+                sendBtn.addEventListener('click', sendListViaEmail);
+            }
+            
+            const clearBtn = document.getElementById('clearListButton');
+             if (clearBtn) {
+                 clearBtn.addEventListener('click', clearShoppingList);
+             }
+        });
+
+        function displayShoppingList() {
+            const container = document.getElementById('shoppingListContainer');
+            
+            const shoppingList = JSON.parse(localStorage.getItem('shoppingList')) || {};
+            container.innerHTML = ''; 
+
+            const items = Object.values(shoppingList); 
+
+            if (items.length === 0) {
+                container.innerHTML = '<li>Deine Einkaufsliste ist leer.</li>';
+                return;
+            }
+
+            items.forEach(details => {
+                const li = document.createElement('li');
+                const amountText = details.amount > 0 ? `${details.amount} ${details.unit || ''}`.trim() : '';
+                const displayName = details.name.charAt(0).toUpperCase() + details.name.slice(1);
+                li.textContent = `${amountText} ${displayName}`;
+                container.appendChild(li);
+            });
+        }
+
+        function clearShoppingList() {
+            if (confirm("Möchtest du die Einkaufsliste wirklich leeren?")) {
+                localStorage.removeItem('shoppingList');
+                displayShoppingList();
+            }
+        }
+
+        function sendListViaEmail() {
+             const shoppingList = JSON.parse(localStorage.getItem('shoppingList')) || {};
+             const items = Object.values(shoppingList); 
+             if (items.length === 0) {
+                 alert("Die Einkaufsliste ist leer.");
+                 return;
+             }
+
+             let listText = "Meine Einkaufsliste:\n\n";
+             items.forEach(details => {
+                const amountText = details.amount > 0 ? `${details.amount} ${details.unit || ''}`.trim() : '';
+                const displayName = details.name.charAt(0).toUpperCase() + details.name.slice(1);
+                listText += `- ${amountText} ${displayName}\n`;
+             });
+
+             const userToken = localStorage.getItem('userToken'); 
+             if (!userToken || userToken === 'OFF') {
+                 alert('Fehler: Du musst eingeloggt sein.');
+                 return;
+             }
+
+            
+             const backendUrl = `https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/shopping-list/send-email`;
+
+             fetch(backendUrl, {
+                 method: 'POST',
+                 headers: { 'Content-Type': 'application/json' },
+                 body: JSON.stringify({ token: userToken, shoppingListText: listText }) 
+             })
+             .then(response => response.json().then(data => ({ status: response.status, body: data })))
+             .then(({ status, body }) => {
+                 if (status === 200) {
+                     alert(body.message || 'Einkaufsliste erfolgreich gesendet!');
+                 } else {
+                     alert(`Fehler: ${body.message || 'Senden fehlgeschlagen.'}`);
+                 }
+             })
+             .catch(error => {
+                 console.error('Fehler beim Senden der Einkaufsliste:', error);
+                 alert('Netzwerkfehler beim Senden der Liste.');
+             });
+        }
+    </script>
+</body>
+</html>
