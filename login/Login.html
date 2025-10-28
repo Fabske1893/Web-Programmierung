@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
     <link rel="stylesheet" href="../css/style.css">
 <head>
     <meta charset="UTF-8">
@@ -19,9 +19,9 @@
     <p></p>
 
     
-        <label for="username">Useremail:</label>
+        <label for="userEmail">Useremail:</label>
         <input type="email" id="userEmail" name="useremail" required><br><br>
-        <label for="password">Password:</label>
+        <label for="userPassword">Password:</label>
         <input type="password" id="userPassword" name="password" required><br><br>
         <button type="submit" value="Login" id="loginButton">Login</button>
         <br> <br>
@@ -37,8 +37,13 @@
         console.log("Sending post on login to BFF with user ...");
         console.log(loginUser);
         $.ajax({
+<<<<<<< HEAD
             url : 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/login',
             type : 'POST',
+=======
+            url : 'https://enigmatic-plateau-04468-3ab96016f4f2.herokuapp.com/',
+            type : 'post',
+>>>>>>> cb3e0209e88457c62a4651cc28682809b24ad7ef
             dataType : 'json',
             data : JSON.stringify(loginUser),
             contentType : 'application/json',

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adminfunktionen</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/admin.js" defer></script>
+    
+</head>
+<Header>
+<nav>
+    <a href="../Homepage.html">Startseite</a>
+    <a href="../login/Logoff.html">Abmelden</a>
+
+</nav>
+
+</Header>
+<body>
+    <h1>Rezepte löschen</h1> <br>
+
+<div id="deleteRecipes">
+        
+        <label for="delete">Folgende Rezepte löschen:</label> <br>
+        <select name="delete" id="delete" multiple size="8">
+            <!-- werden per ajax GET geladen -->
+        </select>   
+        <p class="hint">Wähle mehrere Einträge (Strg/Cmd+Klick) und klicke auf „Zur Auswahl hinzufügen“.</p>
+        <button id="addToCollection">Zur Auswahl hinzufügen</button>
+        <button id="clearCollection">Auswahl löschen</button>
+        <h3>Ausgewählte Rezepte</h3>
+        <div id="selectedList">(keine Auswahl)</div>
+        </div>
+
+<button id="deleteSelected">Ausgewählte Rezepte löschen</button>
+      
+
+      
+</body>
+</html>

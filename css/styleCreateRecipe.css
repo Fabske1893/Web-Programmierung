@@ -26,6 +26,11 @@ body {
     box-sizing: border-box;
 }
 
+/* Ensure consistent box-sizing across files */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 /* --- Der Formular-Container --- */
 form {
     display: flex;

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="de">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezeptdetails</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<Header>
+<nav>
+    <a href="../Homepage.html">Startseite</a>
+</nav>
+
+</Header>
+<body>
+    <div id="recipe-content">
+        <h1 id="recipe-title">Lade Rezept...</h1>
+        <img id="recipe-image-display" src="" alt="Rezeptbild">
+        <div id="recipe-meta"></div>
+        <div id="recipe-details">
+            <div id="recipe-image"></div>
+            <div id="recipe-ingredients"></div>
+            <div id="recipe-instructions"></div>
+        </div>
+    </div>
+
+    <div id="recipe-actions">
+        <button onclick="printShoppingList()">Einkaufliste drucken</button>
+        <button onclick="likeRecipe()">Like</button>
+        <button onclick="dislikeRecipe()">Dislike</button>
+        <button onclick="readInstructions()">Zubereitung von Alexa vorlesen lassen</button>
+    </div>
+
+    <script>
+    // ID aus der URL lesen
+    const urlParams = new URLSearchParams(window.location.search);
+    const recipeId = urlParams.get('id');
+
+    if (!recipeId) {
+        document.getElementById('recipe-content').innerHTML = '<h1>Fehler: Keine Rezept-ID angegeben</h1>';
+    } else {
+        // GraphQL Query für ein einzelnes Rezept
+        const graphqlQuery = `
+            query GetRecipe($id: ID!) {
+                recipe(id: $id) {
+                    id
+                    title
+                    imageUrl
+                    category
+                    difficulty
+                    ingredients {
+                        name
+                        amount
+                        unit
+                    }
+                    instructions
+                    likes
+                    
+                }
+            }
+        `;
+
+        $(document).ready(function() {
+            $.ajax({
+                url: 'https://enigmatic-plateau-04468-3ab96016f4f2.herokuapp.com/graphql',
+                type: 'post',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify({
+                    query: graphqlQuery,
+                    variables: { id: recipeId }
+                }),
+                success: function(response) {
+                    if (response.data && response.data.recipe) {
+                        const recipe = response.data.recipe;
+                        
+                        // Titel
+                        document.getElementById('recipe-title').textContent = recipe.title;
+                        
+                        // Rezept-Informationen
+                        const metaHtml = `
+                            <p>Kategorie: ${recipe.category}</p>
+                            <p>Schwierigkeit: ${recipe.difficulty}</p>
+                            <p>Likes: ${recipe.likes}</p>
+                        `;
+                        document.getElementById('recipe-meta').innerHTML = metaHtml;
+                        
+                        // Bild
+                        if (recipe.imageUrl) {
+                            document.getElementById('recipe-image').innerHTML = `
+                                <img src="${recipe.imageUrl}" alt="${recipe.title}" class="recipe-detail-image">
+                            `;
+                        }
+                        
+                        // Zutaten
+                        if (recipe.ingredients && recipe.ingredients.length > 0) {
+                            const ingredientsHtml = `
+                                <h2>Zutaten</h2>
+                                <ul>
+                                    ${recipe.ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
+                                </ul>
+                            `;
+                            document.getElementById('recipe-ingredients').innerHTML = ingredientsHtml;
+                        }
+                        
+                        // Zubereitung
+                        if (recipe.instructions) {
+                            document.getElementById('recipe-instructions').innerHTML = `
+                                <h2>Zubereitung</h2>
+                                <div class="instructions">${recipe.instructions}</div>
+                            `;
+                        }
+                    } else {
+                        document.getElementById('recipe-content').innerHTML = 
+                            '<h1>Fehler: Rezept nicht gefunden</h1>';
+                    }
+                },
+                error: function(xhr, status, error) {
+                    document.getElementById('recipe-content').innerHTML = 
+                        `<h1>Fehler beim Laden des Rezepts</h1><p>${error}</p>`;
+                }
+            });
+        });
+    }
+</script>
+</body>
+</html>

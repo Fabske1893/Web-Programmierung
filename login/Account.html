@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
     
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mein Account</title>
     <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/JavaScript.js" defer></script>
+    
 </head>
 <Header>
 <nav>
@@ -18,17 +18,75 @@
 </Header>
 <body>
     <h1>Mein Account</h1> <br>
+    <p>Hier finden sie Ihre erstellten Rezepte und Kontoinfomationen</p>
     <h2>Meine Rezepte:</h2>
     <p></p>
     <div id="userRecipes">
         
     </div>
-<button onclick="deleteRecipe()">Rezept löschen</button>
+    <script>
+            
+            const graphqlQuery = `
+                query {
+                recipes {
+                    id
+                    imageUrl
+                    title
+                    likes   
+                }
+                }
+            `;
+
+            $(document).ready(function() {
+                console.log("Sending POST on recipe of BFF with GraphQL query ...");
+                $.ajax({
+                    url : 'https://enigmatic-plateau-04468-3ab96016f4f2.herokuapp.com/graphql',
+                    type : 'post', 
+                    contentType: 'application/json', 
+                    dataType : 'json',
+                    data: JSON.stringify({ 
+                        query: graphqlQuery
+                    }),
+                    success : function(response) {
+                        console.log('Rezepte erfolgreich geladen.');
+                        console.log(response);
+                        
+                        const recipes = response.data.recipes;
+                         
+                        let htmlContent = '';
+                        recipes.forEach(recipe => {
+                            htmlContent += `
+                            <li>
+                                <div class="recipe-card">
+                                    <a href="recipe-detail.html?id=${recipe.id}">
+                                        <img src=${recipe.imageUrl} alt="Rezeptbild" class="recipe-image">
+                                    </a>
+                                    <h3>${recipe.title}</h3>
+                                    <p>Likes: ${recipe.likes}</p>
+                                </div>
+                            </li>
+                            `;
+                        });
+
+                        $('#userRecipes').html(htmlContent);
+
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert('Rezepte konnten nicht geladen werden.');
+                    }
+                });
+            });
+    </script>
+
+<button onclick="deleteRecipe()">Ausgewähltes Rezept löschen</button>
 
 <br>
     Meine Daten:
     <br> <br>
 
+    Name:  <br>
+    E-Mail:
+    
 
       
 </body>
