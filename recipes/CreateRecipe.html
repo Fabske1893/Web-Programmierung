@@ -78,7 +78,7 @@
             console.log("Sending post on recipe of BFF with recipe ...");
             console.log(createRecipe);
             $.ajax({
-                url : 'https://rezepteapp-8e73beca8a52.herokuapp.com/',
+                url : 'https://rezepteapp-8e73beca8a52.herokuapp.com/api/recipes',
                 type : 'post',
                 dataType : 'json',
                 data : formData,
