@@ -34,7 +34,8 @@
             contentType : 'application/json',
             success : function(data) {
                 alert('You are now logged off.');
-                localStorage.setItem('usertoken', 'OFF');
+                localStorage.removeItem('usertoken'); 
+                window.location.href = "../Homepage.html";
             },
             data : JSON.stringify(logoffUser),
             processData : false,
