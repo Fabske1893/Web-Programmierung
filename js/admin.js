@@ -10,9 +10,16 @@ async function loadAdminRecipes() {
     if (!select) return;
     select.innerHTML = '<option>Lade...</option>';
     try {
-        // Ajax einbauen
-
-
+        const response = await fetch('https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
         adminState.recipes = Array.isArray(data) ? data : [];
         renderSelectOptions();
         
@@ -57,8 +64,15 @@ async function adminDeleteSelected() {
     const ids = Array.from(adminState.selection);
     for (const id of ids) {
         try {
-            //Ajax einbauen
-
+            const response = await fetch(`https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             // Entferne lokal
             adminState.selection.delete(id);
             adminState.recipes = adminState.recipes.filter(r => String(r.id) !== String(id));
