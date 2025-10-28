@@ -59,14 +59,16 @@ function loadAndDisplayRecipes() {
         });
 }
 
-<<<<<<< HEAD
-function goToAccount() {
-    window.location.href = './login/Account.html';
-=======
 
 
 function goToAccount(){
     window.location.href = './login/Account.html'; // Zur Account-Seite weiterleiten
+}
+function goToHomepage(){
+    window.location.href = './Homepage.html'; // Zur Homepage weiterleiten
+}
+function goToLogin(){
+    window.location.href = './login/Login.html'; // Zur Login-Seite weiterleiten
 }
 
 
@@ -99,5 +101,4 @@ function searchRecipe(){
         }
     }
 
->>>>>>> cb3e0209e88457c62a4651cc28682809b24ad7ef
 }
