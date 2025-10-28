@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./css/style.css">
+    <script src="js/functions.js"></script>
     
 </head>
 <header>
@@ -25,6 +26,8 @@
     <h1>Rezept und Einkaufslisten Appp</h1>
     <h2>Willkommen zur Rezept und Einkaufslisten App!</h2>
     <p>Finden Sie neue leckere Rezepte oder stellen Sie ihre Rezepte ganz einfach anderen zur Verfügung!</p>
+
+    <input type="search" name="searchRecipe" id="searchRecipe" placeholder="Suche Rezept..." oninput="searchRecipe()"> <br>
     <p>Hier finden Sie alle verfügbaren Rezepte:</p>
  <div id="filterSortContainer">
     
@@ -61,18 +64,10 @@
         </div>
     </div>
 
-
-
-
     <br>
      <br/><br/>
      <ul id="recipeList">
-         <li>
-            <div id="recipeContainer">
-        
-
-            </div>
-        </li>
+         
      </ul>
     
 

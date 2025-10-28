@@ -23,7 +23,24 @@ function deleteRecipe(){
     
 }
 
-function showRecipes(){
+function searchRecipe(){
+    const input = document.getElementById("searchRecipe").value.toLowerCase();
+    const list = document.getElementById("recipeList");
+    const items = list.getElementsByTagName('li');
 
-    
+    // Durchlaufe alle Listenelemente und blende diejenigen ein, derrn Titel den Suchbegriff enthalten
+    for (let item of items) {
+        const title = item.getElementsByTagName('h3')[0];
+        if(!title){
+            item.style.display = "none";
+         continue; 
+        }
+        titleText = title.textContent.toLowerCase();
+        if (titleText.includes(input)) {
+            item.style.display = "";
+        } else {
+            item.style.display = "none";
+        }
+    }
+
 }
