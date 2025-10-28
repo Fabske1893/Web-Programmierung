@@ -58,6 +58,23 @@ function clearCollection() {
     renderSelectedList();
 }
 
+function renderSelectedList() {
+    const selectedList = document.getElementById('selectedList');
+    if (!selectedList) return;
+    
+    if (adminState.selection.size === 0) {
+        selectedList.textContent = '(keine Auswahl)';
+        return;
+    }
+    
+    const selectedRecipes = Array.from(adminState.selection)
+        .map(id => adminState.recipes.find(r => String(r.id) === String(id)))
+        .filter(r => r !== undefined)
+        .map(r => r.title || `Rezept ${r.id}`);
+    
+    selectedList.textContent = selectedRecipes.join(', ');
+}
+
 async function adminDeleteSelected() {
     if (adminState.selection.size === 0) return alert('Keine Rezepte ausgewählt.');
     if (!confirm(`Sollten die ${adminState.selection.size} ausgewählten Rezepte wirklich gelöscht werden?`)) return;
@@ -87,10 +104,4 @@ async function adminDeleteSelected() {
 // Event listener hookup
 document.addEventListener('DOMContentLoaded', () => {
     loadAdminRecipes();
-    const addBtn = document.getElementById('addToCollection');
-    const clearBtn = document.getElementById('clearCollection');
-    const delBtn = document.getElementById('deleteSelected');
-    if (addBtn) addBtn.addEventListener('click', addToCollection);
-    if (clearBtn) clearBtn.addEventListener('click', clearCollection);
-    if (delBtn) delBtn.addEventListener('click', adminDeleteSelected);
 });
