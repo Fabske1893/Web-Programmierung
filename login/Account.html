@@ -37,6 +37,24 @@
                 }
             `;
 
+            // --- Benutzerinfo laden ---
+            $.ajax({
+                url: 'https://enigmatic-plateau-04468-3ab96016f4f2.herokuapp.com/api/user', // Beispiel-Endpoint
+                type: 'GET',
+                dataType: 'json',
+                xhrFields: { withCredentials: true }, // wichtig, falls Cookies genutzt werden
+                success: function (user) {
+                    console.log("Benutzerdaten:", user);
+                    $('#userName').text(user.name);
+                    $('#userEmail').text(user.email);
+                },
+                error: function () {
+                    console.error("Benutzerdaten konnten nicht geladen werden.");
+                    $('#userName').text("Unbekannt");
+                    $('#userEmail').text("Unbekannt");
+                }
+            });
+///Rezepte laden
             $(document).ready(function() {
                 console.log("Sending POST on recipe of BFF with GraphQL query ...");
                 $.ajax({
@@ -80,12 +98,10 @@
 
 <button onclick="deleteRecipe()">Ausgewähltes Rezept löschen</button>
 
-<br>
-    Meine Daten:
-    <br> <br>
-
-    Name:  <br>
-    E-Mail:
+    <br><br>
+    <h2>Meine Daten:</h2>
+    <p><strong>Name:</strong> <span id="userName"></span></p>
+    <p><strong>E-Mail:</strong> <span id="userEmail"></span></p>
     
 
       

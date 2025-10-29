@@ -2,28 +2,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
 header{
-    
-    width: auto;
-    height: auto;
-    border-radius: 14px;
-    text-align: initial;
-    padding-left: 3%;
-    padding-top: 1%;
-    padding-bottom: 1%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(196, 237, 174, 0.8);
+    /* kein Außenabstand, damit der Header bis an den Rand reicht */
+    padding: 0;
     width: 100%;
+    border-radius: 0;
+    position: relative;
+    
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: rgba(196, 237, 174, 0.664); /* Heller, neutraler Hintergrund */
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
     color: #333;
-    display: flex; /* Zentriert den Form-Container auf der Seite */
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    min-height: 100vh;
-    padding: 20px;
-    box-sizing: border-box;
+    margin: 0;
+    /* kein Seitenpadding, damit die Seite bis an den Rand geht */
+    padding: 0;
+}
+
+/* Navigation */
+header nav {
+    display: flex;
+    align-items: center; 
+    font-size: small;
+    gap: 10px;
+    
+
+}
+
+header nav a {
+    text-decoration: none;
+    color: #4b544b;
+    font-weight: bold;
+    transition: color 0.2s;
+    
+}
+
+header nav a:hover {
+    color: #2e3d2e;
+    font-weight: 900;
+    transform: scale(1.01);
+    display: inline-block;
 }
 
 /* Ensure consistent box-sizing across files */
@@ -93,7 +115,7 @@ textarea:focus,
 select:focus,
 input:focus {
     outline: none;
-    border-color: #5c67f2; /* Blauer Fokus-Indikator */
+    border-color: #2e3d2e;
     box-shadow: 0 0 0 3px rgba(92, 103, 242, 0.2);
 }
 
