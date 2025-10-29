@@ -69,7 +69,7 @@
             difficultyLevel: $("#difficulty").val(),
             category: $("#category").val()
         };
-
+        console.log(recipeData);
         // ist noch auf lokalen server später durch heroku ersetzten
         $.ajax({
             url: 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com',   
@@ -84,39 +84,6 @@
                 alert('Fehler: Wir konnten dein Rezept nicht hinzufügen. Status: ' + xhr.status);
                 console.error("Fehlerdetails:", error);
             }
-<<<<<<< HEAD
-=======
-
-            var createRecipe = {
-                token : localStorage.getItem("usertoken"),
-                recipe : {
-                    name: $("#recipeTitel").val(),
-                    description: $("#zubereitung").val(),
-                    ingredients: $("#zutaten").val(),
-                    difficultyLevel: ($("#difficulty").val()),
-                    category: $("#category").val(),
-                }
-            };
-
-            formData.append('recipeData', JSON.stringify(createRecipe));
-
-            console.log("Sending post on recipe of BFF with recipe ...");
-            console.log(createRecipe);
-            $.ajax({
-                url : 'https://enigmatic-plateau-04468-3ab96016f4f2.herokuapp.com/',
-                type : 'post',
-                dataType : 'json',
-                data : formData,
-                contentType : false,
-                success : function(data) {
-                    alert('Dein Rezept wurde erfolgreich hinzugefügt.');
-                },
-                processData : false,
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert('Wir konnten dein Rezept nicht hinzufügen.');
-                }
-            });
->>>>>>> cb3e0209e88457c62a4651cc28682809b24ad7ef
         });
     });
     
