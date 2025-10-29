@@ -28,23 +28,7 @@ header {
     
 }
 
-/* Navigation */
-header nav {
-    display: flex;
-    align-items: center; 
-    font-size: small;
-}
 
-header nav a {
-    text-decoration: none;
-    color: #4b544b;
-    font-weight: bold;
-    transition: color 0.2s;
-}
-
-header nav a:hover {
-    color: #2e3d2e;
-}
 
 /* Logo (positioned to the right within header) */
 header nav .logo {
@@ -245,3 +229,21 @@ textarea {
     margin-right: 10px;
 }
 
+#LoginBody, #LogOffBody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+
+
+#LoginBody input {
+    /* Inputs sollen seitlichen Abstand zum Container haben, sonst nicht */
+    width: calc(100% - 40px);
+    padding: 12px;
+    margin: 10px 20px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
