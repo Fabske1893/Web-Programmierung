@@ -39,7 +39,7 @@ function loadAndDisplayRecipes() {
                 recipeCard.setAttribute('data-likes', recipe.likes || 0);
                                 
                 recipeCard.innerHTML = `
-                    <img src="images/${recipe.pictureUrl}" alt="Bild von ${recipe.title}" style="width:100%;">
+                    <img src="${recipe.pictureUrl}" alt="Bild von ${recipe.title}" style="width:100%;">
                     <h3>${recipe.title}</h3>
                     <p><strong>Kategorie:</strong> ${recipe.category}</p>
                     <p><strong>Schwierigkeit:</strong> ${recipe.difficulty}</p>
