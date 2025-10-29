@@ -11,7 +11,6 @@
 <header>
 <nav>
     <a href="../Homepage.html">Startseite</a> &nbsp;&nbsp;
-    <a href="../login/Logoff.html">Abmelden</a>
 </nav>
 <br>
 </header>
@@ -25,8 +24,8 @@
         <textarea type="text" id="recipeTitel" name="titel" required ></textarea><br><br>
 
     
-        <label for="bild">Bild hochladen:</label> <br>
-        <input type="file" id="bild" name="bild" accept="image/*"><br><br>
+        <label for="image">Bild hochladen:</label> <br>
+        <input type="file" id="image" name="image" accept="image/*"><br><br>
     
 
         <label for="zutaten">Zutaten:</label> <br>
@@ -69,7 +68,7 @@
        
         const recipeData = {
     title: $("#recipeTitel").val(),
-    imageUrl: "default.jpg",
+    imageUrl: $("#image").val(),
     ingredients: ingredientsList,
     instructions: $("#zubereitung").val(),
     difficulty: $("#difficulty").val(),
