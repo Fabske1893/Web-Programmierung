@@ -24,6 +24,9 @@ function loadAndDisplayRecipes() {
                 return;
             }
 
+            // 👇 Debug-Ausgabe im Browser
+            console.log("Geladene Rezepte:", recipes);
+
             recipes.forEach(recipe => {
                 const recipeCard = document.createElement('div');
                 recipeCard.className = 'recipe';
