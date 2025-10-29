@@ -19,8 +19,8 @@
     <p></p>
 
     
-        <label for="userEmail">Useremail:</label>
-        <input type="email" id="userEmail" name="useremail" required><br><br>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
         <label for="userPassword">Password:</label>
         <input type="password" id="userPassword" name="password" required><br><br>
         <button type="submit" value="Login" id="loginButton">Login</button>
@@ -30,9 +30,21 @@
 
 <script>
     $("#loginButton").click(function(){
+        var username = $("#username").val();
+        var password = $("#userPassword").val();
+        
+        // Check if it's the admin user
+        if (username === "admin" && password === "admin") {
+            localStorage.setItem('userRole', 'admin');
+            alert('Willkommen Admin!');
+            window.location.href = '../Homepage.html';
+            return;
+        }
+        
+        // For regular users, proceed with normal login
         var loginUser = {
-            email : $("#userEmail").val(),
-            password : $("#userPassword").val()
+            username: username,
+            password: password
         };
         console.log("Sending post on login to BFF with user ...");
         console.log(loginUser);
@@ -43,8 +55,9 @@
             data : JSON.stringify(loginUser),
             contentType : 'application/json',
             success : function(response) {
-                alert('You are now logged on.');
+                alert('Sie sind jetzt eingeloggt.');
                 localStorage.setItem('userToken', response.token);
+                localStorage.setItem('userRole', 'user');
                 window.location.href = '../Homepage.html';
             },
             
