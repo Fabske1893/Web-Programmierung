@@ -29,19 +29,19 @@ function loadAndDisplayRecipes() {
 
             recipes.forEach(recipe => {
                 const recipeCard = document.createElement('div');
-                recipeCard.className = 'recipe';
                 recipeCard.setAttribute('data-name', (recipe.title || "").toLowerCase());
                 recipeCard.setAttribute('data-date', recipe.creationDate || '2025-01-01');
-                recipeCard.setAttribute('data-difficulty', recipe.difficulty || 'Unbekannt');
+                recipeCard.setAttribute('data-difficulty', recipe.difficulty);
                 recipeCard.setAttribute('data-likes', recipe.likes || 0);
 
                 recipeCard.innerHTML = `
-                    <img src="${recipe.imageUrl || 'images/default.jpg'}" alt="Bild von ${recipe.title}" style="width:100%;">
-                    <h3>${recipe.title}</h3>
-                    <p><strong>Kategorie:</strong> ${recipe.category || 'Unbekannt'}</p>
-                    <p><strong>Schwierigkeit:</strong> ${recipe.difficulty || 'Unbekannt'}</p>
-                    <p><strong>Likes:</strong> ${recipe.likes || 0}</p>
+                <img src="${recipe.imageUrl}" alt="Bild von ${recipe.title}" style="width:100%;">
+                <h3>${recipe.title}</h3>
+                <p><strong>Kategorie:</strong> ${recipe.category}</p>
+                <p><strong>Schwierigkeit:</strong> ${recipe.difficulty}</p>
+                <p><strong>Likes:</strong> ${recipe.likes || 0}</p>
                 `;
+
 
                 const link = document.createElement('a');
                 link.href = `recipes/Recipe.html?id=${recipe.id}`;
