@@ -1,7 +1,9 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('recipeContainer')) {
-        loadAndDisplayRecipes();
+        // keep legacy REST loader if needed elsewhere
+        // but main page uses GraphQL loader in Homepage.html
+        // loadAndDisplayRecipes();
     }
 });
 
@@ -109,18 +111,19 @@ function deleteRecipe(){
 }
 
 function searchRecipe() {
-    const input = document.getElementById("searchRecipe").value.toLowerCase();
-    const list = document.getElementById("recipeList");
-    const items = list.getElementsByTagName('li');
+    const inputEl = document.getElementById("searchRecipe");
+    if (!inputEl) return;
+    const input = inputEl.value.toLowerCase();
 
-    for (let item of items) {
-        const title = item.getElementsByTagName('h3')[0];
-        if (!title) {
-            item.style.display = "none";
-            continue;
-        }
-        const titleText = title.textContent.toLowerCase();
-        item.style.display = titleText.includes(input) ? "" : "none";
-    }
+    // new container-based search: look for .recipe elements
+    const container = document.getElementById("recipeContainer");
+    if (!container) return;
+    const items = container.querySelectorAll('.recipe');
+
+    items.forEach(item => {
+        const titleEl = item.querySelector('h3');
+        const titleText = titleEl ? titleEl.textContent.toLowerCase() : '';
+        item.style.display = titleText.includes(input) ? 'inline-block' : 'none';
+    });
 }
 

@@ -1,9 +1,10 @@
 const sortSelect = document.getElementById('sort');
-sortSelect.addEventListener('change', function() {
-    
-    const sortBy = this.value; 
-    sortRecipes(sortBy);
-});
+if (sortSelect) {
+    sortSelect.addEventListener('change', function() {
+        const sortBy = this.value;
+        sortRecipes(sortBy);
+    });
+}
 
 /**
  * Sorts the recipe cards in the container.
@@ -46,12 +47,12 @@ function sortRecipes(criteria) {
 }
 
 const filterSelect = document.getElementById('filter');
-
-
-filterSelect.addEventListener('change', function() {
-    const selectedDifficulty = this.value; // z.B. "easy", "medium", "hard"
-    filterRecipes(selectedDifficulty);
-});
+if (filterSelect) {
+    filterSelect.addEventListener('change', function() {
+        const selectedDifficulty = this.value; // z.B. "easy", "medium", "hard"
+        filterRecipes(selectedDifficulty);
+    });
+}
 
 /**
  * @param {string} difficulty - Der ausgewählte Schwierigkeitsgrad.
