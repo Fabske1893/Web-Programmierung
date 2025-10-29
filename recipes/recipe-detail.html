@@ -43,7 +43,7 @@
     } else {
         // GraphQL Query für ein einzelnes Rezept
         const graphqlQuery = `
-            query GetRecipe($id: ID!) {
+            query GetRecipe($id: Int!) {
                 recipe(id: $id) {
                     id
                     title
@@ -51,9 +51,9 @@
                     category
                     difficulty
                     ingredients {
-                        name
                         amount
                         unit
+                        name
                     }
                     instructions
                     likes
@@ -64,13 +64,13 @@
 
         $(document).ready(function() {
             $.ajax({
-                url: 'https://enigmatic-plateau-04468-3ab96016f4f2.herokuapp.com/graphql',
+                url: 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/graphql',
                 type: 'post',
                 contentType: 'application/json',
                 dataType: 'json',
                 data: JSON.stringify({
                     query: graphqlQuery,
-                    variables: { id: recipeId }
+                    variables: { id: parseInt(recipeId, 10) }
                 }),
                 success: function(response) {
                     if (response.data && response.data.recipe) {
@@ -92,14 +92,22 @@
                             document.getElementById('recipe-image').innerHTML = `
                                 <img src="${recipe.imageUrl}" alt="${recipe.title}" class="recipe-detail-image">
                             `;
+                            const displayImg = document.getElementById('recipe-image-display');
+                            if (displayImg) displayImg.src = recipe.imageUrl;
                         }
                         
                         // Zutaten
-                        if (recipe.ingredients && recipe.ingredients.length > 0) {
+                        if (Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0) {
                             const ingredientsHtml = `
                                 <h2>Zutaten</h2>
                                 <ul>
-                                    ${recipe.ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
+                                    ${recipe.ingredients.map(i => {
+                                        const amount = (typeof i.amount === 'number' && i.amount > 0) ? i.amount : '';
+                                        const unit = i.unit ? ` ${i.unit}` : '';
+                                        const name = i.name || '';
+                                        const prefix = amount !== '' ? `${amount}${unit} ` : '';
+                                        return `<li>${prefix}${name}</li>`;
+                                    }).join('')}
                                 </ul>
                             `;
                             document.getElementById('recipe-ingredients').innerHTML = ingredientsHtml;
