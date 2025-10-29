@@ -37,7 +37,7 @@ function renderSelectOptions() {
     adminState.recipes.forEach(r => {
         const opt = document.createElement('option');
         opt.value = r.id;
-        opt.textContent = r.title || `Rezept ${r.id}`;
+        opt.textContent = r.title `"mit id:" ${r.id}`;
         select.appendChild(opt);
     });
 }
