@@ -21,62 +21,68 @@
     <p>Hier finden sie Ihre erstellten Rezepte und Kontoinfomationen</p>
     <h2>Meine Rezepte:</h2>
     <p></p>
-    <div id="userRecipes">
-        
-    </div>
-    <script>
-            
-            const graphqlQuery = `
-                query {
-                recipes {
-                    id
-                    imageUrl
-                    title
-                    likes   
-                }
-                }
-            `;
+    <ul id="recipeListUser"> 
 
-            $(document).ready(function() {
-                console.log("Sending POST on recipe of BFF with GraphQL query ...");
-                $.ajax({
-                    url : 'https://enigmatic-plateau-04468-3ab96016f4f2.herokuapp.com/graphql',
-                    type : 'post', 
-                    contentType: 'application/json', 
-                    dataType : 'json',
-                    data: JSON.stringify({ 
-                        query: graphqlQuery
-                    }),
-                    success : function(response) {
-                        console.log('Rezepte erfolgreich geladen.');
-                        console.log(response);
-                        
-                        const recipes = response.data.recipes;
-                         
-                        let htmlContent = '';
-                        recipes.forEach(recipe => {
-                            htmlContent += `
-                            <li>
-                                <div class="recipe-card">
-                                    <a href="recipe-detail.html?id=${recipe.id}">
-                                        <img src=${recipe.imageUrl} alt="Rezeptbild" class="recipe-image">
-                                    </a>
-                                    <h3>${recipe.title}</h3>
-                                    <p>Likes: ${recipe.likes}</p>
-                                </div>
-                            </li>
-                            `;
-                        });
+    </ul>
 
-                        $('#userRecipes').html(htmlContent);
-
-                    },
-                    error: function(xhr, ajaxOptions, thrownError) {
-                        alert('Rezepte konnten nicht geladen werden.');
+    <script>//muss angepasst werden, dass nur die Rezepte des eingeloggten Users angezeigt werden
+                
+                const graphqlQuery = `
+                    query {
+                    recipes {
+                        id
+                        imageUrl
+                        title
+                        difficulty
+                        category
+                        likes   
                     }
+                    }
+                `;
+
+                $(document).ready(function() {
+                    console.log("Sending POST on recipe of BFF with GraphQL query ...");
+                    $.ajax({
+                        url : 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/graphql',
+                        type : 'post', 
+                        contentType: 'application/json', 
+                        dataType : 'json',
+                        data: JSON.stringify({ 
+                            query: graphqlQuery
+                        }),
+                        success : function(response) {
+                            console.log('Rezepte erfolgreich geladen.');
+                            console.log(response);
+                            
+                            const recipes = response.data.recipes;
+                            
+                            // Schleife bauen 
+                            let htmlContent = '';
+                            recipes.forEach(recipe => {
+                                htmlContent += `
+                                <li>
+                                    <div class="recipe-card">
+                                        <a href="./recipes/recipe-detail.html?id=${recipe.id}">
+                                            <img src=${recipe.imageUrl} alt="Rezeptbild" class="recipe-image">
+                                        </a>
+                                        <h3>${recipe.title}</h3>
+                                        <p>Kategorie: ${recipe.category}</p>
+                                        <p>Likes: ${recipe.likes}</p>
+                                        <p>Schwierigkeit: ${recipe.difficulty}</p>
+                                    </div>
+                                </li>
+                                `;
+                            });
+
+                            $('#recipeListUser').html(htmlContent);
+
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            alert('Rezepte konnten nicht geladen werden.');
+                        }
+                    });
                 });
-            });
-    </script>
+        </script>
 
 <button onclick="deleteRecipe()">Ausgewähltes Rezept löschen</button>
 
@@ -84,8 +90,13 @@
     Meine Daten:
     <br> <br>
 
-    Name:  <br>
-    E-Mail:
+     <br>
+   Meine E-Mail: <span id="userEmail"></span>
+    <br> <br>
+   Meine Likes: <span id="userLikes"></span>
+
+    <br> <br>
+   <button onclick="deleteAccount()">Konto löschen</button>
     
 
       
