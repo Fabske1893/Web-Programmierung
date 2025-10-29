@@ -9,47 +9,55 @@
 </head>
 <Header>
 <nav>
-    <a href="../Homepage.html">Startseite</a>
+    <a href="../Homepage.html">Zurück zur Startseite</a>
 </nav>
 <br>
 </Header>
-<body>
+<body id="LoginBody">
     <h1>Hier können sie sich anmelden:</h1> <br>
     <h2>Log In</h2>
     <p></p>
 
     
-        <label for="userEmail">Useremail:</label>
+        <label for="userEmail">Email:</label>
         <input type="email" id="userEmail" name="useremail" required><br><br>
         <label for="userPassword">Password:</label>
         <input type="password" id="userPassword" name="password" required><br><br>
         <button type="submit" value="Login" id="loginButton">Login</button>
         <br> <br>
-        Wenn sie noch kein Konto haben, können sie sich <a href="../register/Registration.html" id="link">hier</a> registrieren.
+        <p>Wenn sie noch kein Konto haben, können sie sich <a href="../register/Registration.html" id="link">hier</a> registrieren.</p>
 </body>
 
 <script>
     $("#loginButton").click(function(){
+        var username = $("#username").val();
+        var password = $("#userPassword").val();
+        
+        // Check if it's the admin user
+        if (username === "admin" && password === "admin") {
+            localStorage.setItem('userRole', 'admin');
+            alert('Willkommen Admin!');
+            window.location.href = '../Homepage.html';
+            return;
+        }
+        
+        // For regular users, proceed with normal login
         var loginUser = {
-            email : $("#userEmail").val(),
-            password : $("#userPassword").val()
+            username: username,
+            password: password
         };
         console.log("Sending post on login to BFF with user ...");
         console.log(loginUser);
         $.ajax({
-<<<<<<< HEAD
             url : 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/login',
             type : 'POST',
-=======
-            url : 'https://enigmatic-plateau-04468-3ab96016f4f2.herokuapp.com/',
-            type : 'post',
->>>>>>> cb3e0209e88457c62a4651cc28682809b24ad7ef
             dataType : 'json',
             data : JSON.stringify(loginUser),
             contentType : 'application/json',
             success : function(response) {
-                alert('You are now logged on.');
+                alert('Sie sind jetzt eingeloggt.');
                 localStorage.setItem('userToken', response.token);
+                localStorage.setItem('userRole', 'user');
                 window.location.href = '../Homepage.html';
             },
             

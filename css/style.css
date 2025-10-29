@@ -25,13 +25,14 @@ header {
     width: 100%;
     border-radius: 0;
     position: relative;
+    
 }
 
 /* Navigation */
 header nav {
     display: flex;
-    align-items: center;
-    gap: 20px;
+    align-items: center; 
+    font-size: small;
 }
 
 header nav a {
@@ -43,6 +44,7 @@ header nav a {
 
 header nav a:hover {
     color: #2e3d2e;
+    transform: scale(1.1);
 }
 
 /* Logo (positioned to the right within header) */
@@ -106,9 +108,27 @@ button:hover {
 
 #filterSortContainer label,
 #filterSortContainer select {
-    font-size: 16px;
+    font-size: 12px;
+}
+#searchRecipe {
+    
+    display: block;        
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+    border-radius: 6px; 
+    padding: 8px 12px; 
+    
+   
 }
 
+input{
+    box-sizing: border-box;
+    border-radius: 6px; 
+}
+    
+    
 /* --- Form fields --- */
 #zutaten, #zubereitung, #titel {
     width: 80%;
@@ -222,4 +242,25 @@ textarea {
         width: 95%;
     }
 }
+#clearListButton{ 
+    margin-right: 10px;
+}
 
+#LoginBody, #LogOffBody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+
+
+#LoginBody input {
+    /* Inputs sollen seitlichen Abstand zum Container haben, sonst nicht */
+    width: calc(100% - 40px);
+    padding: 12px;
+    margin: 10px 20px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}

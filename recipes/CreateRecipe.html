@@ -75,8 +75,8 @@
             difficultyLevel: $("#difficulty").val(),
             category: $("#category").val()
         };
-
-        
+        console.log(recipeData);
+        // ist noch auf lokalen server später durch heroku ersetzten
         $.ajax({
             url: 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes', 
             type: 'POST',

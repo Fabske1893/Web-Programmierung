@@ -7,7 +7,16 @@
     <title>Adminfunktionen</title>
     <link rel="stylesheet" href="../css/style.css">
     <script src="../js/admin.js" defer></script>
-    
+    <script>
+        // Check if user is admin when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const userRole = localStorage.getItem('userRole');
+            if (userRole !== 'admin') {
+                alert('Zugriff verweigert. Nur für Administratoren.');
+                window.location.href = '../Homepage.html';
+            }
+        });
+    </script>
 </head>
 <Header>
 <nav>
@@ -24,16 +33,16 @@
         
         <label for="delete">Folgende Rezepte löschen:</label> <br>
         <select name="delete" id="delete" multiple size="8">
-            <!-- werden per ajax GET geladen -->
+            
         </select>   
         <p class="hint">Wähle mehrere Einträge (Strg/Cmd+Klick) und klicke auf „Zur Auswahl hinzufügen“.</p>
-        <button id="addToCollection">Zur Auswahl hinzufügen</button>
-        <button id="clearCollection">Auswahl löschen</button>
+        <button id="addToCollection" onclick="addToCollection()">Zur Auswahl hinzufügen</button>
+        <button id="clearCollection" onclick="clearCollection()">Auswahl löschen</button>
         <h3>Ausgewählte Rezepte</h3>
         <div id="selectedList">(keine Auswahl)</div>
         </div>
 
-<button id="deleteSelected">Ausgewählte Rezepte löschen</button>
+<button id="deleteSelected" onclick="adminDeleteSelected()">Ausgewählte Rezepte löschen</button>
       
 
       

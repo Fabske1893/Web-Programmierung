@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rezept Details</title>
     <link rel="stylesheet" href="../css/style.css"> 
+    <script src="../js/functions.js"></script>
 </head>
 <body>
     <header>
@@ -69,6 +70,7 @@
                     <button id="readWithAlexaButton">Mit Alexa vorlesen</button> 
                     <button id="sendEmailButton">Rezept per E-Mail senden</button> 
                     <button id="addToShoppingListButton">Einkaufsliste hinzufügen</button>
+                    <button id="likeButton" onclick='likeRecipe()'>Like ❤️ (${recipe.likes || 0})</button>
                 `;
 
               

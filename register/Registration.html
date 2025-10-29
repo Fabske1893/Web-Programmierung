@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script type="text/javascript" src="../js/jquery-3.6.0.min.js"></script>
+    <script src="../js/functions.js"></script>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <Header>
@@ -41,7 +42,8 @@
                 dataType : 'json',
                 contentType : 'application/json',
                 success : function(data) {
-                    alert('Du bist registriert.');
+                    alert('Du bist registriert. Du kannst dich nun einloggen.');
+                    goToLogin();
                 },
                 data : JSON.stringify(registerUser),
                 processData : false,
