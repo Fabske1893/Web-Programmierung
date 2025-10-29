@@ -35,6 +35,11 @@ function sortRecipes(criteria) {
                 const dateA = new Date(a.getAttribute('data-date'));
                 const dateB = new Date(b.getAttribute('data-date'));
                 return dateB - dateA; 
+            case 'difficulty':
+                const rank = v => ({ 'easy': 1, 'medium': 2, 'hard': 3 })[normalizeDifficulty(v)] || 2;
+                const dA = a.getAttribute('data-difficulty');
+                const dB = b.getAttribute('data-difficulty');
+                return rank(dA) - rank(dB);
             
             default:
                 return 0;
@@ -47,28 +52,36 @@ function sortRecipes(criteria) {
 }
 
 const filterSelect = document.getElementById('filter');
+const categorySelect = document.getElementById('filterCategory');
 if (filterSelect) {
-    filterSelect.addEventListener('change', function() {
-        const selectedDifficulty = this.value; // z.B. "easy", "medium", "hard"
-        filterRecipes(selectedDifficulty);
-    });
+    filterSelect.addEventListener('change', applyFilters);
+}
+if (categorySelect) {
+    categorySelect.addEventListener('change', applyFilters);
 }
 
 /**
  * @param {string} difficulty - Der ausgewählte Schwierigkeitsgrad.
  */
-function filterRecipes(difficulty) {
-    const recipes = document.querySelectorAll('.recipe'); 
+function applyFilters() {
+    const recipes = document.querySelectorAll('.recipe');
+    const difficulty = filterSelect ? filterSelect.value : 'all';
+    const category = categorySelect ? categorySelect.value : 'all';
 
     recipes.forEach(recipe => {
-       
-        const recipeDifficulty = recipe.getAttribute('data-difficulty').toLowerCase();
+        const recipeDifficulty = normalizeDifficulty(recipe.getAttribute('data-difficulty'));
+        const recipeCategory = (recipe.getAttribute('data-category') || '').toLowerCase();
 
-        
-        if (difficulty === 'all' || recipeDifficulty === difficulty) {
-            recipe.style.display = 'inline-block'; 
-        } else {
-            recipe.style.display = 'none'; 
-        }
+        const diffOk = (difficulty === 'all' || recipeDifficulty === difficulty);
+        const catOk = (category === 'all' || recipeCategory === category.toLowerCase());
+        recipe.style.display = (diffOk && catOk) ? 'inline-block' : 'none';
     });
+}
+
+function normalizeDifficulty(value) {
+    const v = (value || '').toString().trim().toLowerCase();
+    if (["einfach","leicht","easy"].includes(v)) return 'easy';
+    if (["mittel","medium"].includes(v)) return 'medium';
+    if (["schwer","hart","hard"].includes(v)) return 'hard';
+    return v || 'medium';
 }

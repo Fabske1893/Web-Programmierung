@@ -39,6 +39,63 @@
     // ID aus der URL lesen
     const urlParams = new URLSearchParams(window.location.search);
     const recipeId = urlParams.get('id');
+    let loadedRecipe = null;
+
+    // Delegated handlers bound once
+    if (window.$) {
+        $(document).off('click.addList', '#addToShoppingListButton').on('click.addList', '#addToShoppingListButton', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (!loadedRecipe || !Array.isArray(loadedRecipe.ingredients)) return;
+            try {
+                const shoppingList = JSON.parse(localStorage.getItem('shoppingList')) || {};
+                (loadedRecipe.ingredients || []).forEach(i => {
+                    const key = (i.name || '').toLowerCase().trim();
+                    if (!key) return;
+                    const current = shoppingList[key] || { amount: 0, unit: i.unit || '', name: i.name || '' };
+                    const addAmt = (typeof i.amount === 'number') ? i.amount : 0;
+                    const unitsEqual = (current.unit || '') === (i.unit || '');
+                    shoppingList[key] = {
+                        name: i.name || current.name || key,
+                        unit: unitsEqual ? (current.unit || i.unit || '') : (current.unit || i.unit || ''),
+                        amount: unitsEqual ? ((current.amount || 0) + addAmt) : (current.amount || 0)
+                    };
+                });
+                localStorage.setItem('shoppingList', JSON.stringify(shoppingList));
+                alert('Zutaten zur Einkaufsliste hinzugefügt.');
+            } catch (e) {
+                console.error('Fehler beim Aktualisieren der Einkaufsliste:', e);
+                alert('Fehler: Einkaufsliste konnte nicht aktualisiert werden.');
+            }
+        });
+
+        $(document).off('click.mailRecipe', '#sendRecipeEmailButton').on('click.mailRecipe', '#sendRecipeEmailButton', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const token = localStorage.getItem('userToken');
+            if (!token || token === 'OFF') {
+                alert('Fehler: Du musst eingeloggt sein.');
+                return;
+            }
+            fetch(`https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes/${recipeId}/send-email?token=${encodeURIComponent(token)}`, {
+                method: 'POST'
+            })
+            .then(r => r.json().then(body => ({ status: r.status, body })))
+            .then(({ status, body }) => {
+                if (status >= 200 && status < 300) {
+                    alert(body.message || 'Rezept wurde per E-Mail gesendet.');
+                } else if (status === 401) {
+                    alert(body.message || 'Nicht eingeloggt.');
+                } else {
+                    alert(body.message || 'E-Mail konnte nicht gesendet werden.');
+                }
+            })
+            .catch(err => {
+                console.error('Fehler beim Senden des Rezepts:', err);
+                alert('Netzwerkfehler beim Senden des Rezepts.');
+            });
+        });
+    }
 
     if (!recipeId) {
         document.getElementById('recipe-content').innerHTML = '<h1>Fehler: Keine Rezept-ID angegeben</h1>';
@@ -63,8 +120,6 @@
                 }
             }
         `;
-
-        let loadedRecipe = null;
         $(document).ready(function() {
             $.ajax({
                 url: 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/graphql',
@@ -102,79 +157,25 @@
                         
                         // Zutaten
                         if (Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0) {
+                            const items = recipe.ingredients.map(i => {
+                                const amount = (typeof i.amount === 'number' && i.amount > 0) ? i.amount : '';
+                                const unit = i.unit ? ` ${i.unit}` : '';
+                                const name = i.name || '';
+                                const prefix = amount !== '' ? `${amount}${unit} ` : '';
+                                return `<li>${prefix}${name}</li>`;
+                            }).join('');
                             const ingredientsHtml = `
                                 <h2>Zutaten</h2>
-                                <ul>
-                                    ${recipe.ingredients.map(i => {
-                                        const amount = (typeof i.amount === 'number' && i.amount > 0) ? i.amount : '';
-                                        const unit = i.unit ? ` ${i.unit}` : '';
-                                        const name = i.name || '';
-
-                        // Buttons aktivieren
-                        const addBtn = document.getElementById('addToShoppingListButton');
-                        if (addBtn) {
-                            addBtn.addEventListener('click', function() {
-                                try {
-                                    const shoppingList = JSON.parse(localStorage.getItem('shoppingList')) || {};
-                                    (recipe.ingredients || []).forEach(i => {
-                                        const key = (i.name || '').toLowerCase().trim();
-                                        if (!key) return;
-                                        const current = shoppingList[key] || { amount: 0, unit: i.unit || '', name: i.name || '' };
-                                        const addAmt = (typeof i.amount === 'number') ? i.amount : 0;
-                                        const sameUnit = !current.unit || !i.unit || current.unit === i.unit;
-                                        shoppingList[key] = {
-                                            name: i.name || current.name || key,
-                                            unit: sameUnit ? (current.unit || i.unit || '') : (i.unit || current.unit || ''),
-                                            amount: (current.amount || 0) + addAmt
-                                        };
-                                    });
-                                    localStorage.setItem('shoppingList', JSON.stringify(shoppingList));
-                                    alert('Zutaten zur Einkaufsliste hinzugefügt.');
-                                } catch (e) {
-                                    console.error('Fehler beim Aktualisieren der Einkaufsliste:', e);
-                                    alert('Fehler: Einkaufsliste konnte nicht aktualisiert werden.');
-                                }
-                            });
+                                <ul>${items}</ul>
+                            `;
+                            document.getElementById('recipe-ingredients').innerHTML = ingredientsHtml;
                         }
 
-                        const mailBtn = document.getElementById('sendRecipeEmailButton');
-                        if (mailBtn) {
-                            mailBtn.addEventListener('click', function() {
-                                const token = localStorage.getItem('userToken');
-                                if (!token || token === 'OFF') {
-                                    alert('Fehler: Du musst eingeloggt sein.');
-                                    return;
-                                }
-                                fetch(`https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes/${recipeId}/send-email?token=${encodeURIComponent(token)}`, {
-                                    method: 'POST'
-                                })
-                                .then(r => r.json().then(body => ({ status: r.status, body })))
-                                .then(({ status, body }) => {
-                                    if (status >= 200 && status < 300) {
-                                        alert(body.message || 'Rezept wurde per E-Mail gesendet.');
-                                    } else if (status === 401) {
-                                        alert(body.message || 'Nicht eingeloggt.');
-                                    } else {
-                                        alert(body.message || 'E-Mail konnte nicht gesendet werden.');
-                                    }
-                                })
-                                .catch(err => {
-                                    console.error('Fehler beim Senden des Rezepts:', err);
-                                    alert('Netzwerkfehler beim Senden des Rezepts.');
-                                });
-                            });
-                        }
+                        // Button-Handler sind delegiert und werden oben zentral verwaltet
 
                         // Like-Button via shared functions.js initialisieren
                         if (typeof window.likeRecipe === 'function') {
                             window.likeRecipe();
-                        }
-                                        const prefix = amount !== '' ? `${amount}${unit} ` : '';
-                                        return `<li>${prefix}${name}</li>`;
-                                    }).join('')}
-                                </ul>
-                            `;
-                            document.getElementById('recipe-ingredients').innerHTML = ingredientsHtml;
                         }
                         
                         // Zubereitung
