@@ -10,9 +10,16 @@ async function loadAdminRecipes() {
     if (!select) return;
     select.innerHTML = '<option>Lade...</option>';
     try {
-        // Ajax einbauen
-
-
+        const response = await fetch('https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
         adminState.recipes = Array.isArray(data) ? data : [];
         renderSelectOptions();
         
@@ -51,14 +58,38 @@ function clearCollection() {
     renderSelectedList();
 }
 
+function renderSelectedList() {
+    const selectedList = document.getElementById('selectedList');
+    if (!selectedList) return;
+    
+    if (adminState.selection.size === 0) {
+        selectedList.textContent = '(keine Auswahl)';
+        return;
+    }
+    
+    const selectedRecipes = Array.from(adminState.selection)
+        .map(id => adminState.recipes.find(r => String(r.id) === String(id)))
+        .filter(r => r !== undefined)
+        .map(r => r.title || `Rezept ${r.id}`);
+    
+    selectedList.textContent = selectedRecipes.join(', ');
+}
+
 async function adminDeleteSelected() {
     if (adminState.selection.size === 0) return alert('Keine Rezepte ausgewählt.');
     if (!confirm(`Sollten die ${adminState.selection.size} ausgewählten Rezepte wirklich gelöscht werden?`)) return;
     const ids = Array.from(adminState.selection);
     for (const id of ids) {
         try {
-            //Ajax einbauen
-
+            const response = await fetch(`https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             // Entferne lokal
             adminState.selection.delete(id);
             adminState.recipes = adminState.recipes.filter(r => String(r.id) !== String(id));
@@ -73,10 +104,4 @@ async function adminDeleteSelected() {
 // Event listener hookup
 document.addEventListener('DOMContentLoaded', () => {
     loadAdminRecipes();
-    const addBtn = document.getElementById('addToCollection');
-    const clearBtn = document.getElementById('clearCollection');
-    const delBtn = document.getElementById('deleteSelected');
-    if (addBtn) addBtn.addEventListener('click', addToCollection);
-    if (clearBtn) clearBtn.addEventListener('click', clearCollection);
-    if (delBtn) delBtn.addEventListener('click', adminDeleteSelected);
 });
