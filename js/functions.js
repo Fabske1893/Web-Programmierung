@@ -31,16 +31,17 @@ function loadAndDisplayRecipes() {
                 const recipeCard = document.createElement('div');
                 recipeCard.setAttribute('data-name', (recipe.title || "").toLowerCase());
                 recipeCard.setAttribute('data-date', recipe.creationDate || '2025-01-01');
-                recipeCard.setAttribute('data-difficulty', recipe.difficulty);
-                recipeCard.setAttribute('data-likes', recipe.likes || 0);
+recipeCard.setAttribute('data-difficulty', recipe.difficulty);
+recipeCard.setAttribute('data-likes', recipe.likes || 0);
 
-                recipeCard.innerHTML = `
-                <img src="${recipe.imageUrl}" alt="Bild von ${recipe.title}" style="width:100%;">
-                <h3>${recipe.title}</h3>
-                <p><strong>Kategorie:</strong> ${recipe.category}</p>
-                <p><strong>Schwierigkeit:</strong> ${recipe.difficulty}</p>
-                <p><strong>Likes:</strong> ${recipe.likes || 0}</p>
-                `;
+recipeCard.innerHTML = `
+    <img src="${recipe.imageUrl}" alt="Bild von ${recipe.title}" style="width:100%;">
+    <h3>${recipe.title}</h3>
+    <p><strong>Kategorie:</strong> ${recipe.category}</p>
+    <p><strong>Schwierigkeit:</strong> ${recipe.difficulty}</p>
+    <p><strong>Likes:</strong> ${recipe.likes || 0}</p>
+`;
+
 
 
                 const link = document.createElement('a');
