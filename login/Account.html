@@ -80,12 +80,79 @@
 
 <button onclick="deleteRecipe()">Ausgewähltes Rezept löschen</button>
 
-<br>
-    Meine Daten:
-    <br> <br>
+<br><br>
+    <h2>Meine Daten:</h2>
+    <p><strong>Name:</strong> <span id="userName"></span></p>
+    <p><strong>E-Mail:</strong> <span id="userEmail"></span></p>
 
-    Name:  <br>
-    E-Mail:
+    <script>
+        // === Rezepte laden ===
+        const graphqlQuery = `
+            query {
+                recipes {
+                    id
+                    imageUrl
+                    title
+                    likes
+                }
+            }
+        `;
+
+        $(document).ready(function () {
+            console.log("Lade Benutzerdaten und Rezepte ...");
+
+            // --- Benutzerinfo laden ---
+            $.ajax({
+                url: 'https://enigmatic-plateau-04468-3ab96016f4f2.herokuapp.com/api/user', // Beispiel-Endpoint
+                type: 'GET',
+                dataType: 'json',
+                xhrFields: { withCredentials: true }, // wichtig, falls Cookies genutzt werden
+                success: function (user) {
+                    console.log("Benutzerdaten:", user);
+                    $('#userName').text(user.name);
+                    $('#userEmail').text(user.email);
+                },
+                error: function () {
+                    console.error("Benutzerdaten konnten nicht geladen werden.");
+                    $('#userName').text("Unbekannt");
+                    $('#userEmail').text("Unbekannt");
+                }
+            });
+
+            // --- Rezepte laden ---
+            $.ajax({
+                url: 'https://enigmatic-plateau-04468-3ab96016f4f2.herokuapp.com/graphql',
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify({ query: graphqlQuery }),
+                success: function (response) {
+                    console.log('Rezepte erfolgreich geladen.');
+                    const recipes = response.data.recipes;
+                    let htmlContent = '';
+
+                    recipes.forEach(recipe => {
+                        htmlContent += `
+                            <li>
+                                <div class="recipe-card">
+                                    <a href="recipe-detail.html?id=${recipe.id}">
+                                        <img src="${recipe.imageUrl}" alt="Rezeptbild" class="recipe-image">
+                                    </a>
+                                    <h3>${recipe.title}</h3>
+                                    <p>Likes: ${recipe.likes}</p>
+                                </div>
+                            </li>
+                        `;
+                    });
+
+                    $('#userRecipes').html(htmlContent);
+                },
+                error: function () {
+                    alert('Rezepte konnten nicht geladen werden.');
+                }
+            });
+        });
+    </script>
     
 
       
