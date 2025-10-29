@@ -268,14 +268,14 @@ textarea {
         .recipe { width: 220px; border: 1px solid #ddd; padding: 0.5rem; box-sizing: border-box; }
         .recipe img { width: 100%; height: auto; display:block; }
 
-/* --- Logoff page specific styles --- */
+
 #logoffContent {
     text-align: center;
     margin-top: 50px;
 }
 
 #goodbyeMessage {
-    display: none; /* initially hidden, shown after click via JS */
+    display: none; 
     text-align: center;
 }
 
@@ -285,7 +285,13 @@ textarea {
 
 #logoffButton {
     margin-top: 20px;
-    padding: 10px 20px; /* override default button padding for this page */
+    padding: 10px 20px; 
     font-size: 16px;
     cursor: pointer;
+}
+#adminLink{
+    display: none;
+     margin: 0; 
+     padding: 0; 
+     display: inline;
 }

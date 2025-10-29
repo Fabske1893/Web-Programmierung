@@ -18,7 +18,7 @@
 <body>
     <div id="recipe-content">
         <h1 id="recipe-title">Lade Rezept...</h1>
-        <img id="recipe-image" src="" alt="Rezeptbild">
+        <img id="recipe-image" alt="Rezeptbild">
         <div id="recipe-meta"></div>
         <div id="recipe-details">
             <div id="recipe-ingredients"></div>
@@ -99,7 +99,7 @@
     if (!recipeId) {
         document.getElementById('recipe-content').innerHTML = '<h1>Fehler: Keine Rezept-ID angegeben</h1>';
     } else {
-        // GraphQL Query für ein einzelnes Rezept
+       
         const graphqlQuery = `
             query GetRecipe($id: Int!) {
                 recipe(id: $id) {
@@ -145,11 +145,17 @@
                         `;
                         document.getElementById('recipe-meta').innerHTML = metaHtml;
                         
-                        // Bild
-                        if (recipe.imageUrl) {
-                            document.getElementById('recipe-image').innerHTML = `
-                                <img src="${recipe.imageUrl}" alt="${recipe.title}" class="recipe-detail-image">`;
-                        }
+                        // Bild korrekt auf <img>-Element setzen (mit Fallback)
+                        (function(){
+                            const imgEl = document.getElementById('recipe-image');
+                            if (!imgEl) return;
+                            imgEl.src = recipe.imageUrl || '../images/placeholder.png';
+                            imgEl.alt = recipe.title || 'Rezeptbild';
+                            imgEl.onerror = function(){
+                                this.onerror = null;
+                                this.src = '../images/placeholder.png';
+                            };
+                        })();
                         
                         // Zutaten
                         if (Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0) {
