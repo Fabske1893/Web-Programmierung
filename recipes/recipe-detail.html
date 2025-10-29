@@ -7,6 +7,7 @@
     <title>Rezeptdetails</title>
     <link rel="stylesheet" href="../css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../js/functions.js" defer></script>
 </head>
 <Header>
 <nav>
@@ -27,9 +28,10 @@
     </div>
 
     <div id="recipe-actions">
+        <button id="addToShoppingListButton">Zutaten zur Einkaufsliste hinzufügen</button>
+        <button id="sendRecipeEmailButton">Rezept per E-Mail senden</button>
+        <button id="likeButton">Like</button>
         <button onclick="printShoppingList()">Einkaufliste drucken</button>
-        <button onclick="likeRecipe()">Like</button>
-        <button onclick="dislikeRecipe()">Dislike</button>
         <button onclick="readInstructions()">Zubereitung von Alexa vorlesen lassen</button>
     </div>
 
@@ -62,6 +64,7 @@
             }
         `;
 
+        let loadedRecipe = null;
         $(document).ready(function() {
             $.ajax({
                 url: 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/graphql',
@@ -75,6 +78,7 @@
                 success: function(response) {
                     if (response.data && response.data.recipe) {
                         const recipe = response.data.recipe;
+                        loadedRecipe = recipe;
                         
                         // Titel
                         document.getElementById('recipe-title').textContent = recipe.title;
@@ -105,6 +109,66 @@
                                         const amount = (typeof i.amount === 'number' && i.amount > 0) ? i.amount : '';
                                         const unit = i.unit ? ` ${i.unit}` : '';
                                         const name = i.name || '';
+
+                        // Buttons aktivieren
+                        const addBtn = document.getElementById('addToShoppingListButton');
+                        if (addBtn) {
+                            addBtn.addEventListener('click', function() {
+                                try {
+                                    const shoppingList = JSON.parse(localStorage.getItem('shoppingList')) || {};
+                                    (recipe.ingredients || []).forEach(i => {
+                                        const key = (i.name || '').toLowerCase().trim();
+                                        if (!key) return;
+                                        const current = shoppingList[key] || { amount: 0, unit: i.unit || '', name: i.name || '' };
+                                        const addAmt = (typeof i.amount === 'number') ? i.amount : 0;
+                                        const sameUnit = !current.unit || !i.unit || current.unit === i.unit;
+                                        shoppingList[key] = {
+                                            name: i.name || current.name || key,
+                                            unit: sameUnit ? (current.unit || i.unit || '') : (i.unit || current.unit || ''),
+                                            amount: (current.amount || 0) + addAmt
+                                        };
+                                    });
+                                    localStorage.setItem('shoppingList', JSON.stringify(shoppingList));
+                                    alert('Zutaten zur Einkaufsliste hinzugefügt.');
+                                } catch (e) {
+                                    console.error('Fehler beim Aktualisieren der Einkaufsliste:', e);
+                                    alert('Fehler: Einkaufsliste konnte nicht aktualisiert werden.');
+                                }
+                            });
+                        }
+
+                        const mailBtn = document.getElementById('sendRecipeEmailButton');
+                        if (mailBtn) {
+                            mailBtn.addEventListener('click', function() {
+                                const token = localStorage.getItem('userToken');
+                                if (!token || token === 'OFF') {
+                                    alert('Fehler: Du musst eingeloggt sein.');
+                                    return;
+                                }
+                                fetch(`https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes/${recipeId}/send-email?token=${encodeURIComponent(token)}`, {
+                                    method: 'POST'
+                                })
+                                .then(r => r.json().then(body => ({ status: r.status, body })))
+                                .then(({ status, body }) => {
+                                    if (status >= 200 && status < 300) {
+                                        alert(body.message || 'Rezept wurde per E-Mail gesendet.');
+                                    } else if (status === 401) {
+                                        alert(body.message || 'Nicht eingeloggt.');
+                                    } else {
+                                        alert(body.message || 'E-Mail konnte nicht gesendet werden.');
+                                    }
+                                })
+                                .catch(err => {
+                                    console.error('Fehler beim Senden des Rezepts:', err);
+                                    alert('Netzwerkfehler beim Senden des Rezepts.');
+                                });
+                            });
+                        }
+
+                        // Like-Button via shared functions.js initialisieren
+                        if (typeof window.likeRecipe === 'function') {
+                            window.likeRecipe();
+                        }
                                         const prefix = amount !== '' ? `${amount}${unit} ` : '';
                                         return `<li>${prefix}${name}</li>`;
                                     }).join('')}
