@@ -14,14 +14,32 @@
 </nav>
 <br>
 </Header>
+<<<<<<< HEAD
+<body>
+    <div id="logoffContent" style="text-align: center; margin-top: 50px;">
+        <h1 id="goodbyeMessage" style="display: none; text-align: center;">Bis bald!</h1>
+        <div id="logoffForm" style="text-align: center;">
+            <h2>Hier können Sie sich abmelden:</h2>
+            <button type="button" id="logoffButton" style="margin-top: 20px; padding: 10px 20px; font-size: 16px; cursor: pointer;">Abmelden</button>
+        </div>
+    </div>
+=======
 <body id="LogOffBody">
     <h1>Bis bald!</h1>
 <p>Hier können Sie sich abmelden:</p> 
     <button type="button" id="logoffButton">Abmelden</button>
+>>>>>>> 291f8c6af87fe59da6a40c68df1c5735e4827ba3
 </body>
 
 <script>
     $("#logoffButton").click(function(){
+        // Hide the form and show goodbye message
+        $("#logoffForm").hide();
+        $("#goodbyeMessage").show();
+        // Clear all user data from localStorage
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('userToken');
+        
         var logoffUser = {
             token : localStorage.getItem("usertoken")
         };

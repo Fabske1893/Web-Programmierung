@@ -16,10 +16,25 @@
             <a href="login/Logoff.html">Log off</a> &nbsp;&nbsp;
             <a href="recipes/CreateRecipe.html">Rezept hinzufügen</a> &nbsp;&nbsp;
             <a href="ShoppingList.html">Einkaufsliste</a> &nbsp;&nbsp;
-            <a href="admin/adminUI.html">Rezepte löschen</a> &nbsp;&nbsp;
+            <div id="adminLink" style="display: none; margin: 0; padding: 0; display: inline;">
+                <a href="admin/adminUI.html">Rezepte löschen</a> &nbsp;&nbsp;
+            </div>
             <img src="images/account.png" alt="Logo" class="logo" onclick="goToAccount()">
         </nav>
-        
+        <script>
+            // Beim Laden der Seite prüfen
+            document.addEventListener('DOMContentLoaded', function() {
+                // Admin-Link initial ausblenden
+                const adminLinkDiv = document.getElementById('adminLink');
+                adminLinkDiv.style.display = 'none';
+                
+                // Prüfen ob Admin-User
+                const userRole = localStorage.getItem('userRole');
+                if (userRole === 'admin') {
+                    adminLinkDiv.style.display = 'inline';
+                }
+            });
+        </script>
     </header>
 
 

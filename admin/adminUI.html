@@ -7,7 +7,16 @@
     <title>Adminfunktionen</title>
     <link rel="stylesheet" href="../css/style.css">
     <script src="../js/admin.js" defer></script>
-    
+    <script>
+        // Check if user is admin when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const userRole = localStorage.getItem('userRole');
+            if (userRole !== 'admin') {
+                alert('Zugriff verweigert. Nur für Administratoren.');
+                window.location.href = '../Homepage.html';
+            }
+        });
+    </script>
 </head>
 <Header>
 <nav>

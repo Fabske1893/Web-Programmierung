@@ -21,9 +21,57 @@
     <p>Hier finden sie Ihre erstellten Rezepte und Kontoinfomationen</p>
     <h2>Meine Rezepte:</h2>
     <p></p>
-    <ul id="recipeListUser"> 
+    <ul id="recipeListUser">   </ul>
 
-    </ul>
+    <!-- --- Benutzerinfo laden --- 
+            $.ajax({
+                url: 'https://enigmatic-plateau-04468-3ab96016f4f2.herokuapp.com/api/user', // Beispiel-Endpoint
+                type: 'GET',
+                dataType: 'json',
+                xhrFields: { withCredentials: true }, // wichtig, falls Cookies genutzt werden
+                success: function (user) {
+                    console.log("Benutzerdaten:", user);
+                    $('#userName').text(user.name);
+                    $('#userEmail').text(user.email);
+                },
+                error: function () {
+                    console.error("Benutzerdaten konnten nicht geladen werden.");
+                    $('#userName').text("Unbekannt");
+                    $('#userEmail').text("Unbekannt");
+                }
+            });
+///Rezepte laden
+            $(document).ready(function() {
+                console.log("Sending POST on recipe of BFF with GraphQL query ...");
+                $.ajax({
+                    url : 'https://enigmatic-plateau-04468-3ab96016f4f2.herokuapp.com/graphql',
+                    type : 'post', 
+                    contentType: 'application/json', 
+                    dataType : 'json',
+                    data: JSON.stringify({ 
+                        query: graphqlQuery
+                    }),
+                    success : function(response) {
+                        console.log('Rezepte erfolgreich geladen.');
+                        console.log(response);
+                        
+                        const recipes = response.data.recipes;
+                         
+                        let htmlContent = '';
+                        recipes.forEach(recipe => {
+                            htmlContent += `
+                            <li>
+                                <div class="recipe-card">
+                                    <a href="recipe-detail.html?id=${recipe.id}">
+                                        <img src=${recipe.imageUrl} alt="Rezeptbild" class="recipe-image">
+                                    </a>
+                                    <h3>${recipe.title}</h3>
+                                    <p>Likes: ${recipe.likes}</p>
+                                </div>
+                            </li>
+                            `;
+                        });
+                        -->
 
     <script>//muss angepasst werden, dass nur die Rezepte des eingeloggten Users angezeigt werden
                 
