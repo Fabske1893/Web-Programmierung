@@ -5,14 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rezept- und Einkaufslisten App</title>
     <link rel="stylesheet" href="./css/style.css">
-    <!-- Load local jQuery once -->
     <script src="./js/jquery-3.6.0.min.js"></script>
-    <style>
-        /* small layout helper so recipe cards align */
-        #recipeContainer { display: flex; flex-wrap: wrap; gap: 1rem; }
-        .recipe { width: 220px; border: 1px solid #ddd; padding: 0.5rem; box-sizing: border-box; }
-        .recipe img { width: 100%; height: auto; display:block; }
-    </style>
+  
 </head>
 <body>
     <header>
@@ -32,6 +26,10 @@
         <h1>Rezept und Einkaufslisten App</h1>
         <h2>Willkommen zur Rezept und Einkaufslisten App!</h2>
         <p>Finden Sie neue leckere Rezepte oder stellen Sie ihre Rezepte ganz einfach anderen zur Verfügung!</p>
+            <br>
+        <div>
+                <input type="search" name="searchRecipe" id="searchRecipe" placeholder="Suche Rezept..." oninput="searchRecipe()">
+            </div>
 
         <div id="filterSortContainer">
             <div>
@@ -64,17 +62,14 @@
                 </select>
             </div>
 
-            <div>
-                <input type="search" name="searchRecipe" id="searchRecipe" placeholder="Suche Rezept..." oninput="searchRecipe()">
-            </div>
+            
         </div>
 
         <section>
-            <!-- Container the sorting/filtering code expects -->
             <div id="recipeContainer"></div>
         </section>
 
-        <!-- GraphQL loader: renders .recipe elements with required data-attributes -->
+        
         <script>
             function normalizeDifficulty(value) {
                 const v = (value || '').toString().trim().toLowerCase();

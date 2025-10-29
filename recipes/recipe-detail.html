@@ -18,10 +18,9 @@
 <body>
     <div id="recipe-content">
         <h1 id="recipe-title">Lade Rezept...</h1>
-        <img id="recipe-image-display" src="" alt="Rezeptbild">
+        <img id="recipe-image" src="" alt="Rezeptbild">
         <div id="recipe-meta"></div>
         <div id="recipe-details">
-            <div id="recipe-image"></div>
             <div id="recipe-ingredients"></div>
             <div id="recipe-instructions"></div>
         </div>
@@ -149,10 +148,7 @@
                         // Bild
                         if (recipe.imageUrl) {
                             document.getElementById('recipe-image').innerHTML = `
-                                <img src="${recipe.imageUrl}" alt="${recipe.title}" class="recipe-detail-image">
-                            `;
-                            const displayImg = document.getElementById('recipe-image-display');
-                            if (displayImg) displayImg.src = recipe.imageUrl;
+                                <img src="${recipe.imageUrl}" alt="${recipe.title}" class="recipe-detail-image">`;
                         }
                         
                         // Zutaten

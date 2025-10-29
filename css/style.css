@@ -264,3 +264,28 @@ textarea {
     border: 1px solid #ccc;
     box-sizing: border-box;
 }
+#recipeContainer { display: flex; flex-wrap: wrap; gap: 1rem; }
+        .recipe { width: 220px; border: 1px solid #ddd; padding: 0.5rem; box-sizing: border-box; }
+        .recipe img { width: 100%; height: auto; display:block; }
+
+/* --- Logoff page specific styles --- */
+#logoffContent {
+    text-align: center;
+    margin-top: 50px;
+}
+
+#goodbyeMessage {
+    display: none; /* initially hidden, shown after click via JS */
+    text-align: center;
+}
+
+#logoffForm {
+    text-align: center;
+}
+
+#logoffButton {
+    margin-top: 20px;
+    padding: 10px 20px; /* override default button padding for this page */
+    font-size: 16px;
+    cursor: pointer;
+}
