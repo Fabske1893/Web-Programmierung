@@ -1,0 +1,380 @@
+/* ===================================================
+   Recipe Details Page Styles
+   Orientiert sich an style.css für konsistentes Design
+   =================================================== */
+
+/* Global reset and box-sizing */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* Base styles */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #f5f5f5 0%, #e8f5e9 100%);
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* --- Header Navigation --- */
+header {
+    background-color: rgba(196, 237, 174, 0.9);
+    padding: 20px 5%;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+header nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+header nav a {
+    text-decoration: none;
+    color: #4b544b;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+header nav a:hover {
+    background-color: rgba(75, 84, 75, 0.1);
+    color: #2e3d2e;
+    transform: translateY(-2px);
+}
+
+/* --- Main Content Container --- */
+#recipe-content {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 40px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    animation: fadeIn 0.6s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Recipe Title --- */
+#recipe-title {
+    text-align: center;
+    font-size: 2.8rem;
+    font-weight: bold;
+    color: #2e3d2e;
+    margin: 0 0 30px 0;
+    padding-bottom: 20px;
+    border-bottom: 3px solid rgba(196, 237, 174, 0.8);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+}
+
+/* --- Recipe Image --- */
+#recipe-image {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    display: block;
+    margin: 30px auto;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#recipe-image:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+}
+
+/* --- Recipe Meta Information --- */
+#recipe-meta {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 30px 0;
+    padding: 25px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+    border-left: 5px solid #4b544b;
+}
+
+#recipe-meta p {
+    margin: 8px 0;
+    font-size: 1.1rem;
+    color: #4b544b;
+    font-weight: 600;
+    text-align: center;
+}
+
+#recipe-meta p strong {
+    color: #2e3d2e;
+}
+
+/* --- Recipe Details Container --- */
+#recipe-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+    #recipe-details {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+/* --- Ingredients Section --- */
+#recipe-ingredients {
+    background: #f8fdf8;
+    padding: 30px;
+    border-radius: 15px;
+    border: 2px solid rgba(196, 237, 174, 0.6);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease;
+}
+
+#recipe-ingredients:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+#recipe-ingredients h2 {
+    font-size: 1.8rem;
+    color: #4b544b;
+    margin: 0 0 20px 0;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(196, 237, 174, 0.8);
+    text-align: left;
+}
+
+#recipe-ingredients ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#recipe-ingredients li {
+    padding: 12px 15px;
+    margin: 8px 0;
+    background: white;
+    border-left: 4px solid #4b544b;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+#recipe-ingredients li:hover {
+    transform: translateX(5px);
+    background: #f0f8f0;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+/* --- Instructions Section --- */
+#recipe-instructions {
+    background: #fefefe;
+    padding: 30px;
+    border-radius: 15px;
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease;
+}
+
+#recipe-instructions:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+#recipe-instructions h2 {
+    font-size: 1.8rem;
+    color: #4b544b;
+    margin: 0 0 20px 0;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(196, 237, 174, 0.8);
+    text-align: left;
+}
+
+#recipe-instructions .instructions {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #555;
+    white-space: pre-line;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    border-left: 4px solid #4b544b;
+}
+
+/* --- Action Buttons --- */
+#recipe-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin: 50px auto 40px;
+    max-width: 1000px;
+    padding: 0 20px;
+}
+
+#recipe-actions button {
+    background: linear-gradient(135deg, #4b544b 0%, #2e3d2e 100%);
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(75, 84, 75, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#recipe-actions button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(75, 84, 75, 0.4);
+    background: linear-gradient(135deg, #5f6e5f 0%, #3d4f3d 100%);
+}
+
+#recipe-actions button:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(75, 84, 75, 0.3);
+}
+
+/* Specific button styling */
+#addToShoppingListButton {
+    background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+}
+
+#addToShoppingListButton:hover {
+    background: linear-gradient(135deg, #81c784 0%, #66bb6a 100%);
+    box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+}
+
+#sendRecipeEmailButton {
+    background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%);
+}
+
+#sendRecipeEmailButton:hover {
+    background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
+    box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4);
+}
+
+#likeButton {
+    background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+}
+
+#likeButton:hover {
+    background: linear-gradient(135deg, #81c784 0%, #66bb6a 100%);
+    box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    #recipe-content {
+        padding: 25px;
+        margin: 20px 15px;
+    }
+
+    #recipe-title {
+        font-size: 2rem;
+    }
+
+    #recipe-meta {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    #recipe-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #recipe-actions button {
+        width: 100%;
+        padding: 18px;
+    }
+
+    #recipe-image {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    #recipe-title {
+        font-size: 1.6rem;
+    }
+
+    #recipe-ingredients,
+    #recipe-instructions {
+        padding: 20px;
+    }
+
+    #recipe-ingredients h2,
+    #recipe-instructions h2 {
+        font-size: 1.4rem;
+    }
+}
+
+/* --- Loading State --- */
+#recipe-content h1:only-child {
+    color: #4b544b;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* --- Error State --- */
+#recipe-content h1[style*="color: red"],
+#recipe-content h1:contains("Fehler") {
+    color: #e53935 !important;
+    border-color: #e53935;
+}
+
+/* --- Print Styles --- */
+@media print {
+    header,
+    #recipe-actions {
+        display: none;
+    }
+
+    #recipe-content {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+
+    #recipe-image {
+        max-width: 400px;
+        page-break-inside: avoid;
+    }
+
+    #recipe-details {
+        grid-template-columns: 1fr;
+    }
+}

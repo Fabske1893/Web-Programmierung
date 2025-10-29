@@ -1,157 +1,356 @@
-/* --- Grundlayout & Hintergrund --- */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+/* ===================================================
+   Create Recipe Page Styles
+   Konsistentes Design mit styleRecipeDetails.css
+   =================================================== */
 
-header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgba(196, 237, 174, 0.8);
-    /* kein Außenabstand, damit der Header bis an den Rand reicht */
-    padding: 0;
-    width: 100%;
-    border-radius: 0;
-    position: relative;
-    
+/* Global reset and box-sizing */
+*, *::before, *::after {
+    box-sizing: border-box;
 }
 
+/* Base styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    background: linear-gradient(135deg, #f5f5f5 0%, #e8f5e9 100%);
     color: #333;
     margin: 0;
-    /* kein Seitenpadding, damit die Seite bis an den Rand geht */
     padding: 0;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Navigation */
+/* --- Header Navigation --- */
+header {
+    background-color: rgba(196, 237, 174, 0.9);
+    padding: 20px 5%;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    border-radius: 0;
+}
+
 header nav {
     display: flex;
-    align-items: center; 
-    font-size: small;
-    gap: 10px;
-    
-
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
 }
 
 header nav a {
     text-decoration: none;
     color: #4b544b;
     font-weight: bold;
-    transition: color 0.2s;
-    
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
 header nav a:hover {
+    background-color: rgba(75, 84, 75, 0.1);
     color: #2e3d2e;
-    font-weight: 900;
-    transform: scale(1.01);
-    display: inline-block;
+    transform: translateY(-2px);
 }
 
-/* Ensure consistent box-sizing across files */
-*, *::before, *::after {
-    box-sizing: border-box;
+/* --- Main Content Container --- */
+body > h1,
+body > h2,
+body > p {
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 20px;
 }
 
-/* --- Der Formular-Container --- */
-form {
-    display: flex;
-    flex-direction: column; /* <-- Der wichtigste Befehl: Ordnet alles untereinander an! */
-    width: 100%;
-    max-width: 600px;
-    background-color: #ffffff;
-    padding: 30px 40px;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-}
-
-/* --- Überschriften im Formular --- */
 h1 {
-    font-size: 1.8em;
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 5px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2e3d2e;
+    margin: 40px auto 10px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
 }
 
 h2 {
-    font-size: 1em;
+    font-size: 1.3rem;
     font-weight: 400;
-    color: #888;
-    margin-bottom: 30px;
+    color: #4b544b;
+    margin: 10px auto 40px;
 }
 
-/* --- Labels & Abstände --- */
+/* --- Form Container --- */
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 700px;
+    margin: 20px auto 60px;
+    padding: 50px 60px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    animation: fadeInUp 0.6s ease-in;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Labels --- */
 label {
-    font-weight: 600;
-    margin-bottom: 6px;
-    color: #444;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    color: #2e3d2e;
+    display: block;
 }
 
-/* Entfernen der überflüssigen <br>-Tags */
+label:first-of-type {
+    margin-top: 0;
+}
+
+/* Remove unnecessary line breaks */
 br {
     display: none;
 }
-/* Stattdessen nutzen wir margin für saubere Abstände */
-label, input, textarea, select {
-    margin-bottom: 15px;
-}
 
-
-/* --- Styling der Eingabefelder --- */
+/* --- Input Fields --- */
 textarea,
 select,
-input {
+input[type="text"],
+input[type="file"] {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #dcdfe2;
-    border-radius: 8px;
-    font-size: 1em;
-    font-family: 'Poppins', sans-serif;
-    transition: all 0.2s ease;
-    box-sizing: border-box;
+    padding: 14px 18px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: Arial, sans-serif;
+    transition: all 0.3s ease;
+    background-color: #fafafa;
+    margin-bottom: 5px;
 }
 
+textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+/* Focus States */
 textarea:focus,
 select:focus,
-input:focus {
+input[type="text"]:focus,
+input[type="file"]:focus {
     outline: none;
-    border-color: #2e3d2e;
-    box-shadow: 0 0 0 3px rgba(92, 103, 242, 0.2);
+    border-color: #4b544b;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(75, 84, 75, 0.1);
+    transform: translateY(-1px);
 }
 
-/* --- Button-Styling --- */
-#createRecipeButton {
-    padding: 15px;
-    font-size: 1.1em;
-    font-weight: 600;
-    color: #fff;
-    background-color: #29c56a9f; /* Moderne Akzentfarbe */
-    border: none;
-    border-radius: 8px;
+/* Select Dropdown */
+select {
     cursor: pointer;
-    margin-top: 15px; /* Etwas mehr Abstand nach oben */
-    transition: all 0.2s ease;
+    background-color: #fff;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M1 1L6 6L11 1" stroke="%234b544b" stroke-width="2" stroke-linecap="round"/%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    padding-right: 45px;
 }
 
-#createRecipeButton:hover {
-    background-color: #29c56a9f;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+select:hover {
+    border-color: #4b544b;
 }
 
-/* Anpassung für den "Datei auswählen"-Button */
+/* File Input Styling */
+input[type="file"] {
+    padding: 12px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
 input[type="file"]::file-selector-button {
     font-weight: 600;
-    color: #5c67f2;
-    padding: 8px 12px;
-    border: 1px solid #29c56a9f;
-    border-radius: 6px;
-    background-color: #f7f8ff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #4b544b 0%, #2e3d2e 100%);
     cursor: pointer;
-    transition: background-color 0.2s ease;
-    margin-right: 10px;
+    transition: all 0.3s ease;
+    margin-right: 15px;
+    box-shadow: 0 2px 8px rgba(75, 84, 75, 0.2);
 }
 
 input[type="file"]::file-selector-button:hover {
-    background-color: #e8ebff;
+    background: linear-gradient(135deg, #5f6e5f 0%, #3d4f3d 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(75, 84, 75, 0.3);
+}
+
+/* --- Submit Button --- */
+#createRecipeButton,
+button[type="button"] {
+    padding: 18px 40px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#createRecipeButton:hover,
+button[type="button"]:hover {
+    background: linear-gradient(135deg, #81c784 0%, #66bb6a 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+}
+
+#createRecipeButton:active,
+button[type="button"]:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+/* --- Textarea specific styling --- */
+#recipeTitel {
+    font-size: 1.1rem;
+    font-weight: 600;
+    min-height: 60px;
+}
+
+#zutaten,
+#zubereitung {
+    font-family: 'Courier New', monospace;
+    min-height: 150px;
+}
+
+/* --- Helper Text / Hints --- */
+form p {
+    font-size: 0.9rem;
+    color: #777;
+    margin: -5px 0 15px 0;
+    font-style: italic;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    form {
+        padding: 35px 30px;
+        margin: 20px 15px 40px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.1rem;
+    }
+
+    label {
+        font-size: 1rem;
+    }
+
+    textarea,
+    select,
+    input[type="text"],
+    input[type="file"] {
+        padding: 12px 15px;
+        font-size: 0.95rem;
+    }
+
+    #createRecipeButton,
+    button[type="button"] {
+        padding: 16px 30px;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    form {
+        padding: 25px 20px;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    header nav {
+        gap: 8px;
+    }
+
+    header nav a {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    #createRecipeButton,
+    button[type="button"] {
+        width: 100%;
+        padding: 18px;
+    }
+}
+
+/* --- Loading / Success States --- */
+.form-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.form-success {
+    border: 3px solid #66bb6a;
+    animation: successPulse 0.5s ease;
+}
+
+@keyframes successPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+/* --- Validation States --- */
+input:invalid:not(:placeholder-shown),
+textarea:invalid:not(:placeholder-shown),
+select:invalid {
+    border-color: #ef5350;
+    background-color: #ffebee;
+}
+
+input:valid,
+textarea:valid,
+select:valid {
+    border-color: #e0e0e0;
+}
+
+/* --- Accessibility Improvements --- */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+button:focus-visible {
+    outline: 3px solid #4b544b;
+    outline-offset: 2px;
 }
