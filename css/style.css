@@ -294,12 +294,18 @@ textarea {
     font-weight: 500;
 }
 
-#loginForm { display: flex; flex-direction: column; gap: 12px; }
+#loginForm,
+#registrationForm { display: flex; flex-direction: column; gap: 12px; }
 
-#loginForm label { font-weight: bold; color: #2e3d2e; }
+#loginForm label,
+#registrationForm label { font-weight: bold; color: #2e3d2e; }
 
 #loginForm input[type="email"],
-#loginForm input[type="password"] {
+#loginForm input[type="password"],
+#loginForm input[type="text"],
+#registrationForm input[type="email"],
+#registrationForm input[type="password"],
+#registrationForm input[type="text"] {
     width: 100%;
     padding: 14px 16px;
     border: 2px solid #e0e0e0;
@@ -310,7 +316,11 @@ textarea {
 }
 
 #loginForm input[type="email"]:focus,
-#loginForm input[type="password"]:focus {
+#loginForm input[type="password"]:focus,
+#loginForm input[type="text"]:focus,
+#registrationForm input[type="email"]:focus,
+#registrationForm input[type="password"]:focus,
+#registrationForm input[type="text"]:focus {
     outline: none;
     border-color: #4b544b;
     background-color: #fff;
@@ -318,7 +328,8 @@ textarea {
     transform: translateY(-1px);
 }
 
-#loginButton {
+#loginButton,
+#registration {
     padding: 14px 24px;
     font-size: 1.05rem;
     font-weight: bold;
@@ -334,13 +345,15 @@ textarea {
     letter-spacing: 0.5px;
 }
 
-#loginButton:hover {
+#loginButton:hover,
+#registration:hover {
     background: linear-gradient(135deg, #81c784 0%, #66bb6a 100%);
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(76,175,80,0.4);
 }
 
-#loginButton:active { transform: translateY(-1px); }
+#loginButton:active,
+#registration:active { transform: translateY(-1px); }
 
 .auth-helper {
     text-align: center;

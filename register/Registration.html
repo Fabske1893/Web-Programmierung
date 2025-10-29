@@ -9,46 +9,64 @@
     <script src="../js/functions.js"></script>
     <link rel="stylesheet" href="../css/style.css">
 </head>
-<Header>
+<header>
 <nav>
     <a href="../Homepage.html">Startseite</a>
 </nav>
-<br>
-</Header>
+</header>
 <body>
-    <h1>Rezept und Einkaufslisten App</h1>
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <h1>Willkommen!</h1>
+            <h2>Erstelle deinen Account</h2>
+            <form id="registrationForm" novalidate>
+                <label for="userName">Name</label>
+                <input type="text" id="userName" name="username" required placeholder="Max Mustermann">
 
-    <p>Bitte fülle alle Felder aus: </p> <br/><br/>
+                <label for="userEmail">E-Mail</label>
+                <input type="email" id="userEmail" name="email" required placeholder="name@example.com">
 
-    <label> Name:  <input type="text" id="userName"> </label> <br/><br/>
-    <label> Deine Email: <input type="email" id="userEmail"> </label> <br/><br/>
-    <label> Dein Passwort: <input type="password" id="userPassword"> </label> <br/><br/>
+                <label for="userPassword">Passwort</label>
+                <input type="password" id="userPassword" name="password" required placeholder="••••••••">
 
-    <br/><br/>
-    <button id="registration">Registieren</button>
+                <button type="submit" id="registration">Registrieren</button>
+            </form>
+            <p class="auth-helper">Du hast bereits ein Konto? <a href="../login/Login.html">Hier anmelden</a></p>
+        </div>
+    </div>
 
         <script>
-        $("#registration").click(function(){
+        $("#registrationForm").on("submit", function(e){
+            e.preventDefault();
+            
             var registerUser = {
                 username : $("#userName").val(),
                 email: $("#userEmail").val(),
                 password: $("#userPassword").val()
             };
-            console.log("Sending delete on login to BFF with user ...");
+            
+            console.log("Sending POST to BFF for registration...");
             console.log(registerUser);
+            
             $.ajax({
                 url : 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/register',
-                type : 'post',
+                type : 'POST',
                 dataType : 'json',
                 contentType : 'application/json',
-                success : function(data) {
-                    alert('Du bist registriert. Du kannst dich nun einloggen.');
-                    goToLogin();
-                },
                 data : JSON.stringify(registerUser),
-                processData : false,
+                success : function(data) {
+                    alert('Registrierung erfolgreich! Du kannst dich nun einloggen.');
+                    window.location.href = '../login/Login.html';
+                },
                 error: function(xhr, ajaxOptions, thrownError) {
-                    alert('Du konntest nicht registriert werden.');
+                    if (xhr.status === 409) {
+                        alert('Diese E-Mail ist bereits registriert.');
+                    } else if (xhr.status === 400) {
+                        alert('Bitte fülle alle Felder korrekt aus.');
+                    } else {
+                        alert('Registrierung fehlgeschlagen. Bitte versuche es erneut.');
+                    }
+                    console.error("Registrierungsfehler:", thrownError);
                 }
             });
         });
