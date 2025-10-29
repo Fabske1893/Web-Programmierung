@@ -37,7 +37,7 @@ function renderSelectOptions() {
     adminState.recipes.forEach(r => {
         const opt = document.createElement('option');
         opt.value = r.id;
-        opt.textContent = r.name || `Rezept ${r.id}`;
+        opt.textContent = `${r.title} (ID: ${r.id})`;
         select.appendChild(opt);
     });
 }
@@ -70,8 +70,7 @@ function renderSelectedList() {
     const selectedRecipes = Array.from(adminState.selection)
         .map(id => adminState.recipes.find(r => String(r.id) === String(id)))
         .filter(r => r !== undefined)
-        .map(r => r.name || `Rezept ${r.id}`);
-
+        .map(r => r.title || `Rezept ${r.id}`);
     
     selectedList.textContent = selectedRecipes.join(', ');
 }
@@ -102,7 +101,7 @@ async function adminDeleteSelected() {
     
 }
 
-// Event listener hookup
+
 document.addEventListener('DOMContentLoaded', () => {
     loadAdminRecipes();
 });

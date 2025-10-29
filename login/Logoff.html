@@ -10,13 +10,13 @@
 </head>
 <Header>
 <nav>
-    <a href="../Homepage.html">Startseite</a>
+    <a href="../Homepage.html">Zurück zur Startseite</a>
 </nav>
 <br>
 </Header>
-<body>
+<body id="LogOffBody">
     <h1>Bis bald!</h1>
-<p>Hier können Sie sich abmelden:</p> <br>
+<p>Hier können Sie sich abmelden:</p> 
     <button type="button" id="logoffButton">Abmelden</button>
 </body>
 
@@ -34,7 +34,8 @@
             contentType : 'application/json',
             success : function(data) {
                 alert('You are now logged off.');
-                localStorage.setItem('usertoken', 'OFF');
+                localStorage.removeItem('usertoken'); 
+                window.location.href = "../Homepage.html";
             },
             data : JSON.stringify(logoffUser),
             processData : false,

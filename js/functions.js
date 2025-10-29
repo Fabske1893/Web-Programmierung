@@ -1,4 +1,4 @@
-// Diese Funktion wird ausgeführt, sobald die Homepage.html komplett geladen ist.
+
 document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('recipeContainer')) {
         loadAndDisplayRecipes();
@@ -24,7 +24,7 @@ function loadAndDisplayRecipes() {
                 return;
             }
 
-            // 👇 Debug-Ausgabe im Browser
+            
             console.log("Geladene Rezepte:", recipes);
 
             recipes.forEach(recipe => {
@@ -61,10 +61,49 @@ recipeCard.innerHTML = `
 function goToAccount() {
     window.location.href = './login/Account.html';
 }
+function goToHomepage(){
+    window.location.href = './Homepage.html'; // Zur Homepage weiterleiten
+}
+function goToLogin(){
+    window.location.href = './login/Login.html'; // Zur Login-Seite weiterleiten
+}
 
-function likeRecipe() {}
 
-function deleteRecipe() {
+
+
+
+function likeRecipe(){
+     $("#likeButton").click(function(){
+        const recipeId = new URLSearchParams(window.location.search).get('id');
+        
+        
+        console.log("Sending put on like ...");
+        
+        $.ajax({
+            url : `https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes/${recipeId}/like`,
+            type : 'PUT',
+            dataType : 'json',
+            contentType : 'application/json',
+            success : function(response) {
+                
+            },
+            
+            error: function(xhr, status, error) {
+                if(xhr.status === 401){
+                    alert('Fehler: Sie müssen eingeloggt sein, um ein Rezept zu liken.');
+                }
+                else {
+                    alert('Fehler beim Liken des Rezepts. Bitte versuchen Sie es erneut.');
+                }
+                
+        
+            }
+        });
+    });
+}
+
+function deleteRecipe(){
+    
     alert('Alle Rezepte wurden gelöscht!');
     window.location.href = '../Homepage.html';
 }
@@ -84,3 +123,4 @@ function searchRecipe() {
         item.style.display = titleText.includes(input) ? "" : "none";
     }
 }
+
