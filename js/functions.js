@@ -1,16 +1,12 @@
 // Diese Funktion wird ausgeführt, sobald die Homepage.html komplett geladen ist.
 document.addEventListener('DOMContentLoaded', function() {
-    // Überprüfe, ob wir auf der Homepage sind, bevor die Rezepte geladen werden
     if (document.getElementById('recipeContainer')) {
         loadAndDisplayRecipes();
     }
 });
 
-
 function loadAndDisplayRecipes() {
-   
     const backendUrl = "https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes";
-
     const container = document.getElementById('recipeContainer');
 
     fetch(backendUrl)
@@ -18,39 +14,38 @@ function loadAndDisplayRecipes() {
             if (!response.ok) {
                 throw new Error('Netzwerk-Antwort war nicht in Ordnung. Status: ' + response.status);
             }
-            return response.json(); 
+            return response.json();
         })
         .then(recipes => {
-            container.innerHTML = ''; 
+            container.innerHTML = '';
 
             if (!recipes || recipes.length === 0) {
                 container.innerHTML = '<p>Keine Rezepte gefunden.</p>';
                 return;
             }
 
-            
             recipes.forEach(recipe => {
-                
                 const recipeCard = document.createElement('div');
-                recipeCard.className = 'recipe'; 
-                recipeCard.setAttribute('data-name', (recipe.name|| "").toLowerCase());
+                recipeCard.className = 'recipe';
+                recipeCard.setAttribute('data-name', (recipe.title || "").toLowerCase());
                 recipeCard.setAttribute('data-date', recipe.creationDate || '2025-01-01');
-                recipeCard.setAttribute('data-difficulty', recipe.difficulty);
+                recipeCard.setAttribute('data-difficulty', recipe.difficulty || 'Unbekannt');
                 recipeCard.setAttribute('data-likes', recipe.likes || 0);
-                                
+
                 recipeCard.innerHTML = `
-                    <img src="${recipe.pictureUrl}" alt="Bild von ${recipe.name}" style="width:100%;">
-                    <h3>${recipe.name}</h3>
-                    <p><strong>Kategorie:</strong> ${recipe.category}</p>
-                    <p><strong>Schwierigkeit:</strong> ${recipe.difficulty}</p>
+                    <img src="${recipe.imageUrl || 'images/default.jpg'}" alt="Bild von ${recipe.title}" style="width:100%;">
+                    <h3>${recipe.title}</h3>
+                    <p><strong>Kategorie:</strong> ${recipe.category || 'Unbekannt'}</p>
+                    <p><strong>Schwierigkeit:</strong> ${recipe.difficulty || 'Unbekannt'}</p>
                     <p><strong>Likes:</strong> ${recipe.likes || 0}</p>
-                `;   
+                `;
+
                 const link = document.createElement('a');
-                link.href = `recipes/Recipe.html?id=${recipe.id}`; 
-                link.style.textDecoration = 'none'; 
-                link.style.color = 'inherit';                   
+                link.href = `recipes/Recipe.html?id=${recipe.id}`;
+                link.style.textDecoration = 'none';
+                link.style.color = 'inherit';
                 link.appendChild(recipeCard);
-                container.appendChild(link); 
+                container.appendChild(link);
             });
         })
         .catch(error => {
@@ -59,39 +54,29 @@ function loadAndDisplayRecipes() {
         });
 }
 
-
-function goToAccount(){
-    window.location.href = './login/Account.html'; // Zur Account-Seite weiterleiten
+function goToAccount() {
+    window.location.href = './login/Account.html';
 }
 
+function likeRecipe() {}
 
-function likeRecipe(){}
-
-function deleteRecipe(){
-    
+function deleteRecipe() {
     alert('Alle Rezepte wurden gelöscht!');
-    window.location.href= '../Homepage.html'; // Zur Homepage weiterleiten
-    
+    window.location.href = '../Homepage.html';
 }
 
-function searchRecipe(){
+function searchRecipe() {
     const input = document.getElementById("searchRecipe").value.toLowerCase();
     const list = document.getElementById("recipeList");
     const items = list.getElementsByTagName('li');
 
-    // Durchlaufe alle Listenelemente und blende diejenigen ein, derrn Titel den Suchbegriff enthalten
     for (let item of items) {
         const title = item.getElementsByTagName('h3')[0];
-        if(!title){
+        if (!title) {
             item.style.display = "none";
-         continue; 
+            continue;
         }
-        titleText = title.textContent.toLowerCase();
-        if (titleText.includes(input)) {
-            item.style.display = "";
-        } else {
-            item.style.display = "none";
-        }
+        const titleText = title.textContent.toLowerCase();
+        item.style.display = titleText.includes(input) ? "" : "none";
     }
-
 }
