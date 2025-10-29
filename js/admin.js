@@ -37,7 +37,7 @@ function renderSelectOptions() {
     adminState.recipes.forEach(r => {
         const opt = document.createElement('option');
         opt.value = r.id;
-        opt.textContent = r.title `"mit id:" ${r.id}`;
+        opt.textContent = `${r.title} (ID: ${r.id})`;
         select.appendChild(opt);
     });
 }
@@ -101,7 +101,7 @@ async function adminDeleteSelected() {
     
 }
 
-// Event listener hookup
+
 document.addEventListener('DOMContentLoaded', () => {
     loadAdminRecipes();
 });
