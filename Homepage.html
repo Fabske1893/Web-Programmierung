@@ -75,7 +75,7 @@
 
         <!-- GraphQL loader: renders .recipe elements with required data-attributes -->
         <script>
-            const graphqlQuery = `query { recipes { id imageUrl title difficulty category likes creationDate } }`;
+            const graphqlQuery = `query { recipes { id imageUrl title difficulty category likes } }`;
 
             $(document).ready(function() {
                 console.log("Sending POST on recipe of BFF with GraphQL query ...");
