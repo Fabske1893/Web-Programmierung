@@ -68,15 +68,17 @@
 
        
         const recipeData = {
-            name: $("#recipeTitel").val(),
-            pictureUrl: "default.jpg",
-            ingredients: ingredientsList, 
-            instructions: $("#zubereitung").val(), 
-            difficultyLevel: $("#difficulty").val(),
-            category: $("#category").val()
-        };
-        console.log(recipeData);
-        // ist noch auf lokalen server später durch heroku ersetzten
+    title: $("#recipeTitel").val(),
+    imageUrl: "default.jpg",
+    ingredients: ingredientsList,
+    instructions: $("#zubereitung").val(),
+    difficulty: $("#difficulty").val(),
+    category: $("#category").val(),
+    likes: 0
+};
+
+
+        
         $.ajax({
             url: 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes', 
             type: 'POST',
