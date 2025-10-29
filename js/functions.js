@@ -33,14 +33,14 @@ function loadAndDisplayRecipes() {
                 
                 const recipeCard = document.createElement('div');
                 recipeCard.className = 'recipe'; 
-                recipeCard.setAttribute('data-name', (recipe.title || "").toLowerCase());
+                recipeCard.setAttribute('data-name', (recipe.name|| "").toLowerCase());
                 recipeCard.setAttribute('data-date', recipe.creationDate || '2025-01-01');
                 recipeCard.setAttribute('data-difficulty', recipe.difficulty);
                 recipeCard.setAttribute('data-likes', recipe.likes || 0);
                                 
                 recipeCard.innerHTML = `
-                    <img src="${recipe.pictureUrl}" alt="Bild von ${recipe.title}" style="width:100%;">
-                    <h3>${recipe.title}</h3>
+                    <img src="${recipe.pictureUrl}" alt="Bild von ${recipe.name}" style="width:100%;">
+                    <h3>${recipe.name}</h3>
                     <p><strong>Kategorie:</strong> ${recipe.category}</p>
                     <p><strong>Schwierigkeit:</strong> ${recipe.difficulty}</p>
                     <p><strong>Likes:</strong> ${recipe.likes || 0}</p>
