@@ -80,6 +80,7 @@
 
 <button onclick="deleteRecipe()">Ausgewähltes Rezept löschen</button>
 
+<br>
 <br><br>
     <h2>Meine Daten:</h2>
     <p><strong>Name:</strong> <span id="userName"></span></p>
@@ -87,7 +88,7 @@
 
     <script>
         // === Rezepte laden ===
-        const graphqlQuery = `
+        const recipesQuery = `
             query {
                 recipes {
                     id
