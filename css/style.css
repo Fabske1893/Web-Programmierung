@@ -129,22 +129,7 @@ input{
 }
     
     
-/* --- Form fields --- */
-#zutaten, #zubereitung, #titel {
-    width: 80%;
-    max-width: 600px;
-    height: 150px;
-    padding: 15px;
-    margin: 10px 0;
-    border: 2px solid #000;
-    border-radius: 6px;
-    background-color: #f8f8f8;
-    font-size: 16px;
-    resize: none;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
+/* (entfernt veraltete spezifische Feld-Stile; CreateRecipe nutzt eigenen Stylesheet) */
 
 /* --- Recipe cards --- */
 .recipe-card, div.recipe {
@@ -217,18 +202,7 @@ textarea, input[type="file"], select {
     font-size: 16px;
 }
 
-/* --- Buttons (duplicate avoided) --- */
-button {
-    background-color: #4b544b;
-    color: white;
-    border: none;
-    border-radius: 12px;
-    padding: 12px 25px;
-    font-size: 16px;
-    margin: 20px 0;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
+/* (duplizierte Button-Regeln entfernt; globaler Button-Block bleibt oben) */
 
 /* --- Textareas --- */
 textarea {
@@ -246,24 +220,7 @@ textarea {
     margin-right: 10px;
 }
 
-#LoginBody, #LogOffBody {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-
-
-#LoginBody input {
-    /* Inputs sollen seitlichen Abstand zum Container haben, sonst nicht */
-    width: calc(100% - 40px);
-    padding: 12px;
-    margin: 10px 20px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
+/* (alte Login-spezifische Regeln entfernt, ersetzt durch .auth-*) */
 #recipeContainer { display: flex; flex-wrap: wrap; gap: 1rem; }
         .recipe { width: 220px; border: 1px solid #ddd; padding: 0.5rem; box-sizing: border-box; }
         .recipe img { width: 100%; height: auto; display:block; }
@@ -290,8 +247,108 @@ textarea {
     cursor: pointer;
 }
 #adminLink{
-    display: none;
-     margin: 0; 
-     padding: 0; 
-     display: inline;
+    display: none; /* per JS auf inline setzen, wenn Admin */
+    margin: 0;
+    padding: 0;
 }
+
+/* ==========================
+   Login Page 
+   ========================== */
+.auth-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 15px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 520px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    padding: 40px 50px;
+    animation: fadeInUp 0.6s ease-in;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.auth-card h1 {
+    text-align: center;
+    font-size: 2.2rem;
+    color: #2e3d2e;
+    margin: 0 0 6px 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+}
+
+.auth-card h2 {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #4b544b;
+    margin: 0 0 25px 0;
+    font-weight: 500;
+}
+
+#loginForm { display: flex; flex-direction: column; gap: 12px; }
+
+#loginForm label { font-weight: bold; color: #2e3d2e; }
+
+#loginForm input[type="email"],
+#loginForm input[type="password"] {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    background: #fafafa;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+#loginForm input[type="email"]:focus,
+#loginForm input[type="password"]:focus {
+    outline: none;
+    border-color: #4b544b;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(75,84,75,0.1);
+    transform: translateY(-1px);
+}
+
+#loginButton {
+    padding: 14px 24px;
+    font-size: 1.05rem;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(76,175,80,0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#loginButton:hover {
+    background: linear-gradient(135deg, #81c784 0%, #66bb6a 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(76,175,80,0.4);
+}
+
+#loginButton:active { transform: translateY(-1px); }
+
+.auth-helper {
+    text-align: center;
+    color: #666;
+    margin-top: 14px;
+}
+
+.auth-helper a { color: #1a41ac; font-weight: bold; }
+.auth-helper a:hover { color: #102a80; text-decoration: underline; }
+
+@media (max-width: 600px) { .auth-card { padding: 28px 22px; } }
