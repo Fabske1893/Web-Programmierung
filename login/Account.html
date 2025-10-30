@@ -35,6 +35,8 @@
                 return;
             }
             loadUserRecipes(token);
+            console.log('Lade Benutzerrezepte mit Token:', token);
+            
         });
 
         async function loadUserRecipes(token) {
@@ -43,6 +45,8 @@
 
             // 1) Versuche GraphQL myRecipes mit  Token
             const gql = `query { myRecipes { id imageUrl title likes } }`;
+            console.log('GraphQL Query:', gql);
+            
             try {
                 const resp = await fetch(`https://rezeptappbackend-a9a2cded5f95.herokuapp.com/graphql`, {
                     method: 'POST',
@@ -53,16 +57,23 @@
                     body: JSON.stringify({ query: gql })
                 });
                 const body = await resp.json();
+                console.log('API Response:', body);
+                
                 const recipes = body?.data?.myRecipes;
                 if (Array.isArray(recipes)) {
                     renderRecipes(recipes);
                     return;
                 }
-            } catch (e) { /* Fallback */ }
-
-           
-
-            list.innerHTML = '<li style="color:red">Konnte deine Rezepte nicht laden.</li>';
+                
+                // Wenn keine Rezepte im Array sind
+                if (recipes === null || recipes === undefined) {
+                    list.innerHTML = '<li>Du hast noch keine Rezepte erstellt.</li>';
+                    return;
+                }
+            } catch (e) {
+                console.error('Fehler beim Laden der Rezepte:', e);
+                list.innerHTML = '<li style="color:red">Konnte deine Rezepte nicht laden. Fehler: ' + e.message + '</li>';
+            }
         }
 
         function renderRecipes(recipes) {
