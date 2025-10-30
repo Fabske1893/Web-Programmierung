@@ -1,111 +1,130 @@
 <!DOCTYPE html>
 <html lang="de">
-    
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mein Account</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/jquery-3.6.0.min.js"></script>
-    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mein Account</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/jquery-3.6.0.min.js"></script>
 </head>
+
 <header>
-<nav>
+  <nav>
     <a href="../Homepage.html">Startseite</a>
     <a href="../login/Logoff.html">Abmelden</a>
-
-</nav>
-
+  </nav>
 </header>
+
 <body>
-    <h1>Mein Account</h1>
-    <h2>Hier finden Sie Ihre erstellten Rezepte:</h2>
+  <h1>Mein Account</h1>
+
+  <div id="userInfo">
+    <p><strong>Benutzername:</strong> <span id="username">–</span></p>
+    <p><strong>E-Mail:</strong> <span id="email">–</span></p>
+  </div>
+
+  <h2>Hier finden Sie Ihre erstellten Rezepte:</h2>
+  <ul id="recipeListUser"></ul>
+
+  <div>Meine Likes: <span id="userLikes">0</span></div>
+
+  <script>
+    const API_BASE = "https://rezeptappbackend-a9a2cded5f95.herokuapp.com";
+
+    $(document).ready(function () {
+      const token = localStorage.getItem("userToken");
+      if (!token || token === "OFF") {
+        alert("Bitte logge dich ein, um deinen Account zu sehen.");
+        window.location.href = "../login/Login.html";
+        return;
+      }
+
+      loadUserInfo(token);
+      loadUserRecipes(token);
+    });
+
+
+    async function loadUserInfo(token) {
+      try {
+        const res = await fetch(`${API_BASE}/account?token=${token}`);
+        const data = await res.json();
+
+        if (data.username) {
+          $("#username").text(data.username);
+          $("#email").text(data.email);
+        } else {
+          $("#username").text("Unbekannt");
+          $("#email").text("Keine Daten");
+        }
+      } catch (err) {
+        console.error("Fehler beim Laden der Account-Daten:", err);
+        $("#username").text("Fehler");
+        $("#email").text("Fehler");
+      }
+    }
+
     
-    <ul id="recipeListUser">   </ul>
+    async function loadUserRecipes(token) {
+      const list = $("#recipeListUser");
+      list.html("<li>Lade deine Rezepte...</li>");
 
-    <script>
-        // Lädt Benutzerinfos und nur die Rezepte des eingeloggten Users
-        const API_BASE = '';
+      const gql = `query { myRecipes { id imageUrl title likes } }`;
 
-        $(document).ready(function() {
-            const token = localStorage.getItem('userToken');
-            if (!token || token === 'OFF') {
-                alert('Bitte logge dich ein, um deinen Account zu sehen.');
-                window.location.href = '../login/Login.html';
-                return;
-            }
-            loadUserRecipes(token);
+      try {
+        const resp = await fetch(`${API_BASE}/graphql`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({ query: gql })
         });
 
-        async function loadUserRecipes(token) {
-            const list = document.getElementById('recipeListUser');
-            list.innerHTML = '<li>Lade deine Rezepte...</li>';
-
-            // 1) Versuche GraphQL myRecipes mit  Token
-            const gql = `query { myRecipes { id imageUrl title likes } }`;
-            try {
-                const resp = await fetch(`https://rezeptappbackend-a9a2cded5f95.herokuapp.com/graphql`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ query: gql })
-                });
-                const body = await resp.json();
-                const recipes = body?.data?.myRecipes;
-                if (Array.isArray(recipes)) {
-                    renderRecipes(recipes);
-                    return;
-                }
-            } catch (e) { /* Fallback */ }
-
-           
-
-            list.innerHTML = '<li style="color:red">Konnte deine Rezepte nicht laden.</li>';
+        const body = await resp.json();
+        const recipes = body?.data?.myRecipes;
+        if (Array.isArray(recipes)) {
+          renderRecipes(recipes);
+          return;
         }
+      } catch (e) {
+        console.error(e);
+      }
 
-        function renderRecipes(recipes) {
-            const list = document.getElementById('recipeListUser');
-            if (!recipes || recipes.length === 0) {
-                list.innerHTML = '<li>Du hast noch keine Rezepte erstellt.</li>';
-                return;
-            }
-            let html = '';
-            recipes.forEach(recipe => {
-                const id = recipe.id;
-                const title = recipe.title || 'Ohne Titel';
-                const likes = recipe.likes || 0;
-                const img = recipe.imageUrl || `../images/placeholder.png`;
-                html += `
-                <li>
-                    <div class="recipe-card">
-                        <a href="../recipes/recipe-detail.html?id=${id}">
-                            <img src="${img}" alt="${title}" class="recipe-image" onerror="this.onerror=null;this.src='../images/placeholder.png';">
-                        </a>
-                        <h3>${title}</h3>
-                        <p>Likes: ${likes}</p>
-                        <button onclick="deleteRecipe(${id})">Rezept löschen</button>
-                        <button onclick="editRecipe(${id})">Rezept bearbeiten</button>
-                    </div>
-                </li>`;
-            });
-            list.innerHTML = html;
-        }
+      list.html('<li style="color:red">Konnte deine Rezepte nicht laden.</li>');
+    }
 
-    </script>
+    
+    function renderRecipes(recipes) {
+      const list = $("#recipeListUser");
+      if (!recipes || recipes.length === 0) {
+        list.html("<li>Du hast noch keine Rezepte erstellt.</li>");
+        return;
+      }
 
+      let html = "";
+      recipes.forEach(recipe => {
+        const id = recipe.id;
+        const title = recipe.title || "Ohne Titel";
+        const likes = recipe.likes || 0;
+        const img = recipe.imageUrl || "../images/placeholder.png";
 
-<br>
+        html += `
+          <li>
+            <div class="recipe-card">
+              <a href="../recipes/recipe-detail.html?id=${id}">
+                <img src="${img}" alt="${title}" class="recipe-image"
+                  onerror="this.onerror=null;this.src='../images/placeholder.png';">
+              </a>
+              <h3>${title}</h3>
+              <p>Likes: ${likes}</p>
+              <button onclick="deleteRecipe(${id})">Rezept löschen</button>
+              <button onclick="editRecipe(${id})">Rezept bearbeiten</button>
+            </div>
+          </li>`;
+      });
 
-   <div>Meine Likes: <span id="userLikes">
-    0
-   </span>
-
-    </div>
-
-   
-
-      
+      list.html(html);
+    }
+  </script>
 </body>
 </html>
