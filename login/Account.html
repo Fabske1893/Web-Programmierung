@@ -43,7 +43,7 @@
       loadUserRecipes(token);
     });
 
-
+    // Benutzerinformationen laden
     async function loadUserInfo(token) {
       try {
         const res = await fetch(`${API_BASE}/account?token=${token}`);
@@ -63,12 +63,13 @@
       }
     }
 
-    
+    // Rezepte des Benutzers laden
     async function loadUserRecipes(token) {
       const list = $("#recipeListUser");
       list.html("<li>Lade deine Rezepte...</li>");
 
       const gql = `query { myRecipes { id imageUrl title likes } }`;
+      console.log("GraphQL Query:", gql);
 
       try {
         const resp = await fetch(`${API_BASE}/graphql`, {
@@ -81,19 +82,22 @@
         });
 
         const body = await resp.json();
+        console.log("API Response:", body);
+
         const recipes = body?.data?.myRecipes;
         if (Array.isArray(recipes)) {
           renderRecipes(recipes);
           return;
         }
-      } catch (e) {
-        console.error(e);
-      }
 
-      list.html('<li style="color:red">Konnte deine Rezepte nicht laden.</li>');
+        list.html("<li>Du hast noch keine Rezepte erstellt.</li>");
+      } catch (e) {
+        console.error("Fehler beim Laden der Rezepte:", e);
+        list.html(`<li style="color:red">Konnte deine Rezepte nicht laden: ${e.message}</li>`);
+      }
     }
 
-    
+    // Rezepte im HTML darstellen
     function renderRecipes(recipes) {
       const list = $("#recipeListUser");
       if (!recipes || recipes.length === 0) {

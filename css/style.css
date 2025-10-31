@@ -247,7 +247,7 @@ textarea {
     cursor: pointer;
 }
 #adminLink{
-    display: none; /* per JS auf inline setzen, wenn Admin */
+    display: inline; /* per JS auf inline setzen, wenn Admin */
     margin: 0;
     padding: 0;
 }

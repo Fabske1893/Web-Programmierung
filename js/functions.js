@@ -1,9 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('recipeContainer')) {
-        // keep legacy REST loader if needed elsewhere
-        // but main page uses GraphQL loader in Homepage.html
-        // loadAndDisplayRecipes();
+       
     }
 });
 
@@ -75,7 +73,6 @@ function goToLogin(){
 
 
 function likeRecipe(){
-     $("#likeButton").click(function(){
         const recipeId = new URLSearchParams(window.location.search).get('id');
         
         
@@ -87,26 +84,29 @@ function likeRecipe(){
             dataType : 'json',
             contentType : 'application/json',
             success : function(response) {
+                console.log('Rezept erfolgreich geliked:', response);
                 
             },
             
             error: function(xhr, status, error) {
                 if(xhr.status === 401){
                     alert('Fehler: Sie müssen eingeloggt sein, um ein Rezept zu liken.');
+                    console.error('Fehler beim Liken des Rezepts: Nicht eingeloggt');
                 }
                 else {
                     alert('Fehler beim Liken des Rezepts. Bitte versuchen Sie es erneut.');
+                    console.error('Fehler beim Liken des Rezepts:', error);
                 }
                 
         
             }
         });
-    });
-}
+    }
+
 
 function deleteRecipe(){
     
-    alert('Alle Rezepte wurden gelöscht!');
+    
     window.location.href = '../Homepage.html';
 }
 

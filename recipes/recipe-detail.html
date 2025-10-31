@@ -29,7 +29,7 @@
     <div id="recipe-actions">
         <button id="addToShoppingListButton">Zutaten zur Einkaufsliste hinzufügen</button>
         <button id="sendRecipeEmailButton">Rezept per E-Mail senden</button>
-        <button id="likeButton">Like</button>
+        <button id="likeButton" onclick="likeRecipe()">Like</button>
         <button onclick="readInstructions()">Zubereitung von Alexa vorlesen lassen</button>
     </div>
 
@@ -172,13 +172,7 @@
                             document.getElementById('recipe-ingredients').innerHTML = ingredientsHtml;
                         }
 
-                        // Button-Handler sind delegiert und werden oben zentral verwaltet
 
-                        // Like-Button via shared functions.js initialisieren
-                        if (typeof window.likeRecipe === 'function') {
-                            window.likeRecipe();
-                        }
-                        
                         // Zubereitung
                         if (recipe.instructions) {
                             document.getElementById('recipe-instructions').innerHTML = `
