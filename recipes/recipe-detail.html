@@ -194,11 +194,19 @@
     }
 
     function readInstructions() {
-    console.log("Alexa-Request mit ID:", loadedRecipe.id);
-    fetch("https://rezeptappbackend-a9a2cded5f95.herokuapp.com/alexa/recipe?id=1")
-        .then(res => res.text())
-        .then(text => alert("Alexa liest vor: " + text));
+  if (!loadedRecipe) {
+    alert("Kein Rezept geladen!");
+    return;
+  }
+
+  fetch(`https://rezeptappbackend-a9a2cded5f95.herokuapp.com/alexa/recipe?id=${loadedRecipe.id}`)
+    .then(res => res.text())
+    .then(text => {
+      alert("Alexa liest vor: " + text);
+    })
+    .catch(err => alert("Fehler: " + err));
 }
+
 </script>
 </body>
 </html>
