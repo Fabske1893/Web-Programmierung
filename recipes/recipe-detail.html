@@ -192,6 +192,20 @@
             });
         });
     }
+
+    function readInstructions() {
+      const recipeId = new URLSearchParams(window.location.search).get("id");
+      fetch(`https://rezeptappbackend-a9a2cded5f95.herokuapp.com/alexa/recipe?id=${recipeId}`)
+        .then(res => res.text())
+        .then(text => {
+          alert("Alexa sagt: " + text);
+          // Optional: hier kannst du später die Alexa-API triggern
+        })
+        .catch(err => {
+          console.error("Fehler bei Alexa-Request:", err);
+          alert("Fehler: " + err.message);
+        });
+    }
 </script>
 </body>
 </html>
