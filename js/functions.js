@@ -69,47 +69,6 @@ function goToLogin(){
 }
 
 
-
-
-
-function likeRecipe(){
-        const recipeId = new URLSearchParams(window.location.search).get('id');
-        
-        
-        console.log("Sending put on like ...");
-        
-        $.ajax({
-            url : `https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes/${recipeId}/like`,
-            type : 'PUT',
-            dataType : 'json',
-            contentType : 'application/json',
-            success : function(response) {
-                console.log('Rezept erfolgreich geliked:', response);
-                
-            },
-            
-            error: function(xhr, status, error) {
-                if(xhr.status === 401){
-                    alert('Fehler: Sie müssen eingeloggt sein, um ein Rezept zu liken.');
-                    console.error('Fehler beim Liken des Rezepts: Nicht eingeloggt');
-                }
-                else {
-                    alert('Fehler beim Liken des Rezepts. Bitte versuchen Sie es erneut.');
-                    console.error('Fehler beim Liken des Rezepts:', error);
-                }
-                
-        
-            }
-        });
-    }
-
-
-function deleteRecipe(){
-    
-    
-    window.location.href = '../Homepage.html';
-}
-
 function searchRecipe() {
     const inputEl = document.getElementById("searchRecipe");
     if (!inputEl) return;
