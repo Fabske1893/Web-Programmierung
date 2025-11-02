@@ -71,15 +71,15 @@
 
     const fileInput = $('#image')[0];
     if (fileInput.files.length > 0) {
-        formData.append('image', fileInput.files[0]);
+        formData.append('image', fileInput.files[0]); 
     }
 
     $.ajax({
         url: 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes',
         type: 'POST',
         data: formData,
-        processData: false,
-        contentType: false,
+        processData: false, 
+        contentType: false, 
         success: function(response) {
             alert('Dein Rezept wurde erfolgreich hinzugefügt!');
             window.location.href = '../Homepage.html';
@@ -88,12 +88,17 @@
             let errorMsg = 'Fehler: Wir konnten dein Rezept nicht hinzufügen.';
             if (xhr.responseJSON && xhr.responseJSON.message) {
                 errorMsg += '\nServer sagt: ' + xhr.responseJSON.message;
+            } else if (xhr.status === 0) {
+                errorMsg += '\nFehler: Netzwerkproblem oder Backend nicht erreichbar.';
+            } else {
+                errorMsg += '\nStatus: ' + xhr.status;
             }
             alert(errorMsg);
             console.error("Fehlerdetails:", error);
         }
     });
 }
+
 
     
 
