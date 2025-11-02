@@ -99,11 +99,12 @@
                             div.innerHTML = `
                                 <a href="./recipes/recipe-detail.html?id=${recipe.id}">
                                     <img src="${recipe.imageUrl || 'images/placeholder.png'}" alt="${recipe.title || ''}">
-                                </a>
+                                
                                 <h3>${recipe.title || 'Untitled'}</h3>
                                 <p><strong>Kategorie:</strong> ${recipe.category || '—'}</p>
                                 
                                 <p><strong>Schwierigkeit:</strong> ${recipe.difficulty || '—'}</p>
+                                </a>
                             `;
 
                             container.appendChild(div);

@@ -151,6 +151,30 @@ input{
     box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 }
 
+/* Make the whole recipe card clickable while keeping the visual style
+   (no blue link color or underline). Also add an accessible focus state. */
+#recipeContainer .recipe > a {
+    display: block; /* anchor fills the card */
+    color: inherit; /* keep text color */
+    text-decoration: none; /* remove underline */
+}
+
+#recipeContainer .recipe > a:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Keyboard focus visible for accessibility */
+#recipeContainer .recipe > a:focus {
+    outline: 3px solid rgba(75,84,75,0.12);
+    outline-offset: 4px;
+}
+
+/* Pointer cursor for the whole card */
+#recipeContainer .recipe {
+    cursor: pointer;
+}
+
 /* --- Links --- */
 a {
     text-decoration: none;
