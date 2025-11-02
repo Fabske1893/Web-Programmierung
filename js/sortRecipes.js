@@ -30,7 +30,7 @@ function sortRecipes(criteria) {
                 const dateB = new Date(b.getAttribute('data-date'));
                 return dateB - dateA; 
             case 'difficulty':
-                const rank = v => ({ 'easy': 1, 'medium': 2, 'hard': 3 })[normalizeDifficulty(v)] || 2;
+                const rank = v => ({ 'easy': 1, 'medium': 2, 'hard': 3 })[v] || 2;
                 const dA = a.getAttribute('data-difficulty');
                 const dB = b.getAttribute('data-difficulty');
                 return rank(dA) - rank(dB);
