@@ -26,7 +26,7 @@
   <h2>Hier finden Sie Ihre erstellten Rezepte:</h2>
   <ul id="recipeListUser"></ul>
 
-  <div>Meine Likes: <span id="userLikes">0</span></div>
+  
 
   <script>
     const API_BASE = "https://rezeptappbackend-a9a2cded5f95.herokuapp.com";
@@ -109,7 +109,6 @@
       recipes.forEach(recipe => {
         const id = recipe.id;
         const title = recipe.title || "Ohne Titel";
-        const likes = recipe.likes || 0;
         const img = recipe.imageUrl || "../images/placeholder.png";
 
         html += `
@@ -120,7 +119,6 @@
                   onerror="this.onerror=null;this.src='../images/placeholder.png';">
               </a>
               <h3>${title}</h3>
-              <p>Likes: ${likes}</p>
               <button onclick="deleteRecipe(${id})">Rezept löschen</button>
               <button onclick="editRecipe(${id})">Rezept bearbeiten</button>
             </div>
