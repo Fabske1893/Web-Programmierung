@@ -18,12 +18,6 @@ function sortRecipes(criteria) {
    
     recipes.sort((a, b) => {
         switch (criteria) {
-            case 'likes':
-                // Sort by likes desc
-                const likesA = parseInt(a.getAttribute('data-likes'));
-                const likesB = parseInt(b.getAttribute('data-likes'));
-                return likesB - likesA; 
-
             case 'alphabet':
                 
                 const nameA = a.getAttribute('data-name');
@@ -69,7 +63,7 @@ function applyFilters() {
     const category = categorySelect ? categorySelect.value : 'all';
 
     recipes.forEach(recipe => {
-        const recipeDifficulty = normalizeDifficulty(recipe.getAttribute('data-difficulty'));
+        const recipeDifficulty = recipe.getAttribute('data-difficulty');
         const recipeCategory = (recipe.getAttribute('data-category') || '').toLowerCase();
 
         const diffOk = (difficulty === 'all' || recipeDifficulty === difficulty);
@@ -78,10 +72,3 @@ function applyFilters() {
     });
 }
 
-function normalizeDifficulty(value) {
-    const v = (value || '').toString().trim().toLowerCase();
-    if (["einfach","leicht","easy"].includes(v)) return 'easy';
-    if (["mittel","medium"].includes(v)) return 'medium';
-    if (["schwer","hart","hard"].includes(v)) return 'hard';
-    return v || 'medium';
-}
