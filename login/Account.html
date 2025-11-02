@@ -46,7 +46,7 @@
     // Benutzerinformationen laden
     async function loadUserInfo(token) {
       try {
-        const res = await fetch(`${API_BASE}/account?token=${token}`);
+        const res = await fetch(`${API_BASE}/api/account?token=${token}`);
         const data = await res.json();
 
         if (data.username) {
