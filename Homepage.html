@@ -55,7 +55,7 @@
             <div id="sortRecipes">
                 <label for="sort">Sortieren nach:</label> <br>
                 <select name="sort" id="sort">
-                    <option value="likes">Meiste Likes</option>
+                    
                     <option value="alphabet">A-Z</option>
                     <option value="date">Neuste zuerst</option>
                     <option value="difficulty">Schwierigkeit</option>
@@ -93,7 +93,8 @@
                             div.setAttribute('data-date', recipe.creationDate || new Date().toISOString());
                             div.setAttribute('data-difficulty', recipe.difficulty);
                             div.setAttribute('data-category', (recipe.category || '').toLowerCase());
-                            div.setAttribute('data-likes', recipe.likes || 0);
+                            
+
 
                             div.innerHTML = `
                                 <a href="./recipes/recipe-detail.html?id=${recipe.id}">
@@ -101,7 +102,7 @@
                                 </a>
                                 <h3>${recipe.title || 'Untitled'}</h3>
                                 <p><strong>Kategorie:</strong> ${recipe.category || '—'}</p>
-                                <p><strong>Likes:</strong> ${recipe.likes || 0}</p>
+                                
                                 <p><strong>Schwierigkeit:</strong> ${recipe.difficulty || '—'}</p>
                             `;
 

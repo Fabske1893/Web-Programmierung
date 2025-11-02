@@ -56,52 +56,48 @@
         
     const recipeForm = document.getElementById('recipeForm');
 
-    
-    
-
     function addRecipe() {
-        const ingredientsText = $("#zutaten").val();
-        
-        
-        const ingredientsList = parseIngredients(ingredientsText);
+    const ingredientsText = $("#zutaten").val();
+    const ingredientsList = parseIngredients(ingredientsText);
 
-       
-        const recipeData = {
-    title: $("#recipeTitel").val(),
-    imageUrl: $("#image").val(),
-    ingredients: ingredientsList,
-    instructions: $("#zubereitung").val(),
-    difficulty: $("#difficulty").val(),
-    category: $("#category").val(),
-    likes: 0,
-    created_by: localStorage.getItem('userToken')
-};
+    const formData = new FormData();
+    formData.append('titel', $("#recipeTitel").val());
+    formData.append('zutaten', JSON.stringify(ingredientsList));
+    formData.append('zubereitung', $("#zubereitung").val());
+    formData.append('difficulty', $("#difficulty").val());
+    formData.append('category', $("#category").val());
+    formData.append('likes', 0);
+    formData.append('created_by', localStorage.getItem('userToken'));
 
-
-        
-        $.ajax({
-            url: 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes', 
-            type: 'POST',
-            contentType: 'application/json', 
-            data: JSON.stringify(recipeData), 
-            success: function(response) {
-                alert('Dein Rezept wurde erfolgreich hinzugefügt!');
-                window.location.href = '../Homepage.html';
-            },
-            error: function(xhr, status, error) {
-                let errorMsg = 'Fehler: Wir konnten dein Rezept nicht hinzufügen.';
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    errorMsg += '\nServer sagt: ' + xhr.responseJSON.message;
-                } else if (xhr.status === 0) {
-                    errorMsg += '\nFehler: Netzwerkproblem oder Backend nicht erreichbar.';
-                } else {
-                    errorMsg += '\nStatus: ' + xhr.status;
-                }
-                alert(errorMsg);
-                console.error("Fehlerdetails:", error);
-            }
-        });
+    const fileInput = $('#image')[0];
+    if (fileInput.files.length > 0) {
+        formData.append('image', fileInput.files[0]);
     }
+
+    $.ajax({
+        url: 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            alert('Dein Rezept wurde erfolgreich hinzugefügt!');
+            window.location.href = '../Homepage.html';
+        },
+        error: function(xhr, status, error) {
+            let errorMsg = 'Fehler: Wir konnten dein Rezept nicht hinzufügen.';
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                errorMsg += '\nServer sagt: ' + xhr.responseJSON.message;
+            }
+            alert(errorMsg);
+            console.error("Fehlerdetails:", error);
+        }
+    });
+}
+
+    
+
+   
 
     
     function parseIngredients(text) {
