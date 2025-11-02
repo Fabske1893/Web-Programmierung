@@ -1,6 +1,3 @@
-
-
-
 function goToAccount() {
     window.location.href = './login/Account.html';
 }
