@@ -1,7 +1,9 @@
 
 const adminState = {
     recipes: [],           // alle Rezepte vom Server
+    filteredRecipes: [],   // gefilterte Rezepte (nach Suche)
     selection: new Set(),  // ausgewählte Rezept-IDs
+    searchTerm: '',        // aktueller Suchbegriff
 };
 
 async function loadAdminRecipes() {
@@ -21,7 +23,9 @@ async function loadAdminRecipes() {
         }
         const data = await response.json();
         adminState.recipes = Array.isArray(data) ? data : [];
+        adminState.filteredRecipes = adminState.recipes;
         renderSelectOptions();
+        
         
     } catch (err) {
         console.error(err);
@@ -34,13 +38,32 @@ function renderSelectOptions() {
     const select = document.getElementById('delete');
     if (!select) return;
     select.innerHTML = '';
-    adminState.recipes.forEach(r => {
+    adminState.filteredRecipes.forEach(r => {
         const opt = document.createElement('option');
         opt.value = r.id;
         opt.textContent = `${r.title} (ID: ${r.id})`;
         select.appendChild(opt);
     });
 }
+
+// Suchfunktion für die Rezeptliste
+function filterRecipes(searchTerm) {
+    adminState.searchTerm = searchTerm.toLowerCase().trim();
+    
+    if (adminState.searchTerm === '') {
+        adminState.filteredRecipes = adminState.recipes;
+    } else {
+        adminState.filteredRecipes = adminState.recipes.filter(r => {
+            const title = (r.title || '').toLowerCase();
+            const id = String(r.id);
+            return title.includes(adminState.searchTerm) || id.includes(adminState.searchTerm);
+        });
+    }
+    
+    renderSelectOptions();
+}
+
+
 
 
 
@@ -104,4 +127,12 @@ async function adminDeleteSelected() {
 
 document.addEventListener('DOMContentLoaded', () => {
     loadAdminRecipes();
+    
+    // Event-Listener für das Suchfeld
+    const searchInput = document.getElementById('recipeSearch');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            filterRecipes(e.target.value);
+        });
+    }
 });
