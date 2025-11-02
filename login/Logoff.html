@@ -27,10 +27,10 @@
 
 <script>
     $("#logoffButton").click(function(){
-        // Hide the form and show goodbye message
+       
         $("#logoffForm").hide();
         $("#goodbyeMessage").show();
-        // Clear all user data from localStorage
+      
         localStorage.removeItem('userRole');
         localStorage.removeItem('userToken');
         
@@ -45,14 +45,14 @@
             dataType : 'json',
             contentType : 'application/json',
             success : function(data) {
-                alert('I could not log you off. Try it again!');
+                alert('Sie konnten nicht abgemeldet werden. Versuchen Sie es erneut!');
                 localStorage.removeItem('usertoken'); 
                 window.location.href = "../Homepage.html";
             },
             data : JSON.stringify(logoffUser),
             processData : false,
             error: function(xhr, ajaxOptions, thrownError) {
-                alert('I could log you off');
+                alert('Sie wurden erfolgreich abgemeldet!');
               
             }
         });
