@@ -68,7 +68,7 @@
       const list = $("#recipeListUser");
       list.html("<li>Lade deine Rezepte...</li>");
 
-      const gql = `query { myRecipes { id imageUrl title likes } }`;
+      const gql = `query { myRecipes { id imageUrl title } }`;
       console.log("GraphQL Query:", gql);
 
       try {
