@@ -68,7 +68,54 @@
         </section>
 
         
-   
+        <script>
+            
+            const graphqlQuery = `query { recipes { id imageUrl title difficulty category likes } }`;
+
+            $(document).ready(function() {
+                console.log("Sending POST on recipe of BFF with GraphQL query ...");
+                $.ajax({
+                    url : 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/graphql',
+                    type : 'post',
+                    contentType: 'application/json',
+                    dataType : 'json',
+                    data: JSON.stringify({ query: graphqlQuery }),
+                    success : function(response) {
+                        console.log('Rezepte erfolgreich geladen.');
+                        const recipes = response?.data?.recipes || [];
+                        const container = document.getElementById('recipeContainer');
+                        container.innerHTML = '';
+
+                        recipes.forEach(recipe => {
+                            const div = document.createElement('div');
+                            div.className = 'recipe';
+                            div.setAttribute('data-name', (recipe.title || '').toLowerCase());
+                            div.setAttribute('data-date', recipe.creationDate || new Date().toISOString());
+                            div.setAttribute('data-difficulty', recipe.difficulty);
+                            div.setAttribute('data-category', (recipe.category || '').toLowerCase());
+                            
+
+
+                            div.innerHTML = `
+                                <a href="./recipes/recipe-detail.html?id=${recipe.id}">
+                                    <img src="${recipe.imageUrl || 'images/placeholder.png'}" alt="${recipe.title || ''}">
+                                
+                                <h3>${recipe.title || 'Untitled'}</h3>
+                                <p><strong>Kategorie:</strong> ${recipe.category || '—'}</p>
+                                
+                                <p><strong>Schwierigkeit:</strong> ${recipe.difficulty || '—'}</p>
+                                </a>
+                            `;
+
+                            container.appendChild(div);
+                        });
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert('Rezepte konnten nicht geladen werden.');
+                    }
+                });
+            });
+        </script>
 
     </main>
 
