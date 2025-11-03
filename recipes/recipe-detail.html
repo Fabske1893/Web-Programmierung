@@ -27,8 +27,8 @@
     </div>
 
     <div id="recipe-actions">
-        <button id="addToShoppingListButton">Zutaten zur Einkaufsliste hinzufügen</button>
-        <button id="sendRecipeEmailButton">Rezept per E-Mail senden</button>
+        <button id="addToShoppingListButton" onclick="addIngredientsToShoppingList(loadedRecipe)">Zutaten zur Einkaufsliste hinzufügen</button>
+        <button id="sendRecipeEmailButton" onclick="sendRecipeEmail()">Rezept per E-Mail senden</button>
         <button onclick="readInstructions()">Zubereitung von Alexa vorlesen lassen</button>
     </div>
 
@@ -37,7 +37,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     const recipeId = urlParams.get('id');
     let loadedRecipe = null;
-
+/*
     // Delegated handlers bound once
     if (window.$) {
         $(document).off('click.addList', '#addToShoppingListButton').on('click.addList', '#addToShoppingListButton', function(e) {
@@ -93,7 +93,7 @@
             });
         });
     }
-
+*/
     if (!recipeId) {
         document.getElementById('recipe-content').innerHTML = '<h1>Fehler: Keine Rezept-ID angegeben</h1>';
     } else {
