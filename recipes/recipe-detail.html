@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rezeptdetails</title>
     <link rel="stylesheet" href="../css/styleRecipeDetails.css">
-    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../js/functions.js" defer></script>
 </head>
 <Header>
@@ -27,8 +27,9 @@
     </div>
 
     <div id="recipe-actions">
-        <button onclick="addIngredientsToShoppingList(loadedRecipe)">Zutaten zur Einkaufsliste hinzufügen</button>
-        <button onclick="sendRecipeEmail()">Rezept per E-Mail senden</button> 
+        <button id="addToShoppingListButton">Zutaten zur Einkaufsliste hinzufügen</button>
+        <button id="sendRecipeEmailButton">Rezept per E-Mail senden</button>
+        <button id="likeButton" onclick="likeRecipe()">Like</button>
         <button onclick="readInstructions()">Zubereitung von Alexa vorlesen lassen</button>
     </div>
 
@@ -37,6 +38,62 @@
     const urlParams = new URLSearchParams(window.location.search);
     const recipeId = urlParams.get('id');
     let loadedRecipe = null;
+
+    // Delegated handlers bound once
+    if (window.$) {
+        $(document).off('click.addList', '#addToShoppingListButton').on('click.addList', '#addToShoppingListButton', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (!loadedRecipe || !Array.isArray(loadedRecipe.ingredients)) return;
+            try {
+                const shoppingList = JSON.parse(localStorage.getItem('shoppingList')) || {};
+                (loadedRecipe.ingredients || []).forEach(i => {
+                    const key = (i.name || '').toLowerCase().trim();
+                    if (!key) return;
+                    const current = shoppingList[key] || { amount: 0, unit: i.unit || '', name: i.name || '' };
+                    const addAmt = (typeof i.amount === 'number') ? i.amount : 0;
+                    const unitsEqual = (current.unit || '') === (i.unit || '');
+                    shoppingList[key] = {
+                        name: i.name || current.name || key,
+                        unit: unitsEqual ? (current.unit || i.unit || '') : (current.unit || i.unit || ''),
+                        amount: unitsEqual ? ((current.amount || 0) + addAmt) : (current.amount || 0)
+                    };
+                });
+                localStorage.setItem('shoppingList', JSON.stringify(shoppingList));
+                alert('Zutaten zur Einkaufsliste hinzugefügt.');
+            } catch (e) {
+                console.error('Fehler beim Aktualisieren der Einkaufsliste:', e);
+                alert('Fehler: Einkaufsliste konnte nicht aktualisiert werden.');
+            }
+        });
+
+        $(document).off('click.mailRecipe', '#sendRecipeEmailButton').on('click.mailRecipe', '#sendRecipeEmailButton', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const token = localStorage.getItem('userToken');
+            if (!token || token === 'OFF') {
+                alert('Fehler: Du musst eingeloggt sein.');
+                return;
+            }
+            fetch(`https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/recipes/${recipeId}/send-email?token=${encodeURIComponent(token)}`, {
+                method: 'POST'
+            })
+            .then(r => r.json().then(body => ({ status: r.status, body })))
+            .then(({ status, body }) => {
+                if (status >= 200 && status < 300) {
+                    alert(body.message || 'Rezept wurde per E-Mail gesendet.');
+                } else if (status === 401) {
+                    alert(body.message || 'Nicht eingeloggt.');
+                } else {
+                    alert(body.message || 'E-Mail konnte nicht gesendet werden.');
+                }
+            })
+            .catch(err => {
+                console.error('Fehler beim Senden des Rezepts:', err);
+                alert('Netzwerkfehler beim Senden des Rezepts.');
+            });
+        });
+    }
 
     if (!recipeId) {
         document.getElementById('recipe-content').innerHTML = '<h1>Fehler: Keine Rezept-ID angegeben</h1>';
@@ -56,7 +113,7 @@
                         name
                     }
                     instructions
-                    
+                    likes
                     
                 }
             }
