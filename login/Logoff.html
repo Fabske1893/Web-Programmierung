@@ -31,23 +31,22 @@
         $("#logoffForm").hide();
         $("#goodbyeMessage").show();
       
-        // Token und Rolle aus LocalStorage entfernen (konsistente CamelCase-Schreibweise)
+        
         localStorage.removeItem('userRole');
         localStorage.removeItem('userToken');
         
         var logoffUser = {
-            token : localStorage.getItem("userToken")  // ✅ Korrigiert: userToken statt usertoken
+            token : localStorage.getItem("userToken")  
         };
         console.log("Sending delete to logoff user ...");
         console.log(logoffUser);
         $.ajax({
-            url : 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/logout',
+            url : 'https://rezeptappbackend-a9a2cded5f95.herokuapp.com/api/logoff',
             type : 'delete',
             dataType : 'json',
             contentType : 'application/json',
             success : function(data) {
                 alert('Sie wurden erfolgreich abgemeldet!');
-                // Sicherheitshalber nochmals entfernen
                 localStorage.removeItem('userToken'); 
                 localStorage.removeItem('userRole');
                 window.location.href = "../Homepage.html";
@@ -55,9 +54,7 @@
             data : JSON.stringify(logoffUser),
             processData : false,
             error: function(xhr, ajaxOptions, thrownError) {
-                // Auch bei Fehler erfolgreich abmelden (LocalStorage ist bereits gelöscht)
-                alert('Sie wurden erfolgreich abgemeldet!');
-                // Zur Sicherheit nochmals entfernen
+                alert('Sie konnten nicht abgemeldet werden!');
                 localStorage.removeItem('userToken');
                 localStorage.removeItem('userRole');
                 window.location.href = "../Homepage.html";
